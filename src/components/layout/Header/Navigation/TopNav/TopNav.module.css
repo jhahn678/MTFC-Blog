@@ -1,0 +1,13 @@
+.navbar{
+    width: 75%;
+    background-color: var(--primary);
+    border-bottom-left-radius: 2.5em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2vw;
+}
+
+.buttonContainer{
+    border-bottom: 1px solid var(--primary)
+}
