@@ -5,16 +5,19 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import HomeIcon from '@mui/icons-material/Home';
 import { useState } from 'react'
+import { useAuthContext } from '../../../../../store/context/auth'
 
-const BottomNav = () => {
+const BottomNav = ({ }) => {
 
-    const breakpoint = useMediaQuery('(min-width: 800px)')
+    const breakpoint = useMediaQuery('(max-width: 600px)')
     const [current, setCurrent] = useState('')
 
+    const { authStatus } = useAuthContext()
+
     return (
-        breakpoint ? <div/> : 
+        breakpoint && authStatus.isAuthenticated && 
         <BottomNavigation
-            sx={{ position: 'fixed', bottom: 0, width: '100vw'}}
+            sx={{ position: 'fixed', bottom: 0, width: '100vw', zIndex: 5}}
             value={current}
             onChange={(e, v) => setCurrent(v)}
         >

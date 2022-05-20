@@ -1,13 +1,14 @@
 .navbar{
-    width: 75%;
-    background-color: var(--primary);
-    border-bottom-left-radius: 2.5em;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 0 2vw;
 }
 
 .buttonContainer{
     border-bottom: 1px solid var(--primary)
+}
+
+.authGroup{
+    margin-right: 5vw;
 }

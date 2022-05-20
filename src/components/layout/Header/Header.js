@@ -17,6 +17,7 @@ const Header = () => {
 
     return (
       <div className={classes.header}>
+          <img src={'https://images.ctfassets.net/fnhljsxx2y84/7jk8JFntA63YKvsjPNO4Ai/8213c894910ad02278dead8b37db962f/fish-background.png'} className={classes.headerBG}/>
           <Logo className={classes.logo}/>
           <TopNav 
             setDrawerOpen={setDrawerOpen} 
@@ -25,7 +26,12 @@ const Header = () => {
             setShowRegister={setShowRegister}
           />
           <SearchBar show={showSearch} setShow={setShowSearch}/>
-          <NavDrawer open={drawerOpen} setOpen={setDrawerOpen}/>
+          <NavDrawer 
+            open={drawerOpen} 
+            setOpen={setDrawerOpen} 
+            setShowLogin={setShowLogin} 
+            setShowRegister={setShowRegister}
+          />
           <BottomNav/>
           <LoginModal open={showLogin} setOpen={setShowLogin}/>
           <RegisterModal open={showRegister} setOpen={setShowRegister}/>

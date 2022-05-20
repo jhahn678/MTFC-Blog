@@ -12,10 +12,12 @@ import StoreIcon from '@mui/icons-material/Store'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import CreateIcon from '@mui/icons-material/Create';
-import { createClient } from 'contentful'
-import { useEffect, useState } from 'react'
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useGetCategoriesQuery } from '../../../../../store/api'
 import { useRouter } from 'next/router'
+import { useAuthContext } from '../../../../../store/context/auth'
 
 const StyledDrawer = styled(Drawer)(() => ({
     '& .MuiDrawer-paperAnchorLeft': {
@@ -28,28 +30,15 @@ const StyledDrawer = styled(Drawer)(() => ({
     '& .MuiDrawer-paper': {
         fontSize: '1.2em'
     }
-}));
+}));  
 
-const client = createClient({
-    space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
-    accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN
-})
-       
-
-const NavDrawer = ({ open, setOpen }) => {
-
-    const [categories, setCategories] = useState([])
+const NavDrawer = ({ open, setOpen, setShowLogin, setShowRegister }) => {
 
     const router = useRouter()
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            const data = await client.getEntries({ content_type: 'category'})
-            console.log(data.items)
-            setCategories(data.items)
-        }
-        fetchCategories()
-    },[])
+    const { authStatus, resetAuthStatus } = useAuthContext()
+
+    const { data: categories, isSuccess } = useGetCategoriesQuery()
     
     return (
         <StyledDrawer open={open} onClose={() => setOpen(false)}>
@@ -59,37 +48,58 @@ const NavDrawer = ({ open, setOpen }) => {
                 </IconButton>
             </div>
             <List>
-                {
+                {isSuccess &&
                     categories.map(c => 
                         <ListItemButton 
-                            key={c.sys.id}
+                            key={c._id}
                             sx={{ padding: '2vh 2vw', fontSize: '1.2em'}}
-                            onClick={() => router.push(`/category/${c.fields.slug}`)}
-                        >{c.fields.title}</ListItemButton>
+                            onClick={() => router.push(`/category/${c.slug}`)}
+                        >{c.title}</ListItemButton>
                     )
                 }
                 <Divider sx={{ margin: '3vh 0 1vh'}}/>
-                <ListItemButton>
-                    <ListItemIcon><AccountCircleIcon color='primary'/></ListItemIcon>
-                    <ListItemText primary='Profile'/>
-                </ListItemButton>
-                <ListItemButton>
-                    <ListItemIcon><NotificationsIcon color='primary'/></ListItemIcon>
-                    <ListItemText primary='Notifications'/>
-                </ListItemButton>
-                <ListItemButton>
-                    <ListItemIcon><BookmarksIcon color='primary'/></ListItemIcon>
-                    <ListItemText primary='Bookmarks'/>
-                </ListItemButton>
-                <ListItemButton>
-                    <ListItemIcon><CreateIcon color='primary'/></ListItemIcon>
-                    <ListItemText primary='Compose'/>
-                </ListItemButton>
+                {
+
+                }
+                { authStatus.isAuthenticated ?
+                    <>
+                        <ListItemButton>
+                            <ListItemIcon><AccountCircleIcon color='primary'/></ListItemIcon>
+                            <ListItemText primary='Profile'/>
+                        </ListItemButton>
+                        <ListItemButton>
+                            <ListItemIcon><NotificationsIcon color='primary'/></ListItemIcon>
+                            <ListItemText primary='Notifications'/>
+                        </ListItemButton>
+                        <ListItemButton>
+                            <ListItemIcon><BookmarksIcon color='primary'/></ListItemIcon>
+                            <ListItemText primary='Bookmarks'/>
+                        </ListItemButton>
+                    </> : 
+                    <>
+                        <ListItemButton onClick={() => setShowLogin(true)}>
+                            <ListItemIcon><LoginIcon color='primary'/></ListItemIcon>
+                            <ListItemText primary='Sign in'/>
+                        </ListItemButton>
+                        <ListItemButton onClick={() => setShowRegister(true)}>
+                            <ListItemIcon><PersonAddAlt1Icon color='primary'/></ListItemIcon>
+                            <ListItemText primary='Get started'/>
+                        </ListItemButton>
+                    </>
+                }
                 <Divider sx={{ margin: '1vh'}}/>
-                <ListItemButton>
+                <ListItemButton onClick={() => window.location='https://mountaintroutflyco.com'}>
                     <ListItemIcon><StoreIcon color='primary'/></ListItemIcon>
                     <ListItemText primary='MTFC Shop'/>
                 </ListItemButton>
+                {
+                    authStatus.isAuthenticated && <>
+                    <Divider sx={{ margin: '1vh' }}/>
+                    <ListItemButton onClick={() => resetAuthStatus()}>
+                        Logout<LogoutIcon sx={{paddingLeft: '5px'}}/>
+                    </ListItemButton>
+                    </>
+                }
             </List>
         </StyledDrawer>
     )

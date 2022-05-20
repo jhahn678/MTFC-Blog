@@ -7,16 +7,42 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SearchIcon from '@mui/icons-material/Search'
 import Button from '@mui/material/Button'
 import { motion } from 'framer-motion'
+import { useAuthContext } from '../../../../../store/context/auth'
+import { useLazyGetMeQuery } from '../../../../../store/api';
+import { useEffect } from 'react';
 
 
 const TopNav = ({ setDrawerOpen, setShowSearch, setShowLogin, setShowRegister}) => {
 
     const breakpoint = useMediaQuery('(min-width: 800px)')
 
+    const { authStatus, setAuthStatus } = useAuthContext()
+    const [ getMeQuery, { data, isSuccess } ] = useLazyGetMeQuery()
+
+    useEffect(() => {
+        const userId = localStorage.getItem('USER_ID')
+        if(userId){
+            setAuthStatus(state => ({
+                ...state,
+                isAuthenticated: true
+            }))
+            getMeQuery()
+        }
+    },[])
+
+    useEffect(() => {
+        if(isSuccess){
+            setAuthStatus({
+                isAuthenticated: true,
+                user: data
+            })
+        }
+    },[isSuccess])
+
     return (
         <div className={classes.navbar}>
-            <div>
-                {breakpoint && <>
+            <div className={classes.authGroup}>
+                { breakpoint &&  !authStatus.isAuthenticated && <>
                     <Button variant='contained'
                         color='secondary' 
                         sx={{ borderRadius: '20px' }}
@@ -44,7 +70,7 @@ const TopNav = ({ setDrawerOpen, setShowSearch, setShowLogin, setShowRegister}) 
                         <SearchIcon color='secondary' fontSize='large'/>
                     </IconButton>
                 </motion.div>
-                { breakpoint &&
+                { breakpoint && authStatus.isAuthenticated && 
                     <>
                         <motion.div whileHover={{ scale: 1.1, borderBottomColor: 'var(--secondary)'}} 
                             className={classes.buttonContainer}
