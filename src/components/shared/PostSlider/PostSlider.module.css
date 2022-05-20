@@ -1,0 +1,92 @@
+.postSlider{
+    height: 80vh;
+    width: 90vw;
+    margin: 5vh auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.sliderItem{
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    transition: .5s ease all;
+}
+
+.sliderItemHover{
+    filter: saturate(130%) contrast(105%) brightness(103%);
+}
+
+.sliderItemContent{
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1em 2em;
+    background-color: rgba(244, 229, 190, .6);
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.image{
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    transition: 2s ease all;
+}
+
+.imageHover{
+    min-width: 102%;
+}
+
+.arrowBack{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 5;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-left: 1vw;
+}
+.arrowForward{
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 5;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-right: 1vw;
+}
+
+.viewButtonContainer{
+    height: 100%;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    transition: 1s ease-in all;
+}
+
+.viewButton{
+    width: fit-content;
+}
+
+.viewButtonHover{
+    opacity: 1;
+}
+
+.date{
+    margin: 0;
+}

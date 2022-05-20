@@ -1,6 +1,7 @@
-import { emailSchema, passwordSchema } from '../../../utils/validation'
+import { emailSchema, nameSchema, passwordSchema } from '../../../utils/validation'
 
 export const initialState = {
+    name: { value: '', touched: false, valid: false, message: null },
     email: { value: '', touched: false, valid: false, message: null },
     password: { value: '', touched: false, valid: false, message: null },
     confirm: { value: '', touched: false, valid: false, message: null },
@@ -8,6 +9,15 @@ export const initialState = {
 }
 
 export const reducer = (state, action) => {
+    if(action.type === 'NAME'){
+        const { name } = state;
+        name.touched = true;
+        name.value = action.value;
+        const { error } = nameSchema.validate(action.value);
+        error ? name.valid = false : name.valid = true;
+        error ? name.message = error.message : name.message = null;
+        return { ...state, name }
+    }
     if(action.type === 'EMAIL'){
         const { email } = state;
         email.touched = true;
@@ -36,13 +46,16 @@ export const reducer = (state, action) => {
         return { ...state, confirm }
     }
     else if(action.type === 'FORM'){
-        const { email, password, confirm, form } = state;
-        if(email.valid && password.valid && confirm.valid){
+        const { name, email, password, confirm, form } = state;
+        if(name.valid && email.valid && password.valid && confirm.valid){
             form.valid = true;
         }else{
             form.valid = false;
         }
         return { ...state, form }
+    }
+    else if(action.type === 'SUCCESS'){
+        return initialState;
     }
     else{
         return state;

@@ -12,6 +12,8 @@ import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { initialState, reducer } from './formReducer'
 import { useEffect, useReducer, useState } from 'react'
+import { useRegisterMutation } from '../../../store/api'
+import { toast } from 'react-toastify'
 
 
 const RegisterModal = ({ open, setOpen }) => {
@@ -20,22 +22,50 @@ const RegisterModal = ({ open, setOpen }) => {
 
     const [visible, setVisible] = useState(false)
 
+    const [ register ] = useRegisterMutation()
+
     useEffect(() => {
-        if(form.email.valid && form.password.valid && form.confirm.valid){
+        if(form.name.valid, form.email.valid && form.password.valid && form.confirm.valid){
             dispatch({ type: 'FORM' })
         }
-    },[form.email.valid, form.password.valid, form.confirm.valid])
+    },[form.name.valid, form.email.valid, form.password.valid, form.confirm.valid])
+
+    const handleRegister = async () => {
+        try{
+            const res = await register({
+                name: form.name.value,
+                email: form.email.value,
+                password: form.password.value
+            }).unwrap()
+            localStorage.setItem('USER_ID', res.user._id)
+            setAuthStatus({
+                isAuthenticated: true,
+                user: res.user,
+            })
+            setOpen(false)
+            dispatch({ type: 'SUCCESS' })
+            toast.success('Successfully created account')
+        }catch(err){
+            toast.error(err.message)
+        }
+    }   
 
     return(
         <FadeModal open={open} setOpen={setOpen}>
             <Paper className={classes.registerModal}>
                 <h2 className={classes.title}>Get Started</h2>
-                <IconButton onClick={() => setOpen(false)} sx={{ position: 'absolute', right: 0, zIndex: 1}}>
+                <IconButton onClick={() => setOpen(false)} sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1}}>
                     <CloseIcon/>
                 </IconButton>
                 <motion.div className={classes.modalTop}/>
                 <form className={classes.form}>
                     <Logo className={classes.logo}/>
+                    <TextField className={classes.input}
+                        label='Name' value={form.name.value}
+                        onInput={e => dispatch({ type: 'NAME', value: e.target.value})} 
+                        error={form.name.touched && !form.name.valid} 
+                        helperText={form.name.message}
+                    />
                     <TextField className={classes.input}
                         label='Email' value={form.email.value}
                         onInput={e => dispatch({ type: 'EMAIL', value: e.target.value})} 
@@ -69,12 +99,21 @@ const RegisterModal = ({ open, setOpen }) => {
                                 </IconButton>
                         }}
                     />
-                    <Button variant='outlined' size='large' sx={{ width: '100%', marginTop: '1vh'}}>Get Started</Button>
+                    <Button variant='outlined' 
+                        size='large' 
+                        sx={{ 
+                            width: '100%',
+                            marginTop: '1vh'
+                        }}
+                        onClick={handleRegister}
+                        disabled={!form.form.valid}
+                    >Get Started</Button>
                     <div className={classes.flex}><span className={classes.line}/><p>OR</p><span className={classes.line}/></div>
                     <Button variant='outlined' 
                         size='large'
                         endIcon={<GoogleIcon/>} 
                         sx={{ width: '100%', marginTop: '1vh'}}
+                        disabled={true}
                     >Sign in with Google</Button>
                 </form>
             </Paper>
