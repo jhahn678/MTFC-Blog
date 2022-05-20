@@ -1,5 +1,4 @@
 import { createClient } from  'contentful'
-import Layout from '../../components/layout/Layout'
 
 const client = createClient({
     space: process.env.CONTENTFUL_SPACE_ID,
@@ -24,9 +23,7 @@ export async function getStaticProps({ params }){
 const Author = ({ author }) => {
 
     return(
-        <Layout>
-            <h1>{author.fields.displayName}</h1>
-        </Layout>
+        <h1>{author.fields.displayName}</h1>
     )
 }
 
