@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken'
 import User from '../models/user'
 import AuthError from './AuthError'
 
-export const generateAuthToken = (id, expiresIn='30d') => {
-    return jwt.sign({ _id: id, issuedAt: Date.now()}, process.env.JWT_SECRET, { expiresIn: expiresIn })
+export const generateAuthToken = (id, displayName, expiresIn='30d') => {
+    return jwt.sign({ _id: id, displayName: displayName, issuedAt: Date.now()}, process.env.JWT_SECRET, { expiresIn: expiresIn })
 }
 
 export const verifyAuthToken = async (token) => {

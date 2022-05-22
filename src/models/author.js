@@ -15,6 +15,6 @@ const authorSchema = new mongoose.Schema({
         }
     ],
     comments: [commentSchema]
-})
+}, { timestamps: true })
 
 export default mongoose.models.Author || mongoose.model('Author', authorSchema)

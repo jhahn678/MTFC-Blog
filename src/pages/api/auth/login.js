@@ -16,7 +16,7 @@ export default async function handler(req, res){
         try{
             const user = await User.findOne({ 'account.email': email })
             if(user && await bcrypt.compare(password, user.account.password)){
-                const token  = generateAuthToken(user._id)
+                const token  = generateAuthToken(user._id, user.account.displayName)
                 setAuthCookie(res, token)
                 return res.status(200).json({
                     message: 'Successfully signed in',

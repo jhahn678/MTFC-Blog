@@ -1,0 +1,83 @@
+.page{
+    padding: 3vh 5vw;
+}
+
+.titleHeading{
+    display: flex;
+    justify-content: space-between;
+}
+
+.authorGroup{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin: 2vh 1vw 3vh;
+}
+
+.authorLink{
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    cursor: pointer;
+    transition: .3s ease all;
+}
+
+.authorLink:hover{
+    transform: scale(1.05);
+}
+
+.main{
+    display: flex;
+}
+
+.post{
+    width: 55vw;
+}
+
+.date{
+    margin-left: 5px;
+    border-bottom: .5px solid rgba(0,0,0,.5);
+    width: fit-content;
+    padding: 0 4em .5em .5em;
+}
+
+.body{
+    width: 100%;
+    margin-top: 5vh;
+    margin-bottom: 10vh;
+}
+
+.title{
+    margin: 1vh 0 2vh;
+    font-size: 2.5em;
+}
+
+.imageContainer{
+    width: 100%;
+    height: 500px;
+    position: relative;
+}
+
+
+
+
+.sideContent{
+    width: 32vw;
+    margin-left: 3vw;
+}
+
+.commentSection{
+    padding: 1vh 1vw;
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.commentHeader{
+    margin: 1em .5em .5em;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}

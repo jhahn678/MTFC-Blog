@@ -10,17 +10,13 @@ import IconButton from '@mui/material/IconButton'
 import Avatar from '@mui/material/Avatar'
 import Chip from '@mui/material/Chip'
 import Button from '../buttons/Button'
+import { formatDate } from '../../../utils/formatDate'
 
 const PostSlider = ({ posts }) => {
 
     const router = useRouter()
 
     const [hover, setHover] = useState(false)
-
-    const formatDate = (isoDate) => {
-        const date = new Date(isoDate)
-        return date.toLocaleDateString([], { month: 'long', day: 'numeric', year: 'numeric'})
-    }
 
     return (
         <div className={classes.postSlider}>
