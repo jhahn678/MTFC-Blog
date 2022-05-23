@@ -26,7 +26,7 @@ export default async function handler(req, res){
                 }
             })
             const user = await newUser.save()
-            const token = generateAuthToken(user._id, name)
+            const token = generateAuthToken(user._id, name, user.account.avatar)
             setAuthCookie(res, token)
             res.status(201).json({
                 message: 'Successfully created user',
