@@ -1,10 +1,13 @@
-import connectMongo from '../../../utils/connectMongo'
+import connectMongo from '../../../../utils/connectMongo'
 import { verifyAuthToken } from '../../../../utils/authToken'
 import AuthError from '../../../../utils/AuthError'
 import Post from '../../../../models/post'
 import User from '../../../../models/user'
+import Comment from '../../../../models/comment'
 
 export default async function handler(req, res){
+
+    //Adding a comment to a post
 
     await connectMongo()
 
@@ -18,35 +21,37 @@ export default async function handler(req, res){
 
         const payload = await verifyAuthToken(token)
 
-        const { postId, body } = req.body;
+        const { postId, body, mention } = req.body;
+
+        const newComment = new Comment({
+            user: {
+                _id: payload._id,
+                displayName: payload.displayName,
+                avatar: payload.avatar
+            },
+            post: postId,
+            parentComment: null,
+            mention: mention ? mention : null,
+            body: body,
+        })
+
+        const comment = await newComment.save()
 
         const post = await Post.findByIdAndUpdate(postId, {
-            $push: {
-                comments: {
-                    user: {
-                        _id: payload._id,
-                        displayName: payload.displayName
-                    },
-                    post: postId,
-                    body: body,
-                }
-            }
+            $push: { comments: comment._id },
+            $inc: { commentCount: 1 }
         }, { new: true })
 
-        const user = await User.findByIdAndUpdate(req.user._id, {
-            $push: {
-                comments: {
-                    user: {
-                        _id: payload._id,
-                        displayName: payload.displayName
-                    },
-                    post: postId,
-                    body: body,
-                }
-            }
+        const user = await User.findByIdAndUpdate(payload._id, {
+            $push: { comments: comment._id }
         }, { new: true })
 
-        res.status(201).json({ message: 'Comment created successfully', post, user })
+        res.status(201).json({
+            message: 'Comment created successfully', 
+            comment,
+            post, 
+            user 
+        })
     }
 
 }
