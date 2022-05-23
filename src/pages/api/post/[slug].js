@@ -9,7 +9,8 @@ export default async function handler(req, res){
 
     await connectMongo()
 
-    const post = await Post.findOne({ slug }).populate({ 
+    const post = await Post.findOne({ slug })
+    .populate({ 
         path: 'author',
         populate: { 
             path: 'posts',
@@ -22,6 +23,7 @@ export default async function handler(req, res){
         }
     })
     .populate({ path: 'category', select: 'title slug' })
+    .populate({ path: 'comments', populate: { path: 'replies' } })
 
     res.status(200).json(post)
 }
