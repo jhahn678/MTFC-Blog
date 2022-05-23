@@ -20,7 +20,7 @@ if (!cached) {
   cached = global.mongoose = { conn: null, promise: null }
 }
 
-async function connectMongo () {
+const connectMongo = async () => {
   if (cached.conn) {
     return cached.conn
   }
