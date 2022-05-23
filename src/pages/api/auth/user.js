@@ -14,9 +14,9 @@ export default async function handler (req, res){
         throw new AuthError(400, 'Authentication Invalid')
     }
 
-    const payload = verifyAuthToken(token)
+    const payload = await verifyAuthToken(token)
 
-    const user = await User.findById(payload._id).select('-user.account.password')
+    const user = await User.findById(payload._id).select('-account.password')
 
     res.status(200).json(user)
 }
