@@ -14,7 +14,12 @@ const authorSchema = new mongoose.Schema({
             ref: 'Post'
         }
     ],
-    comments: [commentSchema]
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
 }, { timestamps: true })
 
 export default mongoose.models.Author || mongoose.model('Author', authorSchema)

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import commentSchema from './comment'
 import notificationSchema from './notification'
+
 
 const userSchema = new mongoose.Schema({
     account: {
@@ -16,14 +16,22 @@ const userSchema = new mongoose.Schema({
             ref: 'Post'
         }
     ],
-    notifications: [notificationSchema],
+    notifications: {
+        type: [notificationSchema],
+        default: []
+    },
     following: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Author'
         }
     ],
-    comments: [commentSchema]
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
 })
 
 export default mongoose.models.User || mongoose.model('User', userSchema)

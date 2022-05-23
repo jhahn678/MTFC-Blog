@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import User from '../models/user'
 
 const commentSchema = new mongoose.Schema({
     user: {
@@ -12,21 +11,36 @@ const commentSchema = new mongoose.Schema({
             enum: ['User', 'Author'],
             default: 'User'
         },
-        display_name: String,
+        displayName: String,
         avatar: String
     },
     post: {
         type: mongoose.Schema.Types.ObjectId,
-        refPath: 'Post'
+        ref: 'Post'
+    },
+    mention: {
+        _id: {     
+            type: mongoose.Schema.Types.ObjectId,
+            refPath: 'userType'
+        },
+        userType: {
+            type: String,
+            enum: ['User', 'Author'],
+            default: 'User'
+        },
+        displayName: String
     },
     body: String,
-    replies: []
+    parentComment: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+    },
+    replies: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
 }, { timestamps: true })
 
-commentSchema.pre('save', async function(next){
-    const user = await User.findById(this.user._id)
-    this.user.avatar = user.account.avatar;
-    next()
-})
-
-export default commentSchema;
+export default  mongoose.models.Comment || mongoose.model('Comment', commentSchema)
