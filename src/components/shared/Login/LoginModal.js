@@ -7,7 +7,7 @@ import FadeModal from '../modals/FadeModal'
 import classes from './LoginModal.module.css'
 import Button from '../buttons/Button'
 import Logo from '../../layout/Header/Logo/Logo'
-import GoogleIcon from '../../../assets/icons/GoogleIcon'
+import GoogleIcon from '../../../assets/GoogleIcon'
 import { useRef } from 'react'
 import { useLoginMutation, useGoogleAuthMutation } from '../../../store/api/index'
 import { toast } from 'react-toastify'
@@ -34,6 +34,10 @@ const LoginModal = ({ open, setOpen }) => {
         })
         setOpen(false)
         toast.success('Successfully signed in')
+    }
+
+    const handleSignUp = () => {
+
     }
 
     return(
@@ -67,6 +71,7 @@ const LoginModal = ({ open, setOpen }) => {
                         sx={{ width: '100%', marginTop: '1vh'}}
                         disabled={true}
                     >Sign in with Google</Button>
+                    <p>New around here? <Button onClick={handleSignUp}>Sign up</Button></p>
                 </form>
             </Paper>
         </FadeModal>

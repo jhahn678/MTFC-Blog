@@ -7,13 +7,14 @@ import FadeModal from '../modals/FadeModal'
 import classes from './RegisterModal.module.css'
 import Button from '../buttons/Button'
 import Logo from '../../layout/Header/Logo/Logo'
-import GoogleIcon from '../../../assets/icons/GoogleIcon'
+import GoogleIcon from '../../../assets/GoogleIcon'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { initialState, reducer } from './formReducer'
 import { useEffect, useReducer, useState } from 'react'
 import { useRegisterMutation } from '../../../store/api'
 import { toast } from 'react-toastify'
+import { useAuthContext } from '../../../store/context/auth'
 
 
 const RegisterModal = ({ open, setOpen }) => {
@@ -23,6 +24,8 @@ const RegisterModal = ({ open, setOpen }) => {
     const [visible, setVisible] = useState(false)
 
     const [ register ] = useRegisterMutation()
+    
+    const { setAuthStatus } = useAuthContext()
 
     useEffect(() => {
         if(form.name.valid, form.email.valid && form.password.valid && form.confirm.valid){
