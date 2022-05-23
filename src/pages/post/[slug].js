@@ -1,7 +1,7 @@
 import { createClient } from 'contentful'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS } from '@contentful/rich-text-types'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import classes from './Post.module.css'
 import { axios } from '../../utils/axios'
 import Link from 'next/link'
@@ -12,15 +12,18 @@ import Card from '@mui/material/Card'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton';
-import AddCommentIcon from '@mui/icons-material/AddComment';
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import Comment from '../../components/shared/Comment/Comment'
+import { useAuthContext } from '../../store/context/auth';
+import { useCreateCommentMutation, useBookmarkPostMutation, useFollowAuthorMutation } from '../../store/api';
+import { toast } from 'react-toastify'
+import LoginIcon from '@mui/icons-material/Login';
 
 const client = createClient({
     space: process.env.CONTENTFUL_SPACE_ID,
@@ -57,66 +60,53 @@ const opts = {
     }
 }
 
-const comments = [
-    {
-        user: {
-            _id: '62830362f32efa7aa6b80889',
-            displayName: 'Julian Hahn'
-        },
-        body: 'Wow, so i really only need a couple knots then, huh? This is contrary to what ive read other places. WHo made you the expert?',
-        replies: [{
-            user: {
-                _id: '62830362f32efa7aa6b80889',
-                displayName: 'Julian Hahn'
-            },
-            body: 'Wow, so i really only need a couple knots then, huh? This is contrary to what ive read other places. WHo made you the expert?',
-            replies: [],
-            createdAt: '2022-05-18T01:53:12.095+00:00'
-        }],
-        createdAt: '2022-05-18T01:53:12.095+00:00'
-    },
-    {
-        user: {
-            _id: '62830362f32efa7aa6b80889',
-            displayName: 'Julian Hahn'
-        },
-        body: 'Wow, so i really only need a couple knots then, huh? This is contrary to what ive read other places. WHo made you the expert?',
-        replies: [{
-            user: {
-                _id: '62830362f32efa7aa6b80889',
-                displayName: 'Julian Hahn'
-            },
-            body: 'Wow, so i really only need a couple knots then, huh? This is contrary to what ive read other places. WHo made you the expert?',
-            replies: [],
-            createdAt: '2022-05-18T01:53:12.095+00:00'
-        }],
-        createdAt: '2022-05-18T01:53:12.095+00:00'
-    },
-    {
-        user: {
-            _id: '62830362f32efa7aa6b80889',
-            displayName: 'Julian Hahn'
-        },
-        body: 'Wow, so i really only need a couple knots then, huh? This is contrary to what ive read other places. WHo made you the expert?',
-        replies: [{
-            user: {
-                _id: '62830362f32efa7aa6b80889',
-                displayName: 'Julian Hahn'
-            },
-            body: 'Wow, so i really only need a couple knots then, huh? This is contrary to what ive read other places. WHo made you the expert?',
-            replies: [],
-            createdAt: '2022-05-18T01:53:12.095+00:00'
-        }],
-        createdAt: '2022-05-18T01:53:12.095+00:00'
-    }
-]
+
 
 const Post = ({ post }) => {
+
+    const { authStatus, setBookmarks, setFollowing } = useAuthContext()
+
+    const [ createComment, { data: newComment, isLoading, isError} ] = useCreateCommentMutation()
+    const [ bookmarkPost ] = useBookmarkPostMutation()
+    const [ followAuthor ] = useFollowAuthorMutation()
 
     const commentRef = useRef()
 
     const [isFollowed, setIsFollowed] = useState(false)
     const [isBookmarked, setIsBookmarked] = useState(false)
+
+    useEffect(() => {
+        if(authStatus?.user?.bookmarks?.includes(post._id)){
+            setIsBookmarked(true)
+        }
+        if(authStatus?.user?.following?.includes(post.author._id)){
+            setIsFollowed(true)
+        }
+    },[authStatus.user])
+
+    const handleComment = async () => {
+        if(commentRef.current.value.length > 0){
+            try{
+                const res = await createComment({ postId: post._id, body: commentRef.current.value}).unwrap()
+                toast.success('Comment sent')
+                commentRef.current.value = ''
+            }catch(err){
+                toast.error(err)
+            }
+        }
+    }
+
+    const handleBookmark = async () => {
+        setIsBookmarked(f => !f)
+        const res = await bookmarkPost(post._id).unwrap()
+        setBookmarks(res.user.bookmarks)
+    }  
+
+    const handleFollow = async () => {
+        setIsFollowed(f => !f)
+        const res = await followAuthor(post.author._id).unwrap()
+        setFollowing(res.user.following)
+    }
 
     return(
         <div className={classes.page}>
@@ -136,13 +126,13 @@ const Post = ({ post }) => {
                         </h3>
                     </Link>
                     <Button 
-                        startIcon={ isFollowed ? <RemoveIcon/> : <AddIcon/>}
-                        onClick={() => setIsFollowed(f => !f)}
+                        startIcon={ isFollowed ? <CheckCircleIcon color='success'/> : <AddIcon/>}
+                        onClick={handleFollow}
                     >{isFollowed ? 'Unfollow' : 'Follow' }</Button>
                     <Button 
-                        startIcon={ isBookmarked ? <BookmarkAddedIcon/> : <BookmarkAddIcon/>}
-                        onClick={() => setIsBookmarked(f => !f)}
-                    >{isBookmarked ? 'Remove Bookmark' : 'Add bookmark' }</Button>
+                        startIcon={ isBookmarked ? <BookmarkAddedIcon color='success'/> : <BookmarkAddIcon/>}
+                        onClick={handleBookmark}
+                    >{isBookmarked ? 'Unbookmark' : 'Bookmark' }</Button>
                 </div>
             </section>
             <main className={classes.main}>
@@ -163,19 +153,28 @@ const Post = ({ post }) => {
                         <p style={{ marginLeft: 10 }}><b style={{ marginRight: 10 }}>Bio:</b> {post.author.bio}</p>
                     </Card>
                     <Card className={classes.commentSection}>
-                        <h3 className={classes.commentHeader}>Comments ({post.comments.length}) <IconButton sx={{ marginRight: 2 }}><AddCommentIcon/></IconButton></h3>
-                        {
-                            comments.map(c => <Comment comment={c}/>)
-                        }
-                        <TextField multiline={true}
-                            maxRows={3}
-                            label='Comment'
-                            ref={commentRef}
-                            InputProps={{
-                                endAdornment: <IconButton sx={{ padding: 0}}><SendIcon/></IconButton>
-                            }}
-                            sx={{ marginBottom: 1, marginTop: 1 }}
-                        />
+                        <h3 className={classes.commentHeader}>Comments ({post.commentCount})</h3>
+                        { post.comments.length > 0 && post.comments.map(c => <Comment key={c._id} comment={c}/>) }
+                        { authStatus.isAuthenticated ? 
+                            <TextField multiline={true}
+                                maxRows={3}
+                                label='Leave a comment'
+                                inputRef={commentRef}
+                                InputProps={{
+                                    endAdornment: 
+                                        <IconButton sx={{ padding: 0 }} onClick={handleComment}>
+                                            <SendIcon/>
+                                        </IconButton>
+                                }}
+                                sx={{ marginBottom: 1, marginTop: 1 }}
+                            /> : 
+                            <Button variant='contained' 
+                                endIcon={<LoginIcon/>}
+                                onClick={() => {}}
+                            >
+                                Sign in to leave a comment
+                            </Button>
+                        }  
                     </Card>
                 </aside>
             </main>
