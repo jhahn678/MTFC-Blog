@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdd'
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded'
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd'
 import Button from '@mui/material/Button'
 import { useAuthContext } from '../../../../store/context/auth'
 import { useBookmarkPostMutation } from '../../../../store/api'

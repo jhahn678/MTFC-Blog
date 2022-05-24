@@ -1,0 +1,17 @@
+.commentHeader{
+    margin: 1em .5em;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.expandComments{
+    transform: translateX(-2vw);
+    transition: .2s ease all;
+    cursor: pointer;
+}
+
+.hide{
+    transform: translateX(-2vw) rotate(90deg);
+}
