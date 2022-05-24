@@ -7,13 +7,14 @@ import BottomNav from './Navigation/BottomNav/BottomNav'
 import SearchBar from './Search/SearchBar'
 import LoginModal from '../../shared/Login/LoginModal'
 import RegisterModal from '../../shared/Register/RegisterModal'
+import { useModalContext } from '../../../store/context/modal'
 
 const Header = () => {
 
+    const { setShowRegister, showRegister, setShowLogin, showLogin} = useModalContext()
+
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [showSearch, setShowSearch] = useState(false)
-    const [showLogin, setShowLogin] = useState(false)
-    const [showRegister, setShowRegister] = useState(false)
 
     return (
       <div className={classes.header}>
