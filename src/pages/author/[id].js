@@ -1,20 +1,15 @@
-import { createClient } from  'contentful'
-
-const client = createClient({
-    space: process.env.CONTENTFUL_SPACE_ID,
-    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
-})
+import { axios } from '../../utils/axios'
 
 export async function getStaticPaths(){
-    const { items } = await client.getEntries({ content_type: 'author' })
-    const paths = items.map(a => ({
-        params: { id: a.sys.id }
+    const { data } = await axios.get('/author')
+    const paths = data.map(a => ({
+        params: { id: a._id }
     }))
     return { paths, fallback: false }
 }
 
 export async function getStaticProps({ params }){
-    const author = await client.getEntry(params.id)
+    const { data: author } = await axios.get(`/author/${params.id}`)
     return{
         props: { author }
     }
@@ -23,7 +18,7 @@ export async function getStaticProps({ params }){
 const Author = ({ author }) => {
 
     return(
-        <h1>{author.fields.displayName}</h1>
+        <h1>{author.displayName}</h1>
     )
 }
 

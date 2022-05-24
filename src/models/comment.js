@@ -18,18 +18,6 @@ const commentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
     },
-    mention: {
-        _id: {     
-            type: mongoose.Schema.Types.ObjectId,
-            refPath: 'userType'
-        },
-        userType: {
-            type: String,
-            enum: ['User', 'Author'],
-            default: 'User'
-        },
-        displayName: String
-    },
     body: String,
     parentComment: {
         type: mongoose.Schema.Types.ObjectId,

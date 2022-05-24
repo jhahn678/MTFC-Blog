@@ -7,7 +7,22 @@ export default async function handler(req, res){
 
     await connectMongo()
 
-    const author = await Author.find(id)
+    const author = await Author.findById(id).populate({
+        path: 'posts',
+        select: '-comments -author',
+        populate: {
+            path: 'category',
+            select: 'title slug'
+        }
+    })
+    .populate({
+        path: 'comments',
+        select: '-replies',
+        populate: {
+            path: 'Post',
+            select: 'slug Title'
+        }
+    })
 
     res.status(200).json(author)
 }

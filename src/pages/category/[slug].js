@@ -18,11 +18,9 @@ export async function getStaticProps({ params }){
 }
 
 const Category = ({ category, posts }) => {
-
-    console.log(category)
     
     return (
-        <h1>{category.title}</h1>
+        <h1 className={classes.title}>{category.title}</h1>
     )
 }
 
