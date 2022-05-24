@@ -72,3 +72,20 @@ a {
   background-attachment: fixed;
   background-size: cover;
 }
+
+
+.fc{
+  display: flex;
+  flex-direction: column;
+}
+ 
+.fr{
+  display: flex;
+  flex-direction: row;
+}
+
+.frac{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
