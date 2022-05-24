@@ -1,13 +1,23 @@
 import connectMongo from '../../../utils/connectMongo'
 import Post from '../../../models/post'
-import Author from '../../../models/author'
-import Category from '../../../models/category'
 
 export default async function handler(req, res){
 
-    const { slug } = req.query;
+    const { slug, select } = req.query;
 
     await connectMongo()
+
+    if(select === 'comments'){
+        const post = await Post.findOne({ slug })
+            .populate({
+                path: 'comments',
+                populate: {
+                    path: 'replies'
+                }
+            })
+            .select('comments commentCount -_id')
+        return res.status(200).json(post)
+    }
 
     const post = await Post.findOne({ slug })
     .populate({ 
