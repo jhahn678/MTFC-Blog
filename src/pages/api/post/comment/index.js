@@ -46,7 +46,7 @@ export default async function handler(req, res){
             $push: { comments: comment._id }
         }, { new: true })
 
-        res.status(201).json({
+        return res.status(201).json({
             message: 'Comment created successfully', 
             comment,
             post, 
