@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import classes from './CommentSection.module.css'
-import { useCreateCommentMutation } from '../../../store/api'
+import { useCreateCommentMutation, useLazyGetPostCommentsQuery } from '../../../store/api'
 import { toast } from 'react-toastify'
 import Button from '@mui/material/Button'
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -20,7 +20,23 @@ const CommentSection = ({ cardClass, post }) => {
     const { setShowLogin } = useModalContext()
     const { authStatus } = useAuthContext()
 
-    const [ createComment, { data: newComment, isLoading, isError} ] = useCreateCommentMutation()
+    const [ createComment ] = useCreateCommentMutation()
+    const [ getComments, { data }] = useLazyGetPostCommentsQuery()
+
+    const [commentCount, setCommentCount] = useState('')
+    const [comments, setComments] = useState([])
+
+    useEffect(() => {
+        setComments(post.comments)
+        setCommentCount(post.commentCount)
+    },[])
+
+    useEffect(() => {
+        if(data){
+            setComments(data.comments)
+            setCommentCount(data.commentCount)
+        }
+    },[data])
 
     const commentRef = useRef()
 
@@ -29,9 +45,10 @@ const CommentSection = ({ cardClass, post }) => {
     const handleComment = async () => {
         if(commentRef.current.value.length > 0){
             try{
-                const res = await createComment({ postId: post._id, body: commentRef.current.value}).unwrap()
+                await createComment({ postId: post._id, body: commentRef.current.value}).unwrap()
                 toast.success('Comment sent')
                 commentRef.current.value = ''
+                getComments(post.slug)
             }catch(err){
                 toast.error(err)
             }
@@ -40,7 +57,7 @@ const CommentSection = ({ cardClass, post }) => {
 
     return (
         <Card className={cardClass}>
-            <h3 className={classes.commentHeader}>Comments ({post.commentCount})
+            <h3 className={classes.commentHeader}>Comments ({commentCount})
                 <motion.div className={`${classes.expandComments} ${ !expandComments && classes.hide}`} 
                     onClick={() => setExpandComments(e => !e)}
                 >
@@ -48,7 +65,7 @@ const CommentSection = ({ cardClass, post }) => {
                 </motion.div>
             </h3>
             <Collapse in={expandComments}>
-                { post.comments.length > 0 && post.comments.map(c => <Comment key={c._id} comment={c}/>) }
+                { comments.map(c => <Comment key={c._id} comment={c} refetch={getComments.bind(null, post.slug)}/>) }
                 { authStatus.isAuthenticated ? 
                     <TextField multiline={true}
                         maxRows={3}

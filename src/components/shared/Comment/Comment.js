@@ -17,7 +17,7 @@ import { useAuthContext } from '../../../store/context/auth';
 import { useDeleteCommentMutation, useCreateReplyMutation } from '../../../store/api';
 import { toast } from 'react-toastify';
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, refetch }) => {
 
     const { authStatus } = useAuthContext()
 
@@ -40,12 +40,12 @@ const Comment = ({ comment }) => {
 
     const handleDeleteComment = async () => {
         try{
-            const res = await deleteComment({
+            await deleteComment({
                 postId: comment.post, 
                 commentId: comment._id
             }).unwrap()
-            console.log(res)
             toast.info('Comment deleted')
+            refetch()
         }catch(err){
             toast.error('Failed to delete comment')
         }
@@ -69,9 +69,9 @@ const Comment = ({ comment }) => {
                     postId: comment.post, 
                     body: value
                 }).unwrap()
-                console.log(res)
                 toast.success('Reply sent')
                 replyRef.current.value = '';
+                refetch(comment.post)
             }catch(err){
                 toast.error('Failed to post reply')
             }
