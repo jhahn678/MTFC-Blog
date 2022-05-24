@@ -76,8 +76,43 @@
 
 
 .commentHeader{
-    margin: 1em .5em .5em;
+    margin: 1em .5em;
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+
+.expandComments{
+    transform: translateX(-2vw);
+    transition: .2s ease all;
+    cursor: pointer;
+}
+
+.hide{
+    transform: translateX(-2vw) rotate(90deg);
+}
+
+.relatedPostsCard{
+    padding: 1vh 1vw 4vh;
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.relatedPosts{
+    width: 100%;
+}
+
+.relatedPost{
+    position: relative;
+    height: 30vh;
+    cursor: pointer;
+    overflow: hidden;
+    transition: .3s ease all;
+}
+
+.relatedPost:hover{
+    transform: scale(1.01);
+    filter: brightness(105%)
 }

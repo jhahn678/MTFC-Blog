@@ -4,17 +4,17 @@ import { BLOCKS } from '@contentful/rich-text-types'
 import { useState, useRef, useEffect } from 'react'
 import classes from './Post.module.css'
 import { axios } from '../../utils/axios'
-import Link from 'next/link'
 import Chip from '@mui/material/Chip'
 import Image from 'next/image'
 import { formatDate, formatDateAuthor } from '../../utils/formatDate';
 import Card from '@mui/material/Card'
-import Avatar from '@mui/material/Avatar'
+import AuthorAvatar from '../../components/shared/AuthorAvatar/AuthorAvatar'
 import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/Add';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField'
@@ -24,6 +24,10 @@ import { useAuthContext } from '../../store/context/auth';
 import { useCreateCommentMutation, useBookmarkPostMutation, useFollowAuthorMutation } from '../../store/api';
 import { toast } from 'react-toastify'
 import LoginIcon from '@mui/icons-material/Login';
+import { useModalContext } from '../../store/context/modal';
+import Collapse from '@mui/material/Collapse';
+import { motion } from 'framer-motion'
+import RelatedPosts from '../../components/shared/RelatedPosts/RelatedPosts'
 
 const client = createClient({
     space: process.env.CONTENTFUL_SPACE_ID,
@@ -64,7 +68,9 @@ const opts = {
 
 const Post = ({ post }) => {
 
+
     const { authStatus, setBookmarks, setFollowing } = useAuthContext()
+    const { setShowLogin } = useModalContext()
 
     const [ createComment, { data: newComment, isLoading, isError} ] = useCreateCommentMutation()
     const [ bookmarkPost ] = useBookmarkPostMutation()
@@ -74,6 +80,7 @@ const Post = ({ post }) => {
 
     const [isFollowed, setIsFollowed] = useState(false)
     const [isBookmarked, setIsBookmarked] = useState(false)
+    const [expandComments, setExpandComments] = useState(true)
 
     useEffect(() => {
         if(authStatus?.user?.bookmarks?.includes(post._id)){
@@ -117,14 +124,7 @@ const Post = ({ post }) => {
                     <Chip label={post.category.title} clickable={true} sx={{ marginBottom: '2vh', fontSize: '1em'}}/>
                 </div>
                 <div className={classes.authorGroup}>
-                    <Link href={`/author/${post.author._id}`}>
-                        <h3 className={classes.authorLink}>
-                            <Avatar src={post.author.avatar} alt={post.author.displayName} 
-                                sx={{ height: '50px', width: '50px', marginRight: '8px'}}
-                            />
-                            {post.author.displayName}
-                        </h3>
-                    </Link>
+                    <AuthorAvatar author={post.author}/>
                     <Button 
                         startIcon={ isFollowed ? <CheckCircleIcon color='success'/> : <AddIcon/>}
                         onClick={handleFollow}
@@ -152,29 +152,47 @@ const Post = ({ post }) => {
                         <p style={{ marginLeft: 10 }}><b style={{ marginRight: 10 }}>Location:</b> {post.author.location}</p>
                         <p style={{ marginLeft: 10 }}><b style={{ marginRight: 10 }}>Bio:</b> {post.author.bio}</p>
                     </Card>
+                    <Card className={classes.relatedPostsCard}>
+                        <h3>Other posts from this author</h3>
+                        <Divider sx={{ marginBottom: 3 }}/>
+                        <RelatedPosts 
+                            containerClass={classes.relatedPosts}
+                            postClass={classes.relatedPost}
+                            posts={post.author.posts}
+                            author={post.author}
+                        />
+                    </Card>
                     <Card className={classes.commentSection}>
-                        <h3 className={classes.commentHeader}>Comments ({post.commentCount})</h3>
-                        { post.comments.length > 0 && post.comments.map(c => <Comment key={c._id} comment={c}/>) }
-                        { authStatus.isAuthenticated ? 
-                            <TextField multiline={true}
-                                maxRows={3}
-                                label='Leave a comment'
-                                inputRef={commentRef}
-                                InputProps={{
-                                    endAdornment: 
-                                        <IconButton sx={{ padding: 0 }} onClick={handleComment}>
-                                            <SendIcon/>
-                                        </IconButton>
-                                }}
-                                sx={{ marginBottom: 1, marginTop: 1 }}
-                            /> : 
-                            <Button variant='contained' 
-                                endIcon={<LoginIcon/>}
-                                onClick={() => {}}
+                        <h3 className={classes.commentHeader}>Comments ({post.commentCount})
+                            <motion.div className={`${classes.expandComments} ${ !expandComments && classes.hide}`} 
+                                onClick={() => setExpandComments(e => !e)}
                             >
-                                Sign in to leave a comment
-                            </Button>
-                        }  
+                                <ExpandMore/>
+                            </motion.div>
+                        </h3>
+                        <Collapse in={expandComments}>
+                            { post.comments.length > 0 && post.comments.map(c => <Comment key={c._id} comment={c}/>) }
+                            { authStatus.isAuthenticated ? 
+                                <TextField multiline={true}
+                                    maxRows={3}
+                                    label='Leave a comment'
+                                    inputRef={commentRef}
+                                    InputProps={{
+                                        endAdornment: 
+                                            <IconButton sx={{ padding: 0 }} onClick={handleComment}>
+                                                <SendIcon/>
+                                            </IconButton>
+                                    }}
+                                    sx={{ marginBottom: 1, marginTop: 1, width: '100%' }}
+                                /> : 
+                                <Button variant='contained' 
+                                    endIcon={<LoginIcon/>}
+                                    onClick={() => setShowLogin(true)}
+                                    sx={{ marginTop: 2, marginBottom: 1 }}
+                                >Sign in to leave a comment
+                                </Button>
+                            }
+                        </Collapse>  
                     </Card>
                 </aside>
             </main>
