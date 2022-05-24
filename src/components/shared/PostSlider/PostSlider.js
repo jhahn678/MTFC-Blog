@@ -18,64 +18,78 @@ const PostSlider = ({ posts }) => {
 
     const [hover, setHover] = useState(false)
 
+    const [index, setIndex] = useState(0)
+    
+    const handleNext = () => {
+        if(index === posts.length - 1){
+            setIndex(0)
+        }else{
+            setIndex(i => i + 1)
+        }
+    }
+
+    const handlePrev = () => {
+        if(index === 0){
+            setIndex(posts.length - 1)
+        }else{
+            setIndex(i => i - 1)
+        }
+    }
+
     return (
         <div className={classes.postSlider}>
             <motion.div className={classes.arrowBack}>
-                <IconButton>
+                <IconButton onClick={handlePrev}>
                     <ArrowBackIosNewIcon/>
                 </IconButton>
             </motion.div>
-            {
-                posts.map(post => {
-                    return(
-                        <motion.div key={post._id}
-                            className={`${classes.sliderItem} ${hover && classes.sliderItemHover}`} 
-                            onHoverStart={() => setHover(true)} 
-                            onHoverEnd={() => setHover(false)}
-                        >
-                            <img src={post.thumbnail} alt={`${post.title}`} className={`${classes.image} ${hover && classes.imageHover}`}/>
-                            <Link href={`/post/${post.slug}`}>
-                                <main className={classes.sliderItemContent}>
-                                    <h4 className={classes.date}>{formatDate(post.createdAt)}</h4>
-                                    <h1 style={{ margin: '3vh 0 1vh' }}>{post.title}</h1>
-                                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '.5em' }}>
-                                        <Link href={`/author/${post.author._id}`}>
-                                            <Chip 
-                                                avatar={
-                                                    <Avatar alt={`${post.author.displayName} avatar`} 
-                                                        src={`${post.author.avatar}`}
-                                                        sx={{ border: '1px solid var(--primary)', marginRight: '15px' }} 
-                                                    />}
-                                                clickable={true}
-                                                label={`${post.author.displayName}`}
-                                                sx={{ padding: '18px 3px'}}
-                                            />
-                                        </Link>
-                                        <Link href={`/category/${post.category.slug}`}>
-                                            <Chip 
-                                                clickable={true}
-                                                label={`${post.category.title}`}
-                                                sx={{ padding: '18px 3px', marginLeft: '1em'}}
-                                            />
-                                        </Link>
-                                    </div>
-                                    <motion.div className={`${classes.viewButtonContainer} ${hover && classes.viewButtonHover}`}>
-                                        <Button 
-                                            variant='outlined' 
-                                            size='large' 
-                                            className={classes.viewButton}
-                                            onClick={() => router.push(`/post/${post.slug}`)}
-                                            sx={{ '&:hover': { backgroundColor: 'var(--secondaryTransparent)' }}}
-                                        >View article</Button>
-                                    </motion.div>
-                                </main>
+            
+            <motion.div key={posts[index]._id}
+                className={`${classes.sliderItem} ${hover && classes.sliderItemHover}`} 
+                onHoverStart={() => setHover(true)} 
+                onHoverEnd={() => setHover(false)}
+            >
+                <img src={posts[index].thumbnail} alt={`${posts[index].title}`} className={`${classes.image} ${hover && classes.imageHover}`}/>
+                <Link href={`/post/${posts[index].slug}`}>
+                    <main className={classes.sliderItemContent}>
+                        <h4 className={classes.date}>{formatDate(posts[index].createdAt)}</h4>
+                        <h1 style={{ margin: '3vh 0 1vh' }}>{posts[index].title}</h1>
+                        <div style={{ display: 'flex', alignItems: 'center', marginTop: '.5em' }}>
+                            <Link href={`/author/${posts[index].author._id}`}>
+                                <Chip 
+                                    avatar={
+                                        <Avatar alt={`${posts[index].author.displayName} avatar`} 
+                                            src={`${posts[index].author.avatar}`}
+                                            sx={{ border: '1px solid var(--primary)', marginRight: '15px' }} 
+                                        />}
+                                    clickable={true}
+                                    label={`${posts[index].author.displayName}`}
+                                    sx={{ padding: '18px 3px'}}
+                                />
                             </Link>
+                            <Link href={`/category/${posts[index].category.slug}`}>
+                                <Chip 
+                                    clickable={true}
+                                    label={`${posts[index].category.title}`}
+                                    sx={{ padding: '18px 3px', marginLeft: '1em'}}
+                                />
+                            </Link>
+                        </div>
+                        <motion.div className={`${classes.viewButtonContainer} ${hover && classes.viewButtonHover}`}>
+                            <Button 
+                                variant='outlined' 
+                                size='large' 
+                                className={classes.viewButton}
+                                onClick={() => router.push(`/post/${posts[index].slug}`)}
+                                sx={{ '&:hover': { backgroundColor: 'var(--secondaryTransparent)' }}}
+                            >View article</Button>
                         </motion.div>
-                    )
-                })
-            }
+                    </main>
+                </Link>
+            </motion.div>
+            
             <motion.div className={classes.arrowForward}>
-                <IconButton>
+                <IconButton onClick={handleNext}>
                     <ArrowForwardIosIcon/>
                 </IconButton>
             </motion.div>
