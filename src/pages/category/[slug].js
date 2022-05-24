@@ -1,33 +1,28 @@
-import { createClient } from 'contentful'
-
-const client = createClient({
-    space: process.env.CONTENTFUL_SPACE_ID,
-    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
-})
+import classes from './Category.module.css'
+import { axios } from '../../utils/axios'
 
 export async function getStaticPaths(){
-    const { items } = await client.getEntries({ content_type: 'category' })
-    const paths = items.map(c => ({
-        params: { slug: c.fields.slug }
+    const { data } = await axios.get('/category')
+    const paths = data.map(c => ({
+        params: { slug: c.slug }
     }))
     return { paths, fallback: false }
 }
 
 export async function getStaticProps({ params }){
-    const { items } = await client.getEntries({ 
-        content_type: 'category',
-        'fields.slug': params.slug,
-        include: 10
-    })
+    const { data: posts } = await axios.get(`/post/category/${params.slug}`)
+    const { data: category } = await axios.get(`/category/${params.slug}`)
     return{
-        props: { category: items[0] }
+        props: { category, posts}
     }
 }
 
-const Category = ({ category }) => {
+const Category = ({ category, posts }) => {
+
+    console.log(category)
     
     return (
-        <h1>{category.fields.title}</h1>
+        <h1>{category.title}</h1>
     )
 }
 
