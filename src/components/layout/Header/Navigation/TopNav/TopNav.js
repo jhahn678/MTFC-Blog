@@ -2,15 +2,15 @@ import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu';
 import classes from './TopNav.module.css'
 import useMediaQuery from '@mui/material/useMediaQuery';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import SearchIcon from '@mui/icons-material/Search'
+import ProfileMenu from '../../ProfileMenu'
+import NotificationButton from '../../NotificationButton'
+import SearchButton from '../../Search/SearchButton'
 import Button from '@mui/material/Button'
 import { motion } from 'framer-motion'
 import { useAuthContext } from '../../../../../store/context/auth'
 import { useLazyGetMeQuery } from '../../../../../store/api';
 import { useEffect } from 'react';
-
+import DrawerButton from '../../DrawerButton'
 
 const TopNav = ({ setDrawerOpen, setShowSearch, setShowLogin, setShowRegister}) => {
 
@@ -61,44 +61,14 @@ const TopNav = ({ setDrawerOpen, setShowSearch, setShowLogin, setShowRegister}) 
                 </>}
             </div> 
             <div style={{ display: 'flex'}}>
-                <motion.div whileHover={{ scale: 1.1, borderBottomColor: 'var(--secondary)'}}
-                    className={classes.buttonContainer}
-                >
-                    <IconButton onClick={() => setShowSearch(true)}
-                        sx={{ margin: '0 .5vw'}}
-                    >
-                        <SearchIcon color='secondary' fontSize='large'/>
-                    </IconButton>
-                </motion.div>
+                <SearchButton onClick={() => setShowSearch(true)} containerClass={classes.buttonContainer}/>
                 { breakpoint && authStatus.isAuthenticated && 
                     <>
-                        <motion.div whileHover={{ scale: 1.1, borderBottomColor: 'var(--secondary)'}} 
-                            className={classes.buttonContainer}
-                        >
-                            <IconButton onClick={() => console.log('Notification')}
-                                sx={{ margin: '0 .5vw' }}
-                            >
-                                <NotificationsIcon color='secondary' fontSize='large'/>
-                            </IconButton>
-                        </motion.div>
-                        <motion.div whileHover={{ scale: 1.1, borderBottomColor: 'var(--secondary)' }} className={classes.buttonContainer}>
-                            <IconButton onClick={() => console.log('Bookmarks')}
-                                sx={{ margin: '0 .5vw' }}
-                            >
-                                <BookmarksIcon color='secondary' fontSize='large'/>
-                            </IconButton>
-                        </motion.div>
-                    </>
+                        <NotificationButton onClick={() => console.log('Notification')} containerClass={classes.buttonContainer}/>
+                        <ProfileMenu containerClass={classes.buttonContianer}/>
+                    </>    
                 }
-                { !breakpoint &&
-                    <motion.div whileHover={{ scale: 1.1, borderBottomColor: 'var(--secondary)'}} className={classes.buttonContainer}>
-                        <IconButton onClick={() => setDrawerOpen(true)}
-                            sx={{ margin: '0 .5vw' }}
-                        >
-                            <MenuIcon color='secondary' fontSize='large'/>
-                        </IconButton>
-                    </motion.div>
-                }
+                { !breakpoint && <DrawerButton onClick={() => setDrawerOpen(true)} containerClass={classes.buttonContainer}/> }
             </div>
         </div>
 )
