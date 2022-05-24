@@ -19,9 +19,9 @@ const RelatedPosts = ({ posts, author, sliceLength=3, containerClass, postClass 
 
     return (
         <div className={containerClass}>
-            {
-                relatedPosts.map(p => 
-                    <Link href={`/post/${p.slug}`}>
+            { relatedPosts.length === 0 && <h4 style={{ textAlign: 'center' }}>This author has no other posts</h4> }
+            { relatedPosts.map(p => 
+                    <Link href={`/post/${p.slug}`} key={p._id}>
                         <Paper className={postClass}>
                             <Image src={p.thumbnail} alt={p.title} layout='fill' className={classes.image}/>
                             <div className={classes.content}>
