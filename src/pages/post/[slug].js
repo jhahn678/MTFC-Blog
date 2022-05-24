@@ -90,7 +90,7 @@ const Post = ({ post }) => {
                         <RelatedPosts 
                             containerClass={classes.relatedPosts}
                             postClass={classes.relatedPost}
-                            posts={post.author.posts}
+                            posts={post.author.posts.filter(p => p._id !== post._id)}
                             author={post.author}
                         />
                     </Card>
