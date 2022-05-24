@@ -72,6 +72,9 @@ export const api = createApi({
         getPost: builder.query({
             query: slug => `post/${slug}`
         }),
+        getPostComments: builder.query({
+            query: slug => `post/${slug}?select=comments`
+        }),
         getPosts: builder.query({
             query: () => 'post'
         }),
@@ -104,6 +107,7 @@ export const {
     useGetAuthorsQuery,
     useGetPostQuery,
     useGetPostsQuery,
+    useLazyGetPostCommentsQuery,
     useGetCategoryQuery,
     useGetCategoriesQuery,
     useGetUserQuery,
