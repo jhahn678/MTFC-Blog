@@ -1,0 +1,17 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.header h3{
+    font-size: 2em;
+    font-weight: normal;
+}
+
+.caption{
+    margin-top: 1.2em;
+    width: 95%;
+    font-size: 1.2em;
+}
