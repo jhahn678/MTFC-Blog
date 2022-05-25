@@ -10,6 +10,7 @@ const postSchema = new mongoose.Schema({
         ref: 'Category'
     },
     thumbnail: String,
+    preview: String,
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Author'
