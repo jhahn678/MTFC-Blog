@@ -27,7 +27,7 @@ const BookmarkIconButton = ({ post }) => {
     } 
 
     return (
-        <IconButton onClick={handleBookmark}>
+        <IconButton onClick={handleBookmark} style={{ height: 'min-content' }}>
             { isBookmarked ? <BookmarkAddedIcon color='success'/> : <BookmarkAddIcon/>}
         </IconButton>
     )
