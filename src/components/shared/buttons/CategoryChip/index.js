@@ -7,7 +7,7 @@ const CategoryChip = ({ title, slug, styles }) => {
             <Chip 
                 label={title} 
                 clickable={true} 
-                sx={styles ? styles : { marginBottom: '2vh', fontSize: '1em'}}
+                sx={styles ? styles : { marginBottom: '2vh', fontSize: '1em', width: 'fit-content'}}
             />
         </Link>
     )
