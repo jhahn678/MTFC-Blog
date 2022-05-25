@@ -13,13 +13,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 
-const PostList = ({ posts, containerClass }) => {
+const PostList = ({ posts, containerClass, postClass }) => {
   return (
     <section className={containerClass}>
         {
             posts.map(p => 
                 <Link href={`/post/${p.slug}`} key={p._id}>
-                    <Paper className={classes.post}>
+                    <Paper className={postClass}>
                         <Paper className={classes.imageContainer}>
                             <Image src={p.thumbnail} alt={p.title} layout='fill' objectFit='cover'/>
                         </Paper>
@@ -37,7 +37,7 @@ const PostList = ({ posts, containerClass }) => {
                             </div>
                             <div className={classes.footer}>
                                 <p style={{ fontSize: '.8em' }}>{formatDate(p.createdAt)}</p>
-                                <div className='fr'>
+                                <div className='frac'>
                                     <BookmarkIconButton post={p}/>
                                     <CommentIcon commentCount={p.commentCount}/>
                                 </div>
@@ -46,6 +46,9 @@ const PostList = ({ posts, containerClass }) => {
                     </Paper>   
                 </Link>
             )
+        }
+        {
+            posts.length === 0 && <h3 className={classes.noPostsAvailable}>No posts available..</h3>
         }
     </section>
   )

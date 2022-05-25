@@ -7,7 +7,6 @@ import classes from './PostSlider.module.css'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import IconButton from '@mui/material/IconButton'
-import Avatar from '@mui/material/Avatar'
 import Chip from '@mui/material/Chip'
 import Button from '../buttons/Button'
 import { formatDate } from '../../../utils/formatDate'
@@ -71,7 +70,6 @@ const PostSlider = ({ posts }) => {
                                 size='large' 
                                 className={classes.viewButton}
                                 onClick={() => router.push(`/post/${posts[index].slug}`)}
-                                sx={{ '&:hover': { backgroundColor: 'var(--secondaryTransparent)' }}}
                             >View article</Button>
                         </motion.div>
                     </main>
