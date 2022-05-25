@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar'
 import Chip from '@mui/material/Chip'
 import Button from '../buttons/Button'
 import { formatDate } from '../../../utils/formatDate'
+import AvatarChip from '../AvatarChip'
 
 const PostSlider = ({ posts }) => {
 
@@ -55,18 +56,7 @@ const PostSlider = ({ posts }) => {
                         <h4 className={classes.date}>{formatDate(posts[index].createdAt)}</h4>
                         <h1 style={{ margin: '3vh 0 1vh' }}>{posts[index].title}</h1>
                         <div style={{ display: 'flex', alignItems: 'center', marginTop: '.5em' }}>
-                            <Link href={`/author/${posts[index].author._id}`}>
-                                <Chip 
-                                    avatar={
-                                        <Avatar alt={`${posts[index].author.displayName} avatar`} 
-                                            src={`${posts[index].author.avatar}`}
-                                            sx={{ border: '1px solid var(--primary)', marginRight: '15px' }} 
-                                        />}
-                                    clickable={true}
-                                    label={`${posts[index].author.displayName}`}
-                                    sx={{ padding: '18px 3px'}}
-                                />
-                            </Link>
+                            <AvatarChip author={posts[index].author}/>
                             <Link href={`/category/${posts[index].category.slug}`}>
                                 <Chip 
                                     clickable={true}
