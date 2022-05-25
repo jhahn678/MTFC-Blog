@@ -32,6 +32,6 @@ const userSchema = new mongoose.Schema({
             ref: 'Comment'
         }
     ]
-})
+}, { timestamps: true })
 
 export default mongoose.models.User || mongoose.model('User', userSchema)
