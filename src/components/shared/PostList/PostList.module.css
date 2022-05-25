@@ -1,0 +1,53 @@
+.post{
+    width: 95%;
+    display: flex;
+    border: .5px solid rgba(0,0,0,.2);
+    cursor: pointer;
+    transition: .2s ease all;
+}
+
+.post:hover{
+    transform: scale(1.01)
+}
+
+.imageContainer{
+    overflow: hidden;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    position: relative;
+    height: 250px;
+    width: 350px;
+    transition: .3s ease all;
+}
+
+.imageContainer:hover{
+    filter: brightness(103%) saturate(1.4)
+}
+
+.title{
+    margin-bottom: .3em;
+}
+
+.content{
+    flex-grow: 1;
+    margin-left: 1em;
+    margin-right: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.preview{
+    max-width: 28vw;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
+}
+
+.footer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
