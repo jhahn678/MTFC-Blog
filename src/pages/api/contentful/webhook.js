@@ -64,7 +64,8 @@ export default async function handler(req, res){
                         title: fields.title['en-US'],
                         slug: fields.slug['en-US'],
                         category: category._id,
-                        thumbnail: thumbnail
+                        thumbnail: thumbnail,
+                        preview: fields.preview['en-US']
                     }
                 }, { upsert: true })
                 res.status(200).json({ message: 'Post upserted' })
