@@ -4,23 +4,35 @@
 
 .title{
     padding-left: 3vw;
+    padding-right: 1em;
     width: fit-content;
     font-size: 2.5em;
-    padding-right: .5em;
-    padding-bottom: .2em;
-    border-right: 2px solid var(--primary);
-    border-bottom: 2px solid var(--primary)
+    font-weight: normal;
 }
 
 .main{
-    margin-top: 5vh;
-    margin-bottom: 5vh;
+    margin-bottom: 20vh;
     display: flex;
 }
 .postList{
-    padding-top: 2em;
+    padding-top: 4vh;
     width: 60vw;
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.post{
+    width: 80%;
+    display: flex;
+    border: .5px solid rgba(0,0,0,.2);
+    cursor: pointer;
+    transition: .2s ease all;
+    margin-left: 2%;
+    margin-bottom: 5vh;
+}
+
+.post:hover{
+    transform: scale(1.01)
 }
 
 .aside{

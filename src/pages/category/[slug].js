@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper'
 import Image from 'next/image'
 import Divider from '@mui/material/Divider'
 import CategoryCard from '../../components/shared/CategoryCard'
+import TextHover from '../../components/shared/TextHover'
 
 export async function getStaticPaths(){
     const { data } = await axios.get('/category')
@@ -31,10 +32,12 @@ const Category = ({ category, categories, posts }) => {
     return (
         <div className={classes.page}>
             <header>
-                <h1 className={classes.title}>{category.title}</h1>
+                <TextHover>
+                    <h1 className={classes.title}>{category.title}</h1>
+                </TextHover>
             </header>
             <main className={classes.main}>
-                <PostList containerClass={classes.postList} posts={posts}/>
+                <PostList containerClass={classes.postList} posts={posts} postClass={classes.post}/>
                 <aside className={classes.aside}>
                     <h3 className={classes.categoryHeader}>{category.title}
                         <span style={{ fontSize: '.8em'}}>{posts.length} post(s)</span>
