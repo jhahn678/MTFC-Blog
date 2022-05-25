@@ -1,0 +1,23 @@
+.container{
+    margin: 0;
+    padding: 0;
+    width: fit-content;
+    position: relative;
+    overflow: hidden;
+}
+
+.line{
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    bottom: 20px;
+    left: -100%;
+    width: 100%;
+    background-color: var(--primary);
+    height: 2px;
+    transition: .4s ease all;
+}
+
+.hover{
+    left: 0;
+}
