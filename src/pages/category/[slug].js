@@ -48,7 +48,7 @@ const Category = ({ category, categories, posts }) => {
                     </p>
                     <Divider sx={{ margin: '1em 0'}}/>
                     <h3 className={classes.categoryHeader}>Other Categories</h3>
-                    { categories.map(c => <CategoryCard containerClass={classes.categoryCard} category={c}/>) }
+                    { categories.map(c => <CategoryCard key={c._id} containerClass={classes.categoryCard} category={c}/>) }
                 </aside>
             </main>
         </div>
