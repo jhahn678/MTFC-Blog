@@ -1,0 +1,21 @@
+.image{
+    object-fit: cover;
+}
+
+.content{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title{
+    padding: .3em .8em;
+    border-radius: 3px;
+    background-color: var(--secondaryTransparent2);
+}
