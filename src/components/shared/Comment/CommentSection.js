@@ -82,7 +82,7 @@ const CommentSection = ({ cardClass, post }) => {
                     <Button variant='contained' 
                         endIcon={<LoginIcon/>}
                         onClick={() => setShowLogin(true)}
-                        sx={{ marginTop: 2, marginBottom: 1 }}
+                        sx={{ marginTop: 2, marginBottom: 1, width: '90%' }}
                     >Sign in to leave a comment
                     </Button>
                 }
