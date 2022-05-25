@@ -6,6 +6,7 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import HomeIcon from '@mui/icons-material/Home';
 import { useState } from 'react'
 import { useAuthContext } from '../../../../../store/context/auth'
+import Link from 'next/link'
 
 const BottomNav = ({ }) => {
 
@@ -17,13 +18,13 @@ const BottomNav = ({ }) => {
     return (
         breakpoint && authStatus.isAuthenticated && 
         <BottomNavigation
-            sx={{ position: 'fixed', bottom: 0, width: '100vw', zIndex: 5}}
+            sx={{ position: 'fixed', bottom: 0, width: '100vw', zIndex: 50}}
             value={current}
             onChange={(e, v) => setCurrent(v)}
         >
-            <BottomNavigationAction label='Home' icon={<HomeIcon/>}/>
-            <BottomNavigationAction label='Notifications' icon={<NotificationsIcon/>}/>
-            <BottomNavigationAction label='Bookmarks' icon={<BookmarksIcon/>}/>
+            <Link href='/'><BottomNavigationAction label='Home' icon={<HomeIcon/>}/></Link>
+            <Link href='/user/notifications'><BottomNavigationAction label='Notifications' icon={<NotificationsIcon/>}/></Link>
+            <Link href='/user/bookmarks'><BottomNavigationAction label='Bookmarks' icon={<BookmarksIcon/>}/></Link>
         </BottomNavigation>
     )
 }

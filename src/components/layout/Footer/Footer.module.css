@@ -103,3 +103,11 @@
 .linksGroup:last-of-type{
     margin-left: 40px
 }
+
+
+
+@media screen and (max-width: 600px) {
+    .footer{
+        margin-bottom: 56px
+    }
+}
