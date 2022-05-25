@@ -1,0 +1,65 @@
+.page{
+    padding: 5vh 3vw;
+}
+
+.categoriesSection{
+    height: 30vh;
+    width: 90vw;
+    margin: 0 auto 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow-x: scroll;
+    cursor: pointer;
+}
+
+.categoryContainer{
+    position: relative;
+    height: 200px;
+    width: 275px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+
+.header{
+    font-weight: normal;
+    margin: 0 0 3vh 3vw;
+}
+
+.categoryHeader{
+    font-weight: normal;
+    margin: 10vh 3vw 3vh;
+}
+
+.post{
+    width: 45%;
+    display: flex;
+    border: .5px solid rgba(0,0,0,.2);
+    cursor: pointer;
+    transition: .2s ease all;
+}
+
+.post:hover{
+    transform: scale(1.01)
+}
+
+.postSection{
+
+}
+
+.latestInHeader{
+    font-weight: normal;
+    margin: 0;
+    margin-left: 3vw;
+    display: flex;
+    align-items: center;
+}
+
+.linkHover{
+    flex-grow: 0;
+    cursor: pointer;
+    transition: .3s ease all;
+
+}
