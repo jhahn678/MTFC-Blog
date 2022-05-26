@@ -5,8 +5,6 @@ import Image from 'next/image'
 import Avatar from '@mui/material/Avatar'
 import Paper from '@mui/material/Paper'
 import Chip from '@mui/material/Chip'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import Button from '../buttons/Button'
 import { formatDate } from '../../../utils/formatDate'
 
 const RelatedPosts = ({ posts, author, sliceLength=3, containerClass, postClass }) => {

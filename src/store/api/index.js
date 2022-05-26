@@ -32,39 +32,42 @@ export const api = createApi({
         }),
         createComment: builder.mutation({
             query: comment => ({
-                url: 'post/comment',
+                url: 'comment',
                 method: 'POST',
                 body: comment
             })
         }),
         deleteComment: builder.mutation({
             query: ({ postId, commentId }) => ({
-                url: `post/comment/${commentId}`,
+                url: `comment/${commentId}`,
                 method: 'DELETE',
                 body: { postId }
             })
         }),
         createReply: builder.mutation({
             query: ({ commentId, ...body }) => ({
-                url: `post/comment/${commentId}`,
+                url: `comment/${commentId}`,
                 method: 'POST',
                 body: body
             })
         }),
         followAuthor: builder.mutation({
             query: id => ({
-                url: `author/follow/${id}`,
+                url: `author/${id}/follow`,
                 method: 'POST',
             })
         }),
         bookmarkPost: builder.mutation({
             query: id => ({
-                url: `post/bookmark/${id}`,
+                url: `post/${id}/bookmark`,
                 method: 'POST',
             })
         }),
         getAuthor: builder.query({
             query: id => `author/${id}`
+        }),
+        getAuthorPosts: builder.query({
+            query: ({ id, page=1, limit=8 }) => `author/${id}/posts?page=${page}&limit=${limit}`
         }),
         getAuthors: builder.query({
             query: () => 'author'
@@ -73,10 +76,13 @@ export const api = createApi({
             query: slug => `post/${slug}`
         }),
         getPostComments: builder.query({
-            query: slug => `post/${slug}?select=comments`
+            query: slug => `post/${slug}/comments`
         }),
         getPosts: builder.query({
             query: () => 'post'
+        }),
+        getComment: builder.query({
+            query : id => `commnent/${id}`
         }),
         getCategory: builder.query({
             query: slug => `category/${slug}`
@@ -105,6 +111,8 @@ export const {
     useFollowAuthorMutation,
     useGetAuthorQuery,
     useGetAuthorsQuery,
+    useLazyGetAuthorPostsQuery,
+    useLazyGetCommentQuery,
     useGetPostQuery,
     useGetPostsQuery,
     useLazyGetPostCommentsQuery,

@@ -76,7 +76,7 @@
 
 
 .relatedPostsCard{
-    padding: 1vh 1vw 4vh;
+    padding: 1vh 1vw 1vh;
     margin-top: 5vh;
     display: flex;
     flex-direction: column;
@@ -92,6 +92,7 @@
     cursor: pointer;
     overflow: hidden;
     transition: .3s ease all;
+    margin-bottom: 3vh;
 }
 
 .relatedPost:hover{

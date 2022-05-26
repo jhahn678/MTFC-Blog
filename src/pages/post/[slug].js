@@ -1,6 +1,6 @@
 import { createClient } from 'contentful'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { BLOCKS } from '@contentful/rich-text-types'
+import { BLOCKS, INLINES } from '@contentful/rich-text-types'
 import classes from './Post.module.css'
 import { axios } from '../../utils/axios'
 import CategoryChip from '../../components/shared/buttons/CategoryChip'
@@ -52,6 +52,8 @@ const opts = {
 
 
 const Post = ({ post }) => {
+
+    console.log(post.author.posts)
 
     return(
         <div className={classes.page}>
