@@ -28,4 +28,11 @@ const postSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
+postSchema.pre('find', function(){
+    this.populate({ 
+        path: 'category',
+        select: 'title slug'
+    })
+})
+
 export default mongoose.models.Post || mongoose.model('Post', postSchema)
