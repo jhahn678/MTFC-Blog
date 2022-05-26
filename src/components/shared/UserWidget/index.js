@@ -1,10 +1,10 @@
 import classes from './UserWidget.module.css'
 import { useAuthContext } from '../../../store/context/auth'
 import { useModalContext } from '../../../store/context/modal'
-import Avatar from '@mui/material/Avatar'
 import Button from '../buttons/Button'
 import Link from 'next/link'
 import TextHover from '../TextHover'
+import UserAvatar from '../UserAvatar'
 
 const UserWidget = ({ containerClass }) => {
 
@@ -16,12 +16,7 @@ const UserWidget = ({ containerClass }) => {
             { authStatus.isAuthenticated && authStatus.user?.account &&
             <>
                 <div className='frac'>
-                     <Avatar sx={{ backgroundColor: 'var(--primary)'}}
-                        src={authStatus.user.account?.avatar} 
-                        alt={authStatus.user.account.displayName}>
-                        {authStatus.user.account.displayName.slice(0,1)}
-                    </Avatar>
-                    <h3 className={classes.name}>{authStatus.user.account.displayName}</h3>
+                    <UserAvatar textClass={classes.name} user={authStatus.user}/>
                     <div className={classes.divider}/>
                     <Button variant='outlined' size='small' 
                         sx={{ fontSize: 10}} 
@@ -30,12 +25,12 @@ const UserWidget = ({ containerClass }) => {
                 </div>
                 <div className='frsb' style={{ width: '23vw' }}>
                     <TextHover>
-                        <Link href='/user/following'>
+                        <Link href='/user?tab=following'>
                             <p className={classes.detail}>{authStatus.user.following.length} Following</p>
                         </Link>
                     </TextHover>
                     <TextHover>
-                        <Link href='/user/bookmarks'>
+                        <Link href='/user?tab=bookmarks'>
                             <p className={classes.detail}>
                                 { authStatus.user.bookmarks.length}
                                 { authStatus.user.bookmarks.length === 1 ? ' Bookmark' : ' Bookmarks' }
@@ -45,7 +40,7 @@ const UserWidget = ({ containerClass }) => {
                 </div>
                 <div className='frsb' style={{ width: '23vw'}}>
                     <TextHover>
-                        <Link href='/user/comments'>
+                        <Link href='/user?tab=comments'>
                             <p className={classes.detail}>
                                 { authStatus.user.comments.length}
                                 { authStatus.user.comments.length === 1 ? ' Comment' : ' Comments' }
@@ -53,7 +48,7 @@ const UserWidget = ({ containerClass }) => {
                         </Link>
                     </TextHover>
                     <TextHover>
-                        <Link href='/user/notifications'>
+                        <Link href='/user?tab=notifications'>
                             <p className={classes.detail}>
                                 { authStatus.user.notifications.length }
                                 { authStatus.user.notifications.length === 1 ? ' Notification' : ' Notification' }
