@@ -10,8 +10,6 @@ export default async function handler (req, res){
 
     const { AUTH_TOKEN: token } = req.cookies;
 
-    const { limit=10, page=1 } = req.query
-
     if(!token){
         throw new AuthError(400, 'Authentication Invalid')
     }
@@ -20,17 +18,12 @@ export default async function handler (req, res){
 
     const user = await User.findById(payload._id)
         .populate({
-            path: 'comments',
-            perDocumentLimit: limit,
-            options: { 
-                skip: ( page - 1 ) * limit
-            },
+            path: 'following',
             populate: {
-                path: 'post parentComment',
-                select: 'title slug commentCount user'
+                path: 'posts'
             }
         })
-        .select('comments -_id')
+        .select('following')
 
     res.status(200).json(user)
 }

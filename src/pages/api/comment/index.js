@@ -1,9 +1,9 @@
-import connectMongo from '../../../../utils/connectMongo'
-import { verifyAuthToken } from '../../../../utils/authToken'
-import AuthError from '../../../../utils/AuthError'
-import Post from '../../../../models/post'
-import User from '../../../../models/user'
-import Comment from '../../../../models/comment'
+import connectMongo from '../../../utils/connectMongo'
+import { verifyAuthToken } from '../../../utils/authToken'
+import AuthError from '../../../utils/AuthError'
+import Post from '../../../models/post'
+import User from '../../../models/user'
+import Comment from '../../../models/comment'
 
 export default async function handler(req, res){
 

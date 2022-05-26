@@ -15,6 +15,13 @@ export default async function handler(req, res){
     if(method === 'POST'){
         try{
             const user = await User.findOne({ 'account.email': email })
+                .populate('following')
+                .populate({
+                    path: 'bookmarks',
+                    populate: {
+                        path: 'category author'
+                    }
+                })
             if(user && await bcrypt.compare(password, user.account.password)){
                 const token  = generateAuthToken(user._id, user.account.displayName, user.account.avatar)
                 setAuthCookie(res, token)

@@ -48,13 +48,19 @@ export default async function handler(req, res){
         if(sys.contentType.sys.id === 'post'){
             
             if(sys.type === 'DeletedEntry'){
-                await Post.findOneAndDelete({ entry_id: sys.id })
+                const post = await Post.findOneAndDelete({ entry_id: sys.id })
+                await Author.findByIdAndUpdate(post.author, {
+                    $pull: { posts: post._id }
+                })
+                
                 res.status(204).json({ message: 'Post removed'})
             }
 
             if(sys.type === 'Entry'){
                 //Query category for _id
-                const category = await Category.findOne({ entry_id: fields.category['en-us'].sys.id })
+                const category = await Category.findOne({ entry_id: fields.category['en-US'].sys.id })
+                //Query for author
+                const author = await Author.findOne({ entry_id: fields.author['en-US'].sys.id })
                 //Fetch linked asset from cms
                 const asset = await client.getAsset(fields.thumbnail['en-US'].sys.id)
                 const thumbnail = `https:${asset.fields.file.url}`;
@@ -63,11 +69,18 @@ export default async function handler(req, res){
                         entry_id: sys.id,
                         title: fields.title['en-US'],
                         slug: fields.slug['en-US'],
+                        author: author._id,
                         category: category._id,
                         thumbnail: thumbnail,
-                        preview: fields.preview['en-US']
+                        preview: fields.preview['en-US'],
+                        tags: []
                     }
                 }, { upsert: true })
+                if(!author.posts.includes(post._id)){
+                    await Author.findByIdAndUpdate(author._id, {
+                        $push: { posts: post._id }
+                    })
+                }
                 res.status(200).json({ message: 'Post upserted' })
             }
 

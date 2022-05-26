@@ -1,36 +1,37 @@
-import connectMongo from '../../../../utils/connectMongo'
-import { verifyAuthToken } from '../../../../utils/authToken'
-import AuthError from '../../../../utils/AuthError'
-import Post from '../../../../models/post'
-import User from '../../../../models/user'
-import Comment from '../../../../models/comment'
+import connectMongo from '../../../utils/connectMongo'
+import { verifyAuthToken } from '../../../utils/authToken'
+import AuthError from '../../../utils/AuthError'
+import Post from '../../../models/post'
+import User from '../../../models/user'
+import Comment from '../../../models/comment'
 
 export default async function handler(req, res){
 
     await connectMongo()
 
-    const { AUTH_TOKEN: token } = req.cookies;
+    const { id } = req.query;
 
-    if(!token){
-        throw new AuthError('Must be authenticated to post comments')
+    //Getting a comment by ID
+    if(req.method === 'GET'){
+        
+        const comment = await Comment.findById(id).populate('replies')
+
+        res.status(200).json(comment)
+
     }
 
-    const payload = await verifyAuthToken(token)
-
+    //Adding a reply to a specific comment
     if(req.method === 'POST'){
 
-        //Adding a reply to a specific comment
-
-        const { id } = req.query;
         const { postId, body, mention } = req.body;
 
-        console.log(req.body)
+        const { AUTH_TOKEN: token } = req.cookies;
 
-        // mention = {
-        //     _id: '',
-        //     userType: '',
-        //     displayName: ''
-        // }
+        if(!token){
+            throw new AuthError('Must be authenticated to post comments')
+        }
+    
+        const payload = await verifyAuthToken(token)
 
         const newComment = new Comment({
             user: {

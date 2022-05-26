@@ -39,7 +39,7 @@ export default async function handler(req, res){
                 author: author._id,
             })
 
-            const post = await newPost.save()
+            const post = await newPost.save()             
 
             posts.push(post)
         }
