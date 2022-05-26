@@ -1,20 +1,15 @@
 import classes from './UserWidget.module.css'
-import { useState, useEffect } from 'react'
-import { useLazyGetMeQuery } from '../../../store/api'
-import { formatDate } from '../../../utils/formatDate'
 import { useAuthContext } from '../../../store/context/auth'
 import { useModalContext } from '../../../store/context/modal'
 import Avatar from '@mui/material/Avatar'
 import Button from '../buttons/Button'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
+import Link from 'next/link'
+import TextHover from '../TextHover'
 
 const UserWidget = ({ containerClass }) => {
 
     const { authStatus, resetAuthStatus } = useAuthContext()
     const { setShowLogin, setShowRegister } = useModalContext()
-
-    const [tab, setTab] = useState(0)
 
     return (
         <div className={containerClass}>
@@ -27,19 +22,45 @@ const UserWidget = ({ containerClass }) => {
                         {authStatus.user.account.displayName.slice(0,1)}
                     </Avatar>
                     <h3 className={classes.name}>{authStatus.user.account.displayName}</h3>
+                    <div className={classes.divider}/>
                     <Button variant='outlined' size='small' 
-                        sx={{ marginLeft: 3, fontSize: 10}} 
+                        sx={{ fontSize: 10}} 
                         onClick={() => resetAuthStatus()}
                     >Sign out</Button>
                 </div>
-                <Tabs value={tab} onChange={(e,v) => setTab(v)}>
-                    <Tab label="Profile"/>
-                    <Tab label="Notifications"/>
-                    <Tab label="Bookmarks"/>
-                </Tabs>
-                { tab === 0 && <div className={classes.tab}>{formatDate(authStatus.user.createdAt)}</div> }
-                { tab === 1 && <div className={classes.tab}></div> }
-                { tab === 2 && <div className={classes.tab}></div> }
+                <div className='frsb' style={{ width: '23vw' }}>
+                    <TextHover>
+                        <Link href='/user/following'>
+                            <p className={classes.detail}>{authStatus.user.following.length} Following</p>
+                        </Link>
+                    </TextHover>
+                    <TextHover>
+                        <Link href='/user/bookmarks'>
+                            <p className={classes.detail}>
+                                { authStatus.user.bookmarks.length}
+                                { authStatus.user.bookmarks.length === 1 ? ' Bookmark' : ' Bookmarks' }
+                            </p>
+                        </Link>
+                    </TextHover>
+                </div>
+                <div className='frsb' style={{ width: '23vw'}}>
+                    <TextHover>
+                        <Link href='/user/comments'>
+                            <p className={classes.detail}>
+                                { authStatus.user.comments.length}
+                                { authStatus.user.comments.length === 1 ? ' Comment' : ' Comments' }
+                            </p>
+                        </Link>
+                    </TextHover>
+                    <TextHover>
+                        <Link href='/user/notifications'>
+                            <p className={classes.detail}>
+                                { authStatus.user.notifications.length }
+                                { authStatus.user.notifications.length === 1 ? ' Notification' : ' Notification' }
+                            </p>
+                        </Link>
+                    </TextHover>
+                </div>
             </>
             }
             { !authStatus.isAuthenticated &&

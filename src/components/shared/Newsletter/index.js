@@ -4,7 +4,6 @@ import { emailSchema } from '../../../utils/validation'
 import IconButton from '@mui/material/IconButton'
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
-import TextHover from '../TextHover'
 import { toast } from 'react-toastify'
 
 
@@ -32,7 +31,7 @@ const Newsletter = ({ containerClass }) => {
     return (
         <section className={containerClass}>
             <div className={classes.header}>
-                <TextHover><h3>Stay up-to-date</h3></TextHover>
+                <h3>Stay up-to-date</h3>
             </div>
             <TextField label='Email' variant='filled'
                 color={emailValid ? 'success' : null}

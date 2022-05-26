@@ -16,7 +16,19 @@
     font-weight: normal;
 }
 
-.tab{
-    width: 100%;
-    min-height: 20vh;
+.detail{
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    padding-bottom: .5em;
+    cursor: pointer;
+    font-variant: small-caps;
+}
+
+
+.divider{
+    height: 25px;
+    width: 1px;
+    background-color: var(--primary);
+    margin: 0 2vw;
 }
