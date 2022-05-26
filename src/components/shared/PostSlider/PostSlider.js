@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -49,18 +49,21 @@ const PostSlider = ({ posts }) => {
                 onHoverStart={() => setHover(true)} 
                 onHoverEnd={() => setHover(false)}
             >
-                <img src={posts[index].thumbnail} alt={`${posts[index].title}`} className={`${classes.image} ${hover && classes.imageHover}`}/>
+                <img src={posts[index].thumbnail} 
+                    alt={`${posts[index].title}`} 
+                    className={`${classes.image} ${hover && classes.imageHover}`}
+                />
                 <Link href={`/post/${posts[index].slug}`}>
                     <main className={classes.sliderItemContent}>
                         <h4 className={classes.date}>{formatDate(posts[index].createdAt)}</h4>
                         <h1 style={{ margin: '3vh 0 1vh' }}>{posts[index].title}</h1>
                         <div style={{ display: 'flex', alignItems: 'center', marginTop: '.5em' }}>
-                            <AvatarChip author={posts[index].author}/>
+                            <AvatarChip author={posts[index].author} styles={{ padding: '1.2em .4em', border: '1px solid var(--primary)' }}/>
                             <Link href={`/category/${posts[index].category.slug}`}>
                                 <Chip 
                                     clickable={true}
                                     label={`${posts[index].category.title}`}
-                                    sx={{ padding: '18px 3px', marginLeft: '1em'}}
+                                    sx={{ padding: '1.2em .4em', marginLeft: '1em', border: '1px solid var(--primary)'}}
                                 />
                             </Link>
                         </div>

@@ -14,7 +14,7 @@ const BookmarkIconButton = ({ post }) => {
     const [isBookmarked, setIsBookmarked] = useState(false)
 
     useEffect(() => {
-        if(authStatus?.user?.bookmarks?.find(b => b._id === post._id)){
+        if(authStatus?.user?.bookmarks?.includes(post._id)){
             setIsBookmarked(true)
         }
     },[authStatus.user.bookmarks])
