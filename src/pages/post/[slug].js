@@ -53,8 +53,6 @@ const opts = {
 
 const Post = ({ post }) => {
 
-    console.log(post.author.posts)
-
     return(
         <div className={classes.page}>
             <section className={classes.titleHeading}>
