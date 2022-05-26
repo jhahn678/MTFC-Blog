@@ -91,6 +91,12 @@ a {
   align-items: center;
 }
 
+.frab{
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
 .frsb{
   display: flex;
   flex-direction: row;
