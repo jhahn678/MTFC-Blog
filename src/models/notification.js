@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import Post from '../models/post'
+import Comment from '../models/comment'
 
 const notificationSchema = new mongoose.Schema({
     notification_type: {
@@ -9,8 +11,18 @@ const notificationSchema = new mongoose.Schema({
         type: String,
         enum: ['Read', 'Unread']
     },
-    title: String,
-    message: String
+    post: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    },
+    comment: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+    },
+    avatar: String,
+    title: String
 }, { timestamps: true })
+
+
 
 export default notificationSchema;
