@@ -1,0 +1,14 @@
+.page{
+    padding: 5vh 5vw;
+    min-height: 80vh;
+}
+
+.name{
+    font-weight: normal;
+    font-size: 2em;
+    margin: 0 0 0 .3em;
+}
+
+.tabs{
+    margin-top: 3vh;
+}
