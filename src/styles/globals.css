@@ -79,6 +79,18 @@ a {
   display: flex;
   flex-direction: column;
 }
+
+.fcsb{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.fcje{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
  
 .fr{
   display: flex;
@@ -102,4 +114,11 @@ a {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+.frse{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
 }

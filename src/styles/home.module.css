@@ -78,7 +78,7 @@
 
 
 .newsletterContainer{
-    width: 43vw;
+    width: 40vw;
     max-width: 500px;
     margin: 10vh 0 10vh 5vw;
 }
@@ -95,11 +95,11 @@
     height: 300px;
     width: .5px;
     background-color: rgba(0,0,0,.2);
-    margin: 2vh 2vw
+    margin: 2vh 5vw;
 }
 
 .userWidgetContainer{
-    width: 43vw;
+    width: 40vw;
     max-width: 500px;
     margin: 10vh 5vw 10vh 0; 
     display: flex;
