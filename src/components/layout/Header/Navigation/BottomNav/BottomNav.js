@@ -23,8 +23,8 @@ const BottomNav = ({ }) => {
             onChange={(e, v) => setCurrent(v)}
         >
             <Link href='/'><BottomNavigationAction label='Home' icon={<HomeIcon/>}/></Link>
-            <Link href='/user/notifications'><BottomNavigationAction label='Notifications' icon={<NotificationsIcon/>}/></Link>
-            <Link href='/user/bookmarks'><BottomNavigationAction label='Bookmarks' icon={<BookmarksIcon/>}/></Link>
+            <Link href='/user?tab=notifications'><BottomNavigationAction label='Notifications' icon={<NotificationsIcon/>}/></Link>
+            <Link href='/user?tab=bookmarks'><BottomNavigationAction label='Bookmarks' icon={<BookmarksIcon/>}/></Link>
         </BottomNavigation>
     )
 }

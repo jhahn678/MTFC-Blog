@@ -48,13 +48,13 @@ const ProfileMenu = ({ containerClass }) => {
                             <ListItemText primary='Profile'/>
                         </MenuItem>
                     </Link>
-                    <Link href='/user/bookmarks'>
+                    <Link href='/user?tab=bookmarks'>
                         <MenuItem>
                             <ListItemText primary='Bookmarks'/>
                             <ListItemIcon><BookmarksIcon sx={{ marginLeft: 1}}/></ListItemIcon>
                         </MenuItem>
                     </Link>
-                    <Link href='/user/notifications'>
+                    <Link href='/user?tab=notifications'>
                         <MenuItem>
                             <ListItemText primary='Notifications'/>
                             <ListItemIcon><NotificationsIcon sx={{ marginLeft: 1}}/></ListItemIcon>

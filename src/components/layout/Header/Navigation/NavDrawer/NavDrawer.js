@@ -63,15 +63,15 @@ const NavDrawer = ({ open, setOpen, setShowLogin, setShowRegister }) => {
                 }
                 { authStatus.isAuthenticated ?
                     <>
-                        <ListItemButton>
+                        <ListItemButton onClick={() => router.push('/user')}>
                             <ListItemIcon><AccountCircleIcon color='primary'/></ListItemIcon>
                             <ListItemText primary='Profile'/>
                         </ListItemButton>
-                        <ListItemButton>
+                        <ListItemButton onClick={() => router.push('/user?tab=notifications')}>
                             <ListItemIcon><NotificationsIcon color='primary'/></ListItemIcon>
                             <ListItemText primary='Notifications'/>
                         </ListItemButton>
-                        <ListItemButton>
+                        <ListItemButton onClick={() => router.push('/user?tab=bookmarks')}>
                             <ListItemIcon><BookmarksIcon color='primary'/></ListItemIcon>
                             <ListItemText primary='Bookmarks'/>
                         </ListItemButton>

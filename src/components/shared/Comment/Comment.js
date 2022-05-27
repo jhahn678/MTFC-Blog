@@ -94,7 +94,9 @@ const Comment = ({ comment, refetch }) => {
                 }
             </Menu>
             <header className={classes.header}>
-                <Avatar src={comment.user.thumbnail} alt={comment.user.displayName} sx={{ backgroundColor: 'var(--primary)'}}/>
+                <Avatar src={comment.user.thumbnail} alt={comment.user.displayName} sx={{ backgroundColor: 'var(--primary)'}}>
+                    {comment.user.displayName.slice(0,1)}
+                </Avatar>
                 <div className={classes.nameAndDate}>
                     <h3 style={{ margin: 0}}>{comment.user.displayName || 'Deleted'}</h3>
                     <p style={{ margin: 0, fontSize: '.7em'}}>{formatDateComment(comment.createdAt)}</p>
