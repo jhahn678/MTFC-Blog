@@ -19,7 +19,8 @@ const FollowButton = ({ author }) => {
         }
     },[authStatus.user])
 
-    const handleFollow = async () => {
+    const handleFollow = async (e) => {
+        e.stopPropagation()
         setIsFollowed(f => !f)
         const res = await followAuthor(author._id).unwrap()
         setFollowing(res.user.following)
@@ -29,7 +30,7 @@ const FollowButton = ({ author }) => {
         <Button 
             startIcon={ isFollowed ? <CheckCircleIcon color='success'/> : <AddIcon/>}
             onClick={handleFollow}
-        >{isFollowed ? 'Unfollow' : 'Follow' }</Button>
+        >{isFollowed ? 'Following' : 'Follow' }</Button>
     )
 }
 

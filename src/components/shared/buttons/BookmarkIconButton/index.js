@@ -4,6 +4,7 @@ import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd'
 import IconButton from '@mui/material/IconButton'
 import { useAuthContext } from '../../../../store/context/auth'
 import { useBookmarkPostMutation } from '../../../../store/api'
+import { toast } from 'react-toastify'
 
 const BookmarkIconButton = ({ post }) => {
 
@@ -19,11 +20,16 @@ const BookmarkIconButton = ({ post }) => {
         }
     },[authStatus.user.bookmarks])
 
+
     const handleBookmark = async (e) => {
         e.stopPropagation()
         setIsBookmarked(f => !f)
-        const res = await bookmarkPost(post._id).unwrap()
-        setBookmarks(res.user.bookmarks)
+        try{
+            const res = await bookmarkPost(post._id).unwrap()
+            setBookmarks(res.user.bookmarks)
+        }catch(err){
+            toast.error(err)
+        }
     } 
 
     return (

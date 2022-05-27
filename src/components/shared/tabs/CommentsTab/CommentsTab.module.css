@@ -1,0 +1,11 @@
+.container{
+    width: 86vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.refresh{
+    display: flex;
+    align-items: center;
+    margin: 0;
+}

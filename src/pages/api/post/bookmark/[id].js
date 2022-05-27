@@ -25,12 +25,12 @@ export default async function handler(req, res){
             $and: [{ _id: userId} , { bookmarks: id }]
         }, {
             $pull: { bookmarks: id }
-        }, { new: true }).populate('bookmarks').select('bookmarks')
+        }, { new: true }).select('bookmarks')
 
         if(!updated){
             user = await User.findByIdAndUpdate(userId, {
                 $push: { bookmarks: id }
-            }, { new: true }).populate('bookmarks').select('bookmarks')
+            }, { new: true }).select('bookmarks')
             message = 'Post added to bookmarks'
         }else{
             user = updated;

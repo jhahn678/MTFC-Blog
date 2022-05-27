@@ -1,0 +1,16 @@
+.container{
+    width: 86vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.refresh{
+    display: flex;
+    align-items: center;
+    align-self: flex-end;
+}
+
+.followingContainer{
+    display: flex;
+    flex-wrap: wrap;
+}
