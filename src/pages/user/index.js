@@ -1,5 +1,5 @@
 import classes from './User.module.css'
-import { useState, useEffect} from 'react'
+import { useState } from 'react'
 import { serialize } from 'cookie'
 import { axios } from '../../utils/axios'
 import { formatDate } from '../../utils/formatDate'
@@ -16,39 +16,53 @@ export async function getServerSideProps({ req, query }){
 
     const { AUTH_TOKEN: token } = req.cookies;
 
-    let tab = 0;
-
-    switch(query.tab){
-        case 'bookmarks':
-            tab = 0;
-            break;
-        case 'notifications':
-            tab = 1;
-            break;
-        case 'comments':
-            tab = 2;
-            break;
-        case 'following':
-            tab = 3;
-            break;
-        default:
-            tab = 0;
-            break;
-    }
-
-    const { data: user } = await axios.get('/auth/user/all', { 
+    const auth = { 
         withCredentials: true ,
         headers: {
             cookie: serialize('AUTH_TOKEN', token)
         }
-    })
+    }
+
+    let tab = 0;
+    let bookmarks = null;
+    let notifications = null;
+    let comments = null;
+    let following = null;
+
+    if(query.tab === 'bookmarks'){
+        const { data } = await axios.get('/auth/user/bookmarks', auth)
+        bookmarks = data.bookmarks;
+        tab = 0;
+    }
+    else if(query.tab === 'notifications'){
+        const { data } = await axios.get('/auth/user/notifications', auth)
+        notifications = data.notifications;
+        tab = 1;
+    }
+    else if(query.tab === 'comments'){
+        const { data } = await axios.get('/auth/user/comments', auth)
+        comments = data.comments;
+        tab = 2;
+    }
+    else if(query.tab === 'following'){
+        const { data } = await axios.get('/auth/user/following', auth)
+        following = data.following;
+        tab = 3;
+    }
+    else{
+        const { data } = await axios.get('/auth/user/bookmarks', auth)
+        bookmarks = data.bookmarks;
+        tab = 0;
+    }       
+
+    const { data: user } = await axios.get('/auth/user', auth)
     
     return {
-        props: { user, tab }
+        props: { user, tab, bookmarks, notifications, comments, following }
     }
 }
 
-const User = ({ user, tab }) => {
+const User = ({ user, tab, bookmarks, notifications, comments, following }) => {
 
     const [currentTab, setCurrentTab] = useState(tab)
 
@@ -64,10 +78,10 @@ const User = ({ user, tab }) => {
                 <Tab label='Comments'></Tab>
                 <Tab label='Following'></Tab>
             </Tabs>
-            { currentTab === 0 && <BookmarksTab data={user.bookmarks}/> }
-            { currentTab === 1 && <NotificationsTab data={user.notifications}/> }
-            { currentTab === 2 && <CommentsTab data={user.comments}/> }
-            { currentTab === 3 && <FollowingTab data={user.following}/> }
+            { currentTab === 0 && <BookmarksTab data={bookmarks}/> }
+            { currentTab === 1 && <NotificationsTab data={notifications}/> }
+            { currentTab === 2 && <CommentsTab data={comments}/> }
+            { currentTab === 3 && <FollowingTab data={following}/> }
             
         </div>
     )
