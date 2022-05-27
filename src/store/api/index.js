@@ -59,7 +59,7 @@ export const api = createApi({
         }),
         bookmarkPost: builder.mutation({
             query: id => ({
-                url: `post/${id}/bookmark`,
+                url: `post/bookmark/${id}`,
                 method: 'POST',
             })
         }),
@@ -82,7 +82,7 @@ export const api = createApi({
             query: () => 'post'
         }),
         getComment: builder.query({
-            query : id => `commnent/${id}`
+            query : id => `comment/${id}`
         }),
         getCategory: builder.query({
             query: slug => `category/${slug}`
@@ -95,6 +95,18 @@ export const api = createApi({
         }),
         getMe: builder.query({
             query: () => 'auth/user'
+        }),
+        getMyBookmarks: builder.query({
+            query: ({ limit=10, page=1 }) => `auth/user/bookmarks?page=${page}&limit=${limit}`
+        }),
+        getMyNotifications: builder.query({
+            query: () => '/auth/user/notifications'
+        }),
+        getMyComments: builder.query({
+            query: ({ limit=10, page=1 }) => `/auth/user/comments?page=${page}&limit=${limit}`
+        }),
+        getMyFollowing: builder.query({
+            query: () => '/auth/user/following'
         })
     })
 })
@@ -119,5 +131,9 @@ export const {
     useGetCategoryQuery,
     useGetCategoriesQuery,
     useGetUserQuery,
-    useLazyGetMeQuery
+    useLazyGetMeQuery,
+    useLazyGetMyBookmarksQuery,
+    useLazyGetMyNotificationsQuery,
+    useLazyGetMyCommentsQuery,
+    useLazyGetMyFollowingQuery
 } = api;
