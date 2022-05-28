@@ -1,11 +1,14 @@
 import connectMongo from '../../../../utils/connectMongo'
+import mongoose from 'mongoose';
 import Author from '../../../../models/author'
 
 export default async function handler(req, res){
 
-    const { id, page=1, limit=8 } = req.query;
+    const { id, page=1, limit=6 } = req.query;
 
     await connectMongo()
+
+    mongoose.set('toJSON', { virtuals: true });
 
     const author = await Author.findById(id).populate({
         path: 'posts',

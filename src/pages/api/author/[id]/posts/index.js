@@ -3,7 +3,7 @@ import Author from '../../../../../models/author'
 
 export default async function handler(req, res){
 
-    const { id, limit=8, page=1 } = req.query;
+    const { id, limit=6, page=1 } = req.query;
 
     await connectMongo()
 
