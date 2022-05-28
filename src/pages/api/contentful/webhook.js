@@ -32,11 +32,17 @@ export default async function handler(req, res){
                 const author = await Author.findOneAndUpdate({ entry_id: sys.id}, {
                     $set: {
                         entry_id: sys.id,
-                        displayName: fields.displayName['en-us'],
-                        slug: fields.slug['en-us'],
-                        bio: fields.bio['en-us'],
+                        displayName: fields.displayName['en-US'],
+                        slug: fields.slug['en-US'],
+                        bio: fields.bio['en-US'],
                         avatar: avatar,
                         location: fields.location['en-US'],
+                        socials: {
+                            facebook: fields.facebook['en-US'] || null,
+                            instagram: fields.instagram['en-US'] || null,
+                            twitter: fields.twitter['en-US'] || null,
+                            website: fields.website['en-US'] || null,
+                        }
                     }
                 }, { upsert: true })
                 res.status(200).json({ message: 'Author upserted'})
@@ -50,7 +56,8 @@ export default async function handler(req, res){
             if(sys.type === 'DeletedEntry'){
                 const post = await Post.findOneAndDelete({ entry_id: sys.id })
                 await Author.findByIdAndUpdate(post.author, {
-                    $pull: { posts: post._id }
+                    $pull: { posts: post._id },
+                    $inc: { totalPosts: -1 }
                 })
                 
                 res.status(204).json({ message: 'Post removed'})
@@ -78,7 +85,8 @@ export default async function handler(req, res){
                 }, { upsert: true })
                 if(!author.posts.includes(post._id)){
                     await Author.findByIdAndUpdate(author._id, {
-                        $push: { posts: post._id }
+                        $push: { posts: post._id },
+                        $inc: { totalPosts: 1 }
                     })
                 }
                 res.status(200).json({ message: 'Post upserted' })
