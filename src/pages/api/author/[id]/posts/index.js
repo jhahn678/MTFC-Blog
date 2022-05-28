@@ -11,7 +11,7 @@ export default async function handler(req, res){
         .populate({
             path: 'posts',
             select: '-comments -author',
-            options: { limit: limit, skip: ( limit * ( page - 1 )) }
+            options: { limit: limit, skip: ( limit * ( page - 1 )), sort: '-createdAt' }
         })
         .select('posts -_id')
 
