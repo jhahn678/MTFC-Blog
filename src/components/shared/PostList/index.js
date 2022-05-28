@@ -10,7 +10,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 
-const PostList = ({ posts, containerClass, postClass }) => {
+const PostList = ({ posts, author, containerClass, postClass }) => {
 
     const [noPostsAvailable, setNoPostsAvailable] = useState(false)
 
@@ -37,7 +37,7 @@ const PostList = ({ posts, containerClass, postClass }) => {
                     <div className={classes.content}>
                         <h3 className={classes.title}>{p.title}
                             <div className='fr'>
-                                <AvatarChip author={p.author} styles={{ padding: 0, marginTop: 1 }}/>
+                                <AvatarChip author={p.author || author } styles={{ padding: 0, marginTop: 1 }}/>
                                 <CategoryChip title={p.category.title} slug={p.category.slug}
                                     styles={{ width: 'fit-content', padding: 0, marginLeft: 1, marginTop: 1 }}
                                 />
