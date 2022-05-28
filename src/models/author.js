@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import Post from '../models/post'
+import Category from '../models/category'
 
 const authorSchema = new mongoose.Schema({
     entry_id: String,
@@ -13,6 +15,7 @@ const authorSchema = new mongoose.Schema({
             ref: 'Post'
         }
     ],
+    totalPosts: Number,
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,
