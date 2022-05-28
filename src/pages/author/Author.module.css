@@ -1,0 +1,11 @@
+.page{
+    padding: 3vh 5vw;
+}
+
+.name{
+    padding-left: 3vw;
+    padding-right: 1em;
+    width: fit-content;
+    font-size: 2.5em;
+    font-weight: normal;
+}
