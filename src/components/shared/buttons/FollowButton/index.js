@@ -5,7 +5,7 @@ import Button from '@mui/material/Button'
 import { useAuthContext } from '../../../../store/context/auth'
 import { useFollowAuthorMutation } from '../../../../store/api'
 
-const FollowButton = ({ author }) => {
+const FollowButton = ({ author, styles }) => {
 
     const { authStatus, setFollowing } = useAuthContext()
 
@@ -28,6 +28,7 @@ const FollowButton = ({ author }) => {
 
     return (
         <Button 
+            sx={styles && styles}
             startIcon={ isFollowed ? <CheckCircleIcon color='success'/> : <AddIcon/>}
             onClick={handleFollow}
         >{isFollowed ? 'Following' : 'Follow' }</Button>
