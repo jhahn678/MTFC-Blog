@@ -1,11 +1,86 @@
 .page{
     padding: 3vh 5vw;
+    min-height: 70vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.latestPosts{
+    font-weight: normal;
+    font-size: 2em;
+}
+
+.latestPosts i{
+    text-decoration: underline;
+    text-decoration-color: var(--secondary);
+    text-decoration-thickness: 6px;
+}
+
+.postList{
+    padding: 2vh 2vw;
+}
+
+.post{
+    margin-bottom: 3vh;
+}
+
+.authorPostsSection{
+    display: flex;
+    flex-direction: column;
+    width: 55vw;
+}
+
+.authorAboutSection{
+    width: 32vw;
+    border-left: .5px solid rgba(0,0,0,.2);
+    margin-top: 10vh;
+    padding: 2vh 2vw 5vh;
+}
+
+.avatar{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar img{
+    object-position: center;
+    object-fit: cover;
 }
 
 .name{
-    padding-left: 3vw;
-    padding-right: 1em;
-    width: fit-content;
-    font-size: 2.5em;
+    padding-left: .5em;
+    font-size: 1.8em;
     font-weight: normal;
+    margin: 0;
+}
+
+.createdAt{
+    width: fit-content;
+    margin: 0;
+    padding-left: 1em;
+}
+
+.icon{
+    cursor: pointer;
+    color: var(--primary);
+    transition: .3s ease all;
+}
+
+.icon:hover{
+    transform: scale(1.1);
+}
+
+.text{
+    font-size: 1.1em;
+}
+
+.text i{
+    font-size: 1.3em;
+    margin-right: 1em;
+    text-decoration: underline;
+    text-decoration-color: var(--secondary);
 }
