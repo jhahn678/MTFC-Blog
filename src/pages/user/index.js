@@ -1,5 +1,5 @@
 import classes from './User.module.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { serialize } from 'cookie'
 import { axios } from '../../utils/axios'
 import { formatDate } from '../../utils/formatDate'
@@ -10,6 +10,7 @@ import BookmarksTab from '../../components/shared/tabs/BookmarksTab';
 import CommentsTab from  '../../components/shared/tabs/CommentsTab';
 import FollowingTab from '../../components/shared/tabs/FollowingTab';
 import NotificationsTab from '../../components/shared/tabs/NotificationsTab'
+import { useRouter } from 'next/router'
 
 
 export async function getServerSideProps({ req, query }){
@@ -66,13 +67,43 @@ const User = ({ user, tab, bookmarks, notifications, comments, following }) => {
 
     const [currentTab, setCurrentTab] = useState(tab)
 
+    const router = useRouter()
+
+    useEffect(() => {
+        if(router.query.tab === 'bookmarks') return setCurrentTab(0)
+        if(router.query.tab === 'notifications') return setCurrentTab(1)
+        if(router.query.tab === 'comments') return setCurrentTab(2)
+        if(router.query.tab === 'following') return setCurrentTab(3)
+    },[router.query.tab])
+
+    const onTabChange = (e, v) => {
+        switch (e.target.firstChild.data){
+            case 'Bookmarks':
+                setCurrentTab(v)
+                router.push('/user?tab=bookmarks')
+                break;
+            case 'Notifications':
+                setCurrentTab(v)
+                router.push('/user?tab=notifications')
+                break;
+            case 'Comments':
+                setCurrentTab(v)
+                router.push('/user?tab=comments')
+                break;
+            case 'Following':
+                setCurrentTab(v)
+                router.push('/user?tab=following')
+                break;
+        }
+    }
+
     return (
         <div className={classes.page}>
             <div className='frab'>
                 <UserAvatar user={user} textClass={classes.name} avatarStyles={{ fontSize: '1.4em' }}/>
                 <p style={{ marginLeft: '4em'}}>Member since {formatDate(user.createdAt)}</p>
             </div>
-            <Tabs value={currentTab} onChange={(_,v) => setCurrentTab(v)} className={classes.tabs} variant='scrollable'>
+            <Tabs value={currentTab} onChange={onTabChange} className={classes.tabs} variant='scrollable'>
                 <Tab label='Bookmarks'></Tab>
                 <Tab label='Notifications'></Tab>
                 <Tab label='Comments'></Tab>
