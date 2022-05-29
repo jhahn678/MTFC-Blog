@@ -19,7 +19,6 @@ export default async function handler(req, res){
                 options: { limit: 3 },
             }
         })
-        .populate({ path: 'comments', populate: { path: 'replies' } })
         .populate({ path: 'category', select: 'title slug' })
 
     res.status(200).json(post)

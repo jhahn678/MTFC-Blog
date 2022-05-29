@@ -41,7 +41,14 @@ export default async function handler (req, res){
             $push: { 
                 notifications: number > .5 ? createTestPostNotification() : createTestReplyNotification()
             }
-        }, { new: true }).select('-account.password')
+        }, { new: true })
+        .select('-account.password')
+        .populate({
+            path: 'notifications',
+            populate: {
+                path: 'post comment'
+            }
+        })
 
         return res.status(200).json(user)
 
@@ -51,7 +58,14 @@ export default async function handler (req, res){
 
         const user = await User.findByIdAndUpdate(payload._id, {
             $set: { 'notifications.$[].status': 'Read' }
-        }, { new: true }).select('-account.password')
+        }, { new: true })
+        .select('-account.password')
+        .populate({
+            path: 'notifications',
+            populate: {
+                path: 'post comment'
+            }
+        })
 
         return res.status(200).json(user)
 
@@ -63,7 +77,14 @@ export default async function handler (req, res){
 
         const user = await User.findByIdAndUpdate(payload._id, {
             $pull: { notifications: { _id: { $in: notifications } } }
-        }, { new: true }).select('-account.password')
+        }, { new: true })
+        .select('-account.password')
+        .populate({
+            path: 'notifications',
+            populate: {
+                path: 'post comment'
+            }
+        })
 
         return res.status(200).json(user)
 

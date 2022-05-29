@@ -4,6 +4,7 @@ import AuthError from '../../../utils/AuthError'
 import Post from '../../../models/post'
 import User from '../../../models/user'
 import Comment from '../../../models/comment'
+import { createReplyNotification } from '../../../utils/createNotification'
 
 export default async function handler(req, res){
 
@@ -11,12 +12,20 @@ export default async function handler(req, res){
 
     const { id } = req.query;
 
+    const { AUTH_TOKEN: token } = req.cookies;
+
+    if(!token){
+        throw new AuthError('Must be authenticated to post comments')
+    }
+
+    const payload = await verifyAuthToken(token)
+
     //Getting a comment by ID
     if(req.method === 'GET'){
         
         const comment = await Comment.findById(id).populate('replies')
 
-        res.status(200).json(comment)
+        return res.status(200).json(comment)
 
     }
 
@@ -25,15 +34,7 @@ export default async function handler(req, res){
 
         const { postId, body, mention } = req.body;
 
-        const { AUTH_TOKEN: token } = req.cookies;
-
-        if(!token){
-            throw new AuthError('Must be authenticated to post comments')
-        }
-    
-        const payload = await verifyAuthToken(token)
-
-        const newComment = new Comment({
+        const newCommentObject = new Comment({
             user: {
                 _id: payload._id,
                 displayName: payload.displayName,
@@ -45,26 +46,32 @@ export default async function handler(req, res){
             body: body
         })
 
-        const comment = await newComment.save()
+        const newComment = await newCommentObject.save()
 
-        const updatedComment = await Comment.findByIdAndUpdate(id, {
-            $push: { replies: comment._id }
-        }, { new: true })
-
-        const updatedPost = await Post.findByIdAndUpdate(postId, {
+        const post = await Post.findByIdAndUpdate(postId, {
             $inc: { commentCount: 1 } 
-        }, { new: true })
-
-        const updatedUser = await User.findByIdAndUpdate(payload._id, {
-            $push: { comments: comment._id }
-        }, { new: true })
-
-        return res.status(201).json({
-            message: 'Reply sent', 
-            comment: updatedComment, 
-            post: updatedPost, 
-            user: updatedUser 
         })
+
+        const user = await User.findByIdAndUpdate(payload._id, {
+            $push: { comments: newComment._id }
+        }, { new: true }).select('-account.password')
+
+        res.status(201).json({ user, message: 'Reply sent' })
+
+        const comment = await Comment.findByIdAndUpdate(id, {
+            $push: { replies: newComment._id }
+        })
+
+        
+        if(payload._id !== comment.user._id.toString()){
+            await User.findByIdAndUpdate(comment.user._id, {
+                $push: { 
+                    notifications: createReplyNotification(newComment._id, post._id, comment.user.displayName)
+                }
+            })
+        }
+
+        return;
 
     }
 
@@ -73,9 +80,9 @@ export default async function handler(req, res){
         const { id } = req.query;
         const { postId } = req.body;
 
-        await User.findByIdAndUpdate(payload._id, {
+        const user = await User.findByIdAndUpdate(payload._id, {
             $pull: { comments: id }
-        }, { new: true })
+        }, { new: true}).select('-account.password')
 
         const comment = await Comment.findById(id)
 
@@ -89,11 +96,11 @@ export default async function handler(req, res){
             
             await Comment.findByIdAndUpdate(id, {
                 $set: { body: null, 'user._id': null, 'user.displayName': null, 'user.avatar': null }
-            }, { new: true })
+            })
 
             await Post.findByIdAndUpdate(postId, {
                 $inc: { commentCount: -1 }
-            }, { new: true })
+            })
         }
 
         if(comment.replies.length === 0){
@@ -105,9 +112,8 @@ export default async function handler(req, res){
                 $inc: { commentCount: -1 }
             })
         }
-        
 
-        res.status(200).json({ message: 'Comment deleted' })
+        return res.status(200).json({ message: 'Comment deleted', user })
     }
 
 }

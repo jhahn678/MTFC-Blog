@@ -19,7 +19,7 @@ import { toast } from 'react-toastify';
 
 const Comment = ({ comment, refetch }) => {
 
-    const { authStatus } = useAuthContext()
+    const { authStatus, setAuthStatus } = useAuthContext()
 
     const [ deleteComment ] = useDeleteCommentMutation()
     const [ createReply ] = useCreateReplyMutation()
@@ -40,10 +40,14 @@ const Comment = ({ comment, refetch }) => {
 
     const handleDeleteComment = async () => {
         try{
-            await deleteComment({
+            const res = await deleteComment({
                 postId: comment.post, 
                 commentId: comment._id
             }).unwrap()
+            setAuthStatus((state) => ({
+                ...state,
+                user: res.user
+            }))
             toast.info('Comment deleted')
             refetch()
         }catch(err){
@@ -69,9 +73,13 @@ const Comment = ({ comment, refetch }) => {
                     postId: comment.post, 
                     body: value
                 }).unwrap()
+                setAuthStatus((state) => ({
+                    ...state,
+                    user: res.user
+                }))
                 toast.success('Reply sent')
                 replyRef.current.value = '';
-                refetch(comment.post)
+                refetch()
             }catch(err){
                 toast.error('Failed to post reply')
             }
@@ -115,7 +123,7 @@ const Comment = ({ comment, refetch }) => {
                         }
                     </motion.p>
                     <Collapse in={repliesOpen} unmountOnExit={true}>
-                        { comment.replies?.map(c => <Comment key={c._id} comment={c}/>) }
+                        { comment.replies?.map(c => <Comment key={c._id} comment={c} refetch={refetch}/>) }
                     </Collapse>
                     { authStatus.isAuthenticated && comment.user._id &&
                         <motion.p className={classes.replyToThis}

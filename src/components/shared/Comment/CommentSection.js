@@ -18,7 +18,7 @@ import Card from '@mui/material/Card'
 const CommentSection = ({ cardClass, post }) => {
 
     const { setShowLogin } = useModalContext()
-    const { authStatus } = useAuthContext()
+    const { authStatus, setAuthStatus } = useAuthContext()
 
     const [ createComment ] = useCreateCommentMutation()
     const [ getComments, { data }] = useLazyGetPostCommentsQuery()
@@ -26,9 +26,13 @@ const CommentSection = ({ cardClass, post }) => {
     const [commentCount, setCommentCount] = useState('')
     const [comments, setComments] = useState([])
 
+    const refetch = () => {
+        getComments(post.slug)
+        console.log('refetch')
+    }
+
     useEffect(() => {
-        setComments(post.comments)
-        setCommentCount(post.commentCount)
+        refetch()
     },[])
 
     useEffect(() => {
@@ -45,10 +49,15 @@ const CommentSection = ({ cardClass, post }) => {
     const handleComment = async () => {
         if(commentRef.current.value.length > 0){
             try{
-                await createComment({ postId: post._id, body: commentRef.current.value}).unwrap()
+                const res = await createComment({ postId: post._id, body: commentRef.current.value}).unwrap()
                 toast.success('Comment sent')
                 commentRef.current.value = ''
-                getComments(post.slug)
+                setComments(res.post.comments)
+                setCommentCount(res.post.commentCount)
+                setAuthStatus((state) => ({
+                    ...state,
+                    user: res.user
+                }))
             }catch(err){
                 toast.error(err)
             }
@@ -65,7 +74,7 @@ const CommentSection = ({ cardClass, post }) => {
                 </motion.div>
             </h3>
             <Collapse in={expandComments}>
-                { comments.map(c => <Comment key={c._id} comment={c} refetch={getComments.bind(null, post.slug)}/>) }
+                { comments.map(c => <Comment key={c._id} comment={c} refetch={refetch}/>) }
                 { authStatus.isAuthenticated ? 
                     <TextField multiline={true}
                         maxRows={3}

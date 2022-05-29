@@ -1,3 +1,30 @@
 .page{
-    min-height: 60vh
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.notificationsContainer{
+    margin-top: .5em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.clear{
+    display: flex;
+    align-items: center;
+    align-self: flex-end;
+}
+
+.clear p{
+    margin: 0
+}
+
+.clear p:first-of-type{
+    margin-right: 4px
+}
+
+.clear p:last-of-type{
+    margin-right: 1em
 }

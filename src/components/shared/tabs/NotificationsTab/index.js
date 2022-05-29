@@ -64,14 +64,18 @@ const NotificationsTab = ({ data }) => {
 
     return (
         <section className={classes.page}>
-            <div className='frac' style={{ marginTop: '2vh'}}>
-                <Button variant='outlined' onClick={handleDeleteAll} endIcon={<DeleteSweepIcon/>}>Remove all</Button>
-                <Button variant='contained' onClick={handleTest} sx={{ marginLeft: '2vw'}}>Test</Button>
+            <div className={classes.clear}>
+                <p>{notifications.length}</p>
+                <p><i>{notifications.length === 1 ? 'Notification' : 'Notifications'}</i></p>
+                <Button variant='contained' onClick={handleTest} sx={{ marginLeft: '2vw'}} sx={{ padding: '0px 4px', marginRight: 1 }}>Test</Button>
+                <Button variant='outlined' onClick={handleDeleteAll} endIcon={<DeleteSweepIcon/>} sx={{ padding: '0px 10px' }}>Clear all</Button>
             </div>
-            { notifications.map(n => {
-                if(n.notification_type === 'Post') return <PostNotification key={n._id} data={n} setNotifications={setNotifications}/>
-                if(n.notification_type === 'Reply') return <ReplyNotification key={n._id} data={n} setNotifications={setNotifications}/>
-            })}
+            <div className={classes.notificationsContainer}>
+                { notifications.map(n => {
+                    if(n.notification_type === 'Post') return <PostNotification key={n._id} data={n} setNotifications={setNotifications}/>
+                    if(n.notification_type === 'Reply') return <ReplyNotification key={n._id} data={n} setNotifications={setNotifications}/>
+                })}
+            </div>
         </section>
     )
 

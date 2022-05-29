@@ -41,17 +41,19 @@ export default async function handler(req, res){
             $push: { comments: comment._id },
             $inc: { commentCount: 1 }
         }, { new: true })
+        .populate({
+            path: 'comments',
+            populate: {
+                path: 'replies'
+            }
+        })
+        .select('comments commentCount -_id')
 
         const user = await User.findByIdAndUpdate(payload._id, {
             $push: { comments: comment._id }
-        }, { new: true })
+        }, { new: true }).select('-account.password')
 
-        return res.status(201).json({
-            message: 'Comment created successfully', 
-            comment,
-            post, 
-            user 
-        })
+        return res.status(201).json({ post, user, message: 'Comment created successfully' })
     }
 
 }
