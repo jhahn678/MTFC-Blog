@@ -100,13 +100,32 @@ export const api = createApi({
             query: ({ limit=10, page=1 }) => `auth/user/bookmarks?page=${page}&limit=${limit}`
         }),
         getMyNotifications: builder.query({
-            query: () => '/auth/user/notifications'
+            query: () => 'auth/user/notifications'
+        }),
+        deleteNotifications: builder.mutation({
+            query: (array) => ({
+                url: 'auth/user/notifications',
+                method: 'DELETE',
+                body: { notifications: array }
+            })
+        }),
+        markNoticationRead: builder.mutation({
+            query: () => ({
+                url: 'auth/user/notifications',
+                method: 'PATCH'
+            })
+        }),
+        testNotification: builder.mutation({
+            query: () => ({
+                url: 'auth/user/notifications',
+                method: 'POST'
+            })
         }),
         getMyComments: builder.query({
-            query: ({ limit=10, page=1 }) => `/auth/user/comments?page=${page}&limit=${limit}`
+            query: ({ limit=10, page=1 }) => `auth/user/comments?page=${page}&limit=${limit}`
         }),
         getMyFollowing: builder.query({
-            query: () => '/auth/user/following'
+            query: () => 'auth/user/following'
         })
     })
 })
@@ -134,6 +153,9 @@ export const {
     useLazyGetMeQuery,
     useLazyGetMyBookmarksQuery,
     useLazyGetMyNotificationsQuery,
+    useDeleteNotificationsMutation,
+    useMarkNoticationReadMutation,
+    useTestNotificationMutation,
     useLazyGetMyCommentsQuery,
     useLazyGetMyFollowingQuery
 } = api;
