@@ -9,7 +9,8 @@ const notificationSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Read', 'Unread']
+        enum: ['Read', 'Unread'],
+        default: 'Unread'
     },
     post: {
         type: mongoose.Schema.Types.ObjectId,
@@ -20,7 +21,7 @@ const notificationSchema = new mongoose.Schema({
         ref: 'Comment'
     },
     avatar: String,
-    title: String
+    title: String,
 }, { timestamps: true })
 
 
