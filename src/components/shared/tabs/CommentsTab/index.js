@@ -48,7 +48,7 @@ const CommentsTab = ({ data }) => {
 
     useEffect(() => {
         if(!data){
-            loadMore()
+            refresh()
         }else{
             setComments(data)
             setPagination({

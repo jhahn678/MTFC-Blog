@@ -16,7 +16,7 @@ const BookmarksTab = ({ data }) => {
     const { authStatus } = useAuthContext()
     const [ getBookmarks, { isLoading } ] = useLazyGetMyBookmarksQuery()
 
-    const loadMore = async (page=1, limit=10) => {
+    const loadMore = async (page=1, limit=8) => {
         setLoading(true)
         try{
             const res = await getBookmarks({ limit, page }).unwrap()
@@ -31,7 +31,7 @@ const BookmarksTab = ({ data }) => {
         setLoading(false)
     }
 
-    const refresh = async (limit=10) => {
+    const refresh = async (limit=8) => {
         setLoading(true)
         try{
             const res = await getBookmarks({ limit, page: 1 }).unwrap()
@@ -48,11 +48,11 @@ const BookmarksTab = ({ data }) => {
 
     useEffect(() => {
         if(!data){
-            loadMore()
+            refresh()
         }else{
             setBookmarks(data)
             setPagination({
-                next: data.length === 10,
+                next: data.length === 8,
                 page: 1
             })
         }

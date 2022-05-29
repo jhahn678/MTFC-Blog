@@ -40,12 +40,12 @@ const FollowingTab = ({ data }) => {
                         <p style={{ marginRight: 5 }}>{following.length}</p>
                         <p><i>Following</i></p>
                         <Button variant='outlined' 
-                            sx={{ padding: '0px 4px', marginLeft: 3 }}
+                            sx={{ padding: '0px 4px', marginLeft: 2 }}
                             onClick={() => refetch()}
                         >Refresh</Button>
                     </div>
                     <div className={classes.followingContainer}>
-                        { following.map(f => <AuthorCard author={f}/>) }
+                        { following.map(f => <AuthorCard author={f} key={f._id}/>) }
                     </div>
                 </>
             }
