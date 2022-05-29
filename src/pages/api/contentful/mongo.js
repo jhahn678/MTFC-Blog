@@ -3,10 +3,14 @@ import connectMongo from '../../../utils/connectMongo'
 import Post from '../../../models/post'
 import Category from '../../../models/category'
 import Author from '../../../models/author'
+import { verifyAuthToken } from '../../../utils/authToken'
+import User from '../../../models/user'
+import { createTestNotification } from "../../../utils/createNotification";
 
 export default async function handler(req, res){
     
     await connectMongo()
+
     
     const client = createClient({
         space: process.env.CONTENTFUL_SPACE_ID,
