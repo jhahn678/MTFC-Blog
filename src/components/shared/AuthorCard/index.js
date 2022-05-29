@@ -38,7 +38,7 @@ const AuthorCard = ({ author }) => {
                 </h3>
                 {
                     author.posts.slice(-3).map(p => (
-                        <Link href={`/post/${p.slug}`}>
+                        <Link href={`/post/${p.slug}`} key={p._id}>
                             <div className={classes.post}>
                                 <h2 className={classes.title}>{p.title}</h2>
                                 <div className='frse' style={{ width: '80%'}}>
