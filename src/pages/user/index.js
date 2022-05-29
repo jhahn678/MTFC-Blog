@@ -72,7 +72,7 @@ const User = ({ user, tab, bookmarks, notifications, comments, following }) => {
                 <UserAvatar user={user} textClass={classes.name} avatarStyles={{ fontSize: '1.4em' }}/>
                 <p style={{ marginLeft: '4em'}}>Member since {formatDate(user.createdAt)}</p>
             </div>
-            <Tabs value={currentTab} onChange={(_,v) => setCurrentTab(v)} className={classes.tabs}>
+            <Tabs value={currentTab} onChange={(_,v) => setCurrentTab(v)} className={classes.tabs} variant='scrollable'>
                 <Tab label='Bookmarks'></Tab>
                 <Tab label='Notifications'></Tab>
                 <Tab label='Comments'></Tab>
