@@ -14,6 +14,7 @@ export default async function handler(req, res){
             path: 'author',
             populate: { 
                 path: 'posts',
+                match: { slug: { $ne: slug } },
                 select: 'title slug category thumbnail createdAt',
                 options: { limit: 3 },
             }
