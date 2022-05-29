@@ -2,9 +2,11 @@
     width: 86vw;
     display: flex;
     flex-direction: column;
+    min-height: 60vh;
 }
 
 .refresh{
+    align-self: flex-end;
     display: flex;
     align-items: center;
     margin: 0;

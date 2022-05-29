@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import classes from './index.module.css'
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import PostNotification from '../../notification/PostNotification'
 import ReplyNotification from '../../notification/ReplyNotification'
@@ -44,7 +45,6 @@ const NotificationsTab = ({ data }) => {
     }
 
     useEffect(() => {
-        console.log('render')
         if(!data){
             getNotifications()
                 .then(res => {
@@ -63,7 +63,7 @@ const NotificationsTab = ({ data }) => {
 
 
     return (
-        <section>
+        <section className={classes.page}>
             <div className='frac' style={{ marginTop: '2vh'}}>
                 <Button variant='outlined' onClick={handleDeleteAll} endIcon={<DeleteSweepIcon/>}>Remove all</Button>
                 <Button variant='contained' onClick={handleTest} sx={{ marginLeft: '2vw'}}>Test</Button>

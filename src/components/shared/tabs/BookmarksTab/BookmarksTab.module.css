@@ -2,6 +2,7 @@
     width: 86vw;
     display: flex;
     flex-direction: column;
+    min-height: 60vh;
 }
 
 .refresh{
