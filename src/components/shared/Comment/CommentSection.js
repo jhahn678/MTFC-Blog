@@ -33,7 +33,7 @@ const CommentSection = ({ cardClass, post }) => {
 
     useEffect(() => {
         refetch()
-    },[])
+    },[post])
 
     useEffect(() => {
         if(data){
