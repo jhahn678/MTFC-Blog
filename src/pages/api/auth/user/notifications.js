@@ -4,7 +4,7 @@ import Post from '../../../../models/post'
 import Comment from '../../../../models/comment'
 import AuthError from '../../../../utils/AuthError'
 import { verifyAuthToken } from '../../../../utils/authToken'
-import { createTestNotification } from '../../../../utils/createNotification'
+import { createTestPostNotification, createTestReplyNotification } from '../../../../utils/createNotification'
 
 export default async function handler (req, res){
 
@@ -35,9 +35,11 @@ export default async function handler (req, res){
     
     if(req.method === 'POST'){
 
+        const number = Math.random()
+
         const user = await User.findByIdAndUpdate(payload._id, {
             $push: { 
-                notifications: createTestNotification() 
+                notifications: number > .5 ? createTestPostNotification() : createTestReplyNotification()
             }
         }, { new: true }).select('-account.password')
 

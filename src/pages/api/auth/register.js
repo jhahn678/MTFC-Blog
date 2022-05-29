@@ -34,7 +34,6 @@ export default async function handler(req, res){
                 token: token
             })
         }catch(err){
-            console.log(err)
             res.status(err.status || 400).json({ message: err.message || 'Authentication error'})
         }
     }else{

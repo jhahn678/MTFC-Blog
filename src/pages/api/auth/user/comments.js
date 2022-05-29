@@ -13,8 +13,6 @@ export default async function handler (req, res){
 
     const { limit=10, page=1 } = req.query
 
-    console.log(limit , page)
-
     if(!token){
         throw new AuthError(400, 'Authentication Invalid')
     }
