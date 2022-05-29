@@ -1,5 +1,6 @@
 import connectMongo from '../../../../utils/connectMongo'
 import User from '../../../../models/user'
+import Post from '../../../../models/post'
 import AuthError from '../../../../utils/AuthError'
 import { verifyAuthToken } from '../../../../utils/authToken'
 
