@@ -51,7 +51,7 @@ const UserWidget = ({ containerClass }) => {
                         <Link href='/user?tab=notifications'>
                             <p className={classes.detail}>
                                 { authStatus.user.notifications.length }
-                                { authStatus.user.notifications.length === 1 ? ' Notification' : ' Notification' }
+                                { authStatus.user.notifications.length === 1 ? ' Notification' : ' Notifications' }
                             </p>
                         </Link>
                     </TextHover>
