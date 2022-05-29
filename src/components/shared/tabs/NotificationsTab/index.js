@@ -1,10 +1,7 @@
-import classes from './NotificationsTab.module.css'
 import { useState, useEffect } from 'react'
-import Paper from '@mui/material/Paper'
-import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
-import IconButton from '@mui/material/IconButton'
-import Link from 'next/link'
+import PostNotification from '../../notification/PostNotification'
+import ReplyNotification from '../../notification/ReplyNotification'
 import Button from '@mui/material/Button'
 import { toast } from 'react-toastify'
 import { useAuthContext } from '../../../../store/context/auth'
@@ -24,16 +21,6 @@ const NotificationsTab = ({ data }) => {
     const [ deleteNotifications ] = useDeleteNotificationsMutation()
     const [ markRead ] = useMarkNoticationReadMutation()
     const [ testNotification ] = useTestNotificationMutation()
-
-    const handleDelete = async (id) => {
-        try{
-            const res = await deleteNotifications([id]).unwrap()
-            setAuthStatus((state) => ({ ...state, user: res}))
-            setNotifications(res.notifications)
-        }catch(err){
-            toast.error(err)
-        }
-    }
 
     const handleDeleteAll = async () => {
         try{
@@ -56,8 +43,8 @@ const NotificationsTab = ({ data }) => {
         }
     }
 
-
     useEffect(() => {
+        console.log('render')
         if(!data){
             getNotifications()
                 .then(res => {
@@ -81,14 +68,10 @@ const NotificationsTab = ({ data }) => {
                 <Button variant='outlined' onClick={handleDeleteAll} endIcon={<DeleteSweepIcon/>}>Remove all</Button>
                 <Button variant='contained' onClick={handleTest} sx={{ marginLeft: '2vw'}}>Test</Button>
             </div>
-            {
-                notifications.map(n => 
-                    <Paper className={classes.notification} key={n._id}>
-                        <IconButton onClick={() => handleDelete(n._id)}><DeleteIcon/></IconButton>
-                        <p key={n._id}>{n.notification_type}</p>
-                    </Paper>
-                )
-            }
+            { notifications.map(n => {
+                if(n.notification_type === 'Post') return <PostNotification key={n._id} data={n} setNotifications={setNotifications}/>
+                if(n.notification_type === 'Reply') return <ReplyNotification key={n._id} data={n} setNotifications={setNotifications}/>
+            })}
         </section>
     )
 
