@@ -60,11 +60,11 @@ const TopNav = ({ setDrawerOpen, setShowSearch, setShowLogin, setShowRegister}) 
                     >Sign in</Button>
                 </>}
             </div> 
-            <div style={{ display: 'flex'}}>
+            <div className='frac'>
                 <SearchButton onClick={() => setShowSearch(true)} containerClass={classes.buttonContainer}/>
                 { breakpoint && authStatus.isAuthenticated && 
                     <>
-                        <NotificationButton onClick={() => console.log('Notification')} containerClass={classes.buttonContainer}/>
+                        <NotificationButton containerClass={classes.buttonContainer}/>
                         <ProfileMenu containerClass={classes.buttonContianer}/>
                     </>    
                 }

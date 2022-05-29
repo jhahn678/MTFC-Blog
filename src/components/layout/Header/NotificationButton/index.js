@@ -1,19 +1,31 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { motion } from 'framer-motion'
-import IconButton from '@mui/material/IconButton'
+import { useAuthContext } from '../../../../store/context/auth'
+import Link from 'next/link'
+import Badge from '@mui/material/Badge'
 
-const NotificationButton = ({ onClick, containerClass}) => {
+const NotificationButton = ({ containerClass}) => {
+
+  const { authStatus } = useAuthContext()
+
+  const [hasNotifications, setHasNotifications] = useState(0)
+
+  useEffect(() => {
+    authStatus?.user?.notifications?.find(n => n.status === 'Unread') ?
+    setHasNotifications(1) : setHasNotifications(0)
+  },[authStatus?.user?.notifications])
+
   return (
-    <motion.div whileHover={{ scale: 1.1, borderBottomColor: 'var(--secondary)'}} 
-        className={containerClass}
-    >
-        <IconButton onClick={onClick}
-            sx={{ margin: '0 .5vw' }}
+    <Link href='/user?select=notifications'>
+        <motion.div whileHover={{ scale: 1.1, borderBottomColor: 'var(--secondary)'}} 
+            className={containerClass} style={{ marginRight: 6 }}
         >
+          <Badge badgeContent={hasNotifications} variant='dot' color='error' componentsProps={{ badge: { sx: { transform: 'translate(-2px)', height: '12px', width: '12px', borderRadius: '50%' }}}}>
             <NotificationsIcon color='secondary' fontSize='large'/>
-        </IconButton>
-    </motion.div>
+          </Badge>
+        </motion.div>
+    </Link>
   )
 }
 
