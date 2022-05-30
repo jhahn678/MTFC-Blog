@@ -27,7 +27,7 @@ export const api = createApi({
             query: token => ({
                 url: 'auth/google',
                 method: 'POST',
-                body: token
+                body: { token }
             })
         }),
         createComment: builder.mutation({
