@@ -12,46 +12,32 @@ import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { initialState, reducer } from './formReducer'
 import { useEffect, useReducer, useState } from 'react'
-import { useRegisterMutation } from '../../../store/api'
-import { toast } from 'react-toastify'
-import { useAuthContext } from '../../../store/context/auth'
+import useGoogleAuth from '../../../utils/hooks/useGoogleAuth'
+import useRegisterUser from '../../../utils/hooks/useRegisterUser'
+import { useModalContext } from '../../../store/context/modal'
 
 
 const RegisterModal = ({ open, setOpen }) => {
 
     const [form, dispatch] = useReducer(reducer, initialState)
-
     const [visible, setVisible] = useState(false)
-
-    const [ register ] = useRegisterMutation()
     
-    const { setAuthStatus } = useAuthContext()
+    const { setShowLogin, setShowRegister } = useModalContext()
 
+    const { signInWithGoogle } = useGoogleAuth({ onSuccess: () => setOpen(false)})
+    const { registerUser } = useRegisterUser({ 
+        onSuccess: () => {
+            setOpen(false);
+            dispatch({ type: 'SUCCESS' })
+        }
+    })
+    
     useEffect(() => {
         if(form.name.valid, form.email.valid && form.password.valid && form.confirm.valid){
             dispatch({ type: 'FORM' })
         }
     },[form.name.valid, form.email.valid, form.password.valid, form.confirm.valid])
 
-    const handleRegister = async () => {
-        try{
-            const res = await register({
-                name: form.name.value,
-                email: form.email.value,
-                password: form.password.value
-            }).unwrap()
-            localStorage.setItem('USER_ID', res.user._id)
-            setAuthStatus({
-                isAuthenticated: true,
-                user: res.user,
-            })
-            setOpen(false)
-            dispatch({ type: 'SUCCESS' })
-            toast.success('Successfully created account')
-        }catch(err){
-            toast.error(err.message)
-        }
-    }   
 
     return(
         <FadeModal open={open} setOpen={setOpen}>
@@ -108,7 +94,7 @@ const RegisterModal = ({ open, setOpen }) => {
                             width: '100%',
                             marginTop: '1vh'
                         }}
-                        onClick={handleRegister}
+                        onClick={() => registerUser(form.name.value, form.email.value, form.password.value)}
                         disabled={!form.form.valid}
                     >Get Started</Button>
                     <div className={classes.flex}><span className={classes.line}/><p>OR</p><span className={classes.line}/></div>
@@ -116,7 +102,8 @@ const RegisterModal = ({ open, setOpen }) => {
                         size='large'
                         endIcon={<GoogleIcon/>} 
                         sx={{ width: '100%', marginTop: '1vh'}}
-                        disabled={true}
+                        disabled={false}
+                        onClick={() => signInWithGoogle()}
                     >Sign in with Google</Button>
                 </form>
             </Paper>

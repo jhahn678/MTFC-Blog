@@ -9,35 +9,28 @@ import Button from '../buttons/Button'
 import Logo from '../../layout/Header/Logo/Logo'
 import GoogleIcon from '../../../assets/GoogleIcon'
 import { useRef } from 'react'
-import { useLoginMutation, useGoogleAuthMutation } from '../../../store/api/index'
-import { toast } from 'react-toastify'
-import { useAuthContext } from '../../../store/context/auth'
+import useGoogleAuth from '../../../utils/hooks/useGoogleAuth'
+import useLoginUser from '../../../utils/hooks/useLoginUser'
+import { useModalContext } from '../../../store/context/modal'
 
 const LoginModal = ({ open, setOpen }) => {
 
     const emailRef = useRef()
     const passwordRef = useRef()
 
-    const { setAuthStatus } = useAuthContext()
+    const { setShowLogin, setShowRegister } = useModalContext()
 
-    const [ login ] = useLoginMutation()
-    const [ googleAuth ] = useGoogleAuthMutation()
-
-    const handleLogin = async () => {
-        const email = emailRef.current.value;
-        const password = passwordRef.current.value;
-        const res = await login({ email, password }).unwrap()
-        localStorage.setItem('USER_ID', res.user._id)
-        setAuthStatus({
-            isAuthenticated: true,
-            user: res.user
-        })
-        setOpen(false)
-        toast.success('Successfully signed in')
-    }
+    const { signInWithGoogle } = useGoogleAuth({ onSuccess: () => setOpen(false)})
+    
+    const { loginUser } = useLoginUser({ onSuccess: () => {
+        setOpen(false);
+        emailRef.current.value = ''
+        passwordRef.current.value = ''
+    }})
 
     const handleSignUp = () => {
-
+        setShowLogin(false)
+        setShowRegister(true)
     }
 
     return(
@@ -62,14 +55,15 @@ const LoginModal = ({ open, setOpen }) => {
                     <Button variant='outlined' 
                         size='large' 
                         sx={{ width: '100%', marginTop: '1vh'}}
-                        onClick={handleLogin}
+                        onClick={() => loginUser(emailRef.current.value, passwordRef.current.value)}
                     >Sign in</Button>
                     <div className={classes.flex}><span className={classes.line}/><p>OR</p><span className={classes.line}/></div>
                     <Button variant='outlined' 
                         size='large'
                         endIcon={<GoogleIcon/>} 
                         sx={{ width: '100%', marginTop: '1vh'}}
-                        disabled={true}
+                        disabled={false}
+                        onClick={() => signInWithGoogle()}
                     >Sign in with Google</Button>
                     <p>New around here? <Button onClick={handleSignUp}>Sign up</Button></p>
                 </form>
