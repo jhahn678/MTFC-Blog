@@ -21,7 +21,7 @@ export default async function handler(req, res){
             const newUser = new User({
                 account: {
                     displayName: name,
-                    email,
+                    email: email.toLowerCase(),
                     password: hash
                 }
             })
@@ -30,8 +30,7 @@ export default async function handler(req, res){
             setAuthCookie(res, token)
             res.status(201).json({
                 message: 'Successfully created user',
-                user: user,
-                token: token
+                user: user
             })
         }catch(err){
             res.status(err.status || 400).json({ message: err.message || 'Authentication error'})

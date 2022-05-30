@@ -14,26 +14,18 @@ export default async function handler(req, res){
 
     if(method === 'POST'){
         try{
-            const user = await User.findOne({ 'account.email': email })
-                .populate('following')
-                .populate({
-                    path: 'bookmarks',
-                    populate: {
-                        path: 'category author'
-                    }
-                })
+            const user = await User.findOne({ 'account.email': email.toLowerCase() })
             if(user && await bcrypt.compare(password, user.account.password)){
                 const token  = generateAuthToken(user._id, user.account.displayName, user.account.avatar)
                 setAuthCookie(res, token)
+                const userDoc = user._doc;
+                delete userDoc.account.password;
                 return res.status(200).json({
                     message: 'Successfully signed in',
-                    token: token,
-                    user: user
+                    user: userDoc
                 })
             }
-            throw new AuthError(400)
         }catch(err){
-            console.log(err)
             res.status(err.status || 400).json({ message: err.message || 'Authentication error'})
         }
     }else{
