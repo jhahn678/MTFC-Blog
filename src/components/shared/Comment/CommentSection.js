@@ -17,6 +17,8 @@ import Card from '@mui/material/Card'
 
 const CommentSection = ({ cardClass, post }) => {
 
+    const commentRef = useRef()
+
     const { setShowLogin } = useModalContext()
     const { authStatus, setAuthStatus } = useAuthContext()
 
@@ -25,10 +27,10 @@ const CommentSection = ({ cardClass, post }) => {
 
     const [commentCount, setCommentCount] = useState('')
     const [comments, setComments] = useState([])
+    const [expandComments, setExpandComments] = useState(true)
 
     const refetch = () => {
         getComments(post.slug)
-        console.log('refetch')
     }
 
     useEffect(() => {
@@ -41,10 +43,6 @@ const CommentSection = ({ cardClass, post }) => {
             setCommentCount(data.commentCount)
         }
     },[data])
-
-    const commentRef = useRef()
-
-    const [expandComments, setExpandComments] = useState(true)
 
     const handleComment = async () => {
         if(commentRef.current.value.length > 0){

@@ -14,10 +14,6 @@ export default async function handler(req, res){
 
     const { AUTH_TOKEN: token } = req.cookies;
 
-    if(!token){
-        throw new AuthError('Must be authenticated to post comments')
-    }
-
     const payload = await verifyAuthToken(token)
 
     //Getting a comment by ID
@@ -31,6 +27,10 @@ export default async function handler(req, res){
 
     //Adding a reply to a specific comment
     if(req.method === 'POST'){
+
+        if(!token){
+            throw new AuthError('Must be authenticated to post comments')
+        }
 
         const { postId, body, mention } = req.body;
 
@@ -48,21 +48,20 @@ export default async function handler(req, res){
 
         const newComment = await newCommentObject.save()
 
-        const post = await Post.findByIdAndUpdate(postId, {
-            $inc: { commentCount: 1 } 
-        })
-
         const user = await User.findByIdAndUpdate(payload._id, {
             $push: { comments: newComment._id }
         }, { new: true }).select('-account.password')
 
-        res.status(201).json({ user, message: 'Reply sent' })
-
         const comment = await Comment.findByIdAndUpdate(id, {
             $push: { replies: newComment._id }
+        }, { new: true }).populate('replies').select('replies')
+
+        res.status(201).json({ user, comment, message: 'Reply sent' })
+
+        const post = await Post.findByIdAndUpdate(postId, {
+            $inc: { commentCount: 1 } 
         })
 
-        
         if(payload._id !== comment.user._id.toString()){
             await User.findByIdAndUpdate(comment.user._id, {
                 $push: { 
@@ -76,6 +75,11 @@ export default async function handler(req, res){
     }
 
     else if(req.method === 'DELETE'){
+
+        if(!token){
+            throw new AuthError('Must be authenticated to post comments')
+        }
+
         //Deleting a comment
         const { id } = req.query;
         const { postId } = req.body;
