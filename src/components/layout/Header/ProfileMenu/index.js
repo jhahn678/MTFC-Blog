@@ -14,6 +14,7 @@ import { motion } from 'framer-motion'
 import { useAuthContext } from '../../../../store/context/auth';
 import { useLogoutMutation } from '../../../../store/api';
 import Link from 'next/link'
+import { Avatar } from '@mui/material';
 
 const ProfileMenu = ({ containerClass }) => {
 
@@ -33,8 +34,16 @@ const ProfileMenu = ({ containerClass }) => {
             className={containerClass}
         >
             <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
-                <AccountCircle color='secondary' fontSize='large'/>
+                { authStatus.user?.account &&
+                    <Avatar src={authStatus.user.account.avatar} 
+                    alt={authStatus.user.account.displayName} 
+                    sx={{ backgroundColor: 'var(--secondary)', color: 'var(--primary)'}}
+                    >
+                        {authStatus.user.account.displayName.slice(0,1)}
+                    </Avatar>
+                }
             </IconButton>
+            
             <Menu onClose={() => setAnchorEl(null)} open={!!anchorEl} anchorEl={anchorEl}>
                 <MenuList>
                     <Link href='/user'>
