@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Divider from '@mui/material/Divider'
 import CategoryCard from '../../components/shared/CategoryCard'
 import TextHover from '../../components/shared/TextHover'
+import Head from 'next/head'
 
 export async function getStaticPaths(){
     const { data } = await axios.get('/category')
@@ -31,6 +32,11 @@ export async function getStaticProps({ params }){
 const Category = ({ category, categories, posts }) => {
     
     return (
+        <>
+        <Head>
+            <title>{category.title} | Category | MTFC Blog</title>
+            <meta name='description' content={category.description}/>
+        </Head>
         <div className={classes.page}>
             <header>
                 <TextHover>
@@ -44,7 +50,7 @@ const Category = ({ category, categories, posts }) => {
                         <span style={{ fontSize: '.8em'}}>{posts.length} post(s)</span>
                     </h3>
                     <Paper className={classes.imageContainer}>
-                        <Image src={category.thumbnail} alt={`${category.title}`} layout='fill' objectFit='cover'/>
+                        <Image src={category.thumbnail} alt={category.title} layout='fill' objectFit='cover'/>
                     </Paper>
                     <p className={classes.description}>
                         <strong style={{ marginRight: 10}}>Description:</strong>
@@ -56,6 +62,7 @@ const Category = ({ category, categories, posts }) => {
                 </aside>
             </main>
         </div>
+        </>
     )
 }
 

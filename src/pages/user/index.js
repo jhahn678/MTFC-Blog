@@ -11,6 +11,7 @@ import CommentsTab from  '../../components/shared/tabs/CommentsTab';
 import FollowingTab from '../../components/shared/tabs/FollowingTab';
 import NotificationsTab from '../../components/shared/tabs/NotificationsTab'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 
 export async function getServerSideProps({ req, query }){
@@ -98,6 +99,10 @@ const User = ({ user, tab, bookmarks, notifications, comments, following }) => {
     }
 
     return (
+        <>
+        <Head>
+            <title>My Profile | MTFC Blog</title>
+        </Head>
         <div className={classes.page}>
             <div className='frab'>
                 <UserAvatar user={user} textClass={classes.name} avatarStyles={{ fontSize: '1.4em' }}/>
@@ -115,6 +120,7 @@ const User = ({ user, tab, bookmarks, notifications, comments, following }) => {
             { currentTab === 3 && <FollowingTab data={following}/> }
             
         </div>
+        </>
     )
 }
 

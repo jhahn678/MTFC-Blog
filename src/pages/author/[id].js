@@ -1,5 +1,6 @@
 import { axios } from '../../utils/axios'
 import { useState, useEffect } from 'react'
+import Head from 'next/head'
 import classes from './Author.module.css'
 import { useLazyGetAuthorPostsQuery } from '../../store/api'
 import { toast } from 'react-toastify'
@@ -61,6 +62,11 @@ const Author = ({ author }) => {
     }
 
     return(
+        <>
+        <Head>
+            <title>{author.displayName} | MTFC Blog</title>
+            <meta name='description' content={author.bio}/>
+        </Head>
         <main className={classes.page}>
             <section className={classes.authorPostsSection}>
                 <h2 className={classes.latestPosts}>
@@ -112,6 +118,7 @@ const Author = ({ author }) => {
                 <p className={classes.text}><i>About</i>{author.bio}</p>
             </aside>
         </main>
+        </>
     )
 }
 

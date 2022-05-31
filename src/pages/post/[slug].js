@@ -13,6 +13,7 @@ import RelatedPosts from '../../components/shared/RelatedPosts/RelatedPosts'
 import FollowButton from '../../components/shared/buttons/FollowButton'
 import BookmarkButton from '../../components/shared/buttons/BookmarkButton'
 import CommentSection from '../../components/shared/Comment/CommentSection'
+import Head from 'next/head';
 
 const client = createClient({
     space: process.env.CONTENTFUL_SPACE_ID,
@@ -55,6 +56,11 @@ const opts = {
 const Post = ({ post }) => {
 
     return(
+        <>
+        <Head>
+            <title>{post.title} | MTFC Blog</title>
+            <meta name='description' content={post.preview.split(' ').slice(0,30).join(' ').concat('...')}/>
+        </Head>
         <div className={classes.page}>
             <section className={classes.titleHeading}>
                 <div>
@@ -102,6 +108,7 @@ const Post = ({ post }) => {
                 </aside>
             </main>
         </div>
+        </>
     )
 }
 

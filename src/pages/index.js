@@ -7,6 +7,7 @@ import Link from 'next/link'
 import TextHover from '../components/shared/TextHover'
 import Newsletter from '../components/shared/Newsletter'
 import UserWidget from '../components/shared/UserWidget'
+import Head from 'next/head'
 
 export async function getStaticProps(){
   const { data: posts } = await axios.get('/post')
@@ -19,6 +20,10 @@ export async function getStaticProps(){
 const HomePage = ({ posts, categories }) => {
 
   return (
+    <>
+    <Head>
+      <title>Home page | MTFC Blog</title>
+    </Head>
     <main className={classes.page}>
       <h1 className={classes.header}>Recent Posts</h1>
       <PostSlider posts={posts.reverse().slice(0, 4)}/>
@@ -51,6 +56,7 @@ const HomePage = ({ posts, categories }) => {
       </section>
       
     </main>
+    </>
   )
 }
 
