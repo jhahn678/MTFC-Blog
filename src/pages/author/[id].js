@@ -24,7 +24,8 @@ export async function getStaticPaths(){
 export async function getStaticProps({ params }){
     const { data: author } = await axios.get(`/author/${params.id}`)
     return{
-        props: { author }
+        props: { author },
+        revalidate: ( 60 * 60 )
     }
 }
 
@@ -57,10 +58,6 @@ const Author = ({ author }) => {
         }catch(err){
             toast.error(err)
         }
-    }
-
-    const redirect = (url) => {
-        window.location.href(url)
     }
 
     return(

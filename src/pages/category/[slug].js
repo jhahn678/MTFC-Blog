@@ -23,7 +23,8 @@ export async function getStaticProps({ params }){
     const categories = allCategories.filter(c => c.slug !== params.slug)
 
     return{
-        props: { category, categories, posts}
+        props: { category, categories, posts },
+        revalidate: ( 60 * 60 * 24 )
     }
 }
 

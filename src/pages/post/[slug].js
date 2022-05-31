@@ -36,7 +36,8 @@ export async function getStaticProps({ params }){
     const res = await axios.get(`/post/${params.slug}`)
     const post = { ...res.data, body: items[0].fields.body}
     return { 
-        props: { post }
+        props: { post },
+        revalidate: ( 60 * 60 * 24 )
     }
 }
 
