@@ -5,12 +5,33 @@ import classes from './SearchBar.module.css'
 import TextField from "@mui/material/TextField"
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Slide from '@mui/material/Slide'
+import { useLazySearchAllQuery } from "../../../../store/api"
 
-const SearchBar = ({ show, setShow }) => {
+
+const SearchBar = ({ show, setShow }) => {  
 
     const [input, setInput] = useState('')
+    const [ search, { isLoading } ] = useLazySearchAllQuery()
+
+    const getSearchResults = async (value) => {
+        const res = await search(value).unwrap()
+        console.log(res)
+    }
+
+    useEffect(() => {
+
+        if(input.length > 2){
+            const timer = setTimeout(() => {
+                getSearchResults(input)
+            }, 500)
+        }
+        return () => clearTimeout(timer)
+
+    },[input])
+
+
 
     return (
         <Backdrop open={show}>
@@ -26,6 +47,7 @@ const SearchBar = ({ show, setShow }) => {
                             onClick={() => setShow(false)}
                         ><CloseIcon/></IconButton>
                         <TextField value={input}
+                            autoFocus={true}
                             variant='standard'
                             label='Search'
                             onInput={e => setInput(e.target.value)}
@@ -45,3 +67,4 @@ const SearchBar = ({ show, setShow }) => {
 }
 
 export default SearchBar
+
