@@ -126,6 +126,9 @@ export const api = createApi({
         }),
         getMyFollowing: builder.query({
             query: () => 'auth/user/following'
+        }),
+        searchAll: builder.query({
+            query: (value) => `search?value=${value}`
         })
     })
 })
@@ -157,5 +160,6 @@ export const {
     useMarkNoticationReadMutation,
     useTestNotificationMutation,
     useLazyGetMyCommentsQuery,
-    useLazyGetMyFollowingQuery
+    useLazyGetMyFollowingQuery,
+    useLazySearchAllQuery
 } = api;
