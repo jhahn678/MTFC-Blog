@@ -37,15 +37,15 @@ const FooterLinks = () => {
                 </div>
                 <div className={classes.link}>
                     <ArrowForwardIos sx={{ fontSize: '14px', marginRight: '5px'}}/>
-                    <Link href='/user/notifications'>Notifications</Link>
+                    <Link href='/user?tab=notifications'>Notifications</Link>
                 </div>
                 <div className={classes.link}>
                     <ArrowForwardIos sx={{ fontSize: '14px', marginRight: '5px'}}/>
-                    <Link href='/user/bookmarks'>Bookmarks</Link>
+                    <Link href='/user?tab=bookmarks'>Bookmarks</Link>
                 </div>
                 <div className={classes.link}>
                     <ArrowForwardIos sx={{ fontSize: '14px', marginRight: '5px'}}/>
-                    <Link href='/user/following'>Following</Link>
+                    <Link href='/user?tab=following'>Following</Link>
                 </div>
                 <div className={classes.link}>
                     <ArrowForwardIos sx={{ fontSize: '14px', marginRight: '5px'}}/>
