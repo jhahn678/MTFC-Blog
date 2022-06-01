@@ -1,5 +1,4 @@
 import classes from './ActivityFeed.module.css'
-import { useState } from 'react'
 import { formatDateComment } from '../../../utils/formatDate'
 import Paper from '@mui/material/Paper'
 import Avatar from '@mui/material/Avatar'
@@ -13,10 +12,10 @@ const ActivityFeed = ({ comments }) => {
 
 
     return (
-        <section className={classes.feed}>
+        <ul className={classes.feed}>
             { comments.map(c => (
                 <Link key={c._id} href={`/post/${c.post.slug}`}>
-                    <Paper className={classes.feedItem}>
+                    <Paper component='li'className={classes.feedItem}>
                         <header className={classes.header}>
                             <div className='frab'>
                                 <Avatar src={c.user.avatar} 
@@ -45,7 +44,7 @@ const ActivityFeed = ({ comments }) => {
                     </Paper>
                 </Link>
             ))}   
-        </section>
+        </ul>
     )
 }
 

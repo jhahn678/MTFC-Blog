@@ -27,10 +27,10 @@ const PostList = ({ posts, author, containerClass, postClass }) => {
     },[posts])
 
     return (
-        <section className={containerClass}>
+        <ul className={containerClass}>
         { posts.map(p => 
             <Link href={`/post/${p.slug}`} key={p._id}>
-                <Paper className={postClass} style={{ display: 'flex', cursor: 'pointer'}}>
+                <Paper component='li' className={postClass} style={{ display: 'flex', cursor: 'pointer'}}>
                     <Paper className={classes.imageContainer}>
                         <Image src={p.thumbnail} alt={p.title} layout='fill' objectFit='cover'/>
                     </Paper>
@@ -58,7 +58,7 @@ const PostList = ({ posts, author, containerClass, postClass }) => {
             </Link>
         )}
         { noPostsAvailable && <h3 className={classes.noPostsAvailable}>No posts available..</h3> }
-        </section>
+        </ul>
     )
 }
 

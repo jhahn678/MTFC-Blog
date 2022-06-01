@@ -16,11 +16,11 @@ const RelatedPosts = ({ posts, author, sliceLength=3, containerClass, postClass 
     },[posts])
 
     return (
-        <div className={containerClass}>
+        <ul className={containerClass}>
             { relatedPosts.length === 0 && <h4 style={{ textAlign: 'center' }}>This author has no other posts</h4> }
             { relatedPosts.map(p => 
                     <Link href={`/post/${p.slug}`} key={p._id}>
-                        <Paper className={postClass}>
+                        <Paper component='li' className={postClass}>
                             <Image src={p.thumbnail} alt={p.title} layout='fill' className={classes.image}/>
                             <div className={classes.content}>
                                 <h4 className={classes.header}>
@@ -39,7 +39,7 @@ const RelatedPosts = ({ posts, author, sliceLength=3, containerClass, postClass 
                     </Link>
                 )
             }  
-        </div>
+        </ul>
     )
 }
 

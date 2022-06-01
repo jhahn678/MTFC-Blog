@@ -28,9 +28,9 @@ const HomePage = ({ posts, categories }) => {
       <h1 className={classes.header}>Recent Posts</h1>
       <PostSlider posts={posts.reverse().slice(0, 4)}/>
       <h1 className={classes.categoryHeader}>Categories</h1>
-      <section className={classes.categoriesSection}>
+      <ul className={classes.categoriesSection}>
         { categories.map(c => <CategoryCard key={c._id} category={c} containerClass={classes.categoryContainer}/>) }
-      </section>
+      </ul>
       {
         categories.map(c => 
           <section className={classes.postSection} key={c._id}>
