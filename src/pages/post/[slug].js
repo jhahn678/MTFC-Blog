@@ -45,10 +45,14 @@ export async function getStaticProps({ params }){
 const opts = {
     renderNode: {
         [BLOCKS.EMBEDDED_ASSET]: (node) => {
-          const { file, title } = node.data.target.fields;
-          return <img src={`https:${file.url}`} alt={title}/>
+            const { file, title } = node.data.target.fields;
+            return(
+                <div className={classes.imageContainer}>
+                    <Image src={`https:${file.url}`} alt={title} layout='fill' objectFit='cover'/>
+                </div>
+            )
         }
-    }
+}
 }
 
 
