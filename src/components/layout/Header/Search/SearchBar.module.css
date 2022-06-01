@@ -1,5 +1,6 @@
 .modal{
-    min-height: 20vh;
+    height: 20vh;
+    min-height: 100px;
     padding-bottom: 3vh;
     width: 100vw;
     display: flex;
@@ -22,8 +23,24 @@
     top: 5px;
 }
 
+.resultsContainer{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: max(21vh, 110px);
+    width: 80vw;
+    height: 75vh;
+    overflow-y: scroll;
+    padding-bottom: 1vh
+}
+
+
+
 @media screen and (min-width: 600px) {
     .search{
+        width: 50vw;
+    }
+    .resultsContainer{
         width: 50vw;
     }
 }

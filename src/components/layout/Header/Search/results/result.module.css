@@ -1,0 +1,134 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 0;
+    width: 100%;
+    height: 30vh;
+    margin-bottom: .5em;
+    cursor: pointer;
+    padding: 2vh 1vw;
+    overflow: hidden;
+    position: relative;
+    transition: .4s ease all;
+}
+
+.container:hover{
+    background-color: var(--secondary);
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 25px;
+}
+
+.type{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 6px 6px 10px 10px;
+    background-color: var(--primary);
+    color: var(--secondary);
+    border-bottom-left-radius: 20px;
+}
+
+.title{
+    font-size: 1.4em;
+    margin: 0;
+}
+
+.chips{
+    margin-top: .5em;
+}
+
+.preview{
+    max-width: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical; 
+}
+
+.footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.containerAuthor{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 0;
+    width: 100%;
+    height: 30vh;
+    margin-bottom: .5em;
+    cursor: pointer;
+    padding: 1vh 1vw 2vh;
+    overflow: hidden;
+    position: relative;
+    transition: .4s ease all;
+}
+
+.containerAuthor:hover{ 
+    background-color: var(--secondary);
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 25px;
+}
+
+.avatar{
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 0;
+}
+
+.avatar img{
+    height: 5em;
+    width: 5em;
+    margin-right: 1em;
+    border-radius: 50%;
+}
+
+.createdAt{
+    margin: 0;
+}
+
+.containerCategory{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 30vh;
+    margin-bottom: .5em;
+    cursor: pointer;
+    padding: 2vh 1vw;
+    overflow: hidden;
+    position: relative;
+    transition: .4s ease all;
+}
+
+.containerCategory:hover{
+    background-color: var(--secondary);
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 25px;
+}
+
+.categoryThumbnail{
+    position: relative;
+    height: 100%;
+    width: 40%;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-right: 3%;
+}
+
+.content{
+    margin-left: .5em;
+    width: 50%;
+}
+
+.name{
+    margin: 0;
+    font-size: 1.8em;
+    font-style: italic;
+    font-weight: normal;
+}

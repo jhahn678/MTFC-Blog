@@ -8,34 +8,47 @@ import CloseIcon from '@mui/icons-material/Close'
 import { useState, useEffect } from "react"
 import Slide from '@mui/material/Slide'
 import { useLazySearchAllQuery } from "../../../../store/api"
+import PostResult from './results/Post'
+import AuthorResult from './results/Author'
+import CategoryResult from './results/Category'
+import CircularProgress from '@mui/material/CircularProgress'
 
 
 const SearchBar = ({ show, setShow }) => {  
 
     const [input, setInput] = useState('')
+    const [results, setResults] = useState([])
     const [ search, { isLoading } ] = useLazySearchAllQuery()
 
     const getSearchResults = async (value) => {
         const res = await search(value).unwrap()
-        console.log(res)
+        setResults(res)
     }
 
     useEffect(() => {
-
-        if(input.length > 2){
+        if(input.length < 2){
+            setResults([])
+        }
+        else if(input.length > 2){
             const timer = setTimeout(() => {
                 getSearchResults(input)
             }, 500)
         }
-        return () => clearTimeout(timer)
 
+        return () => clearTimeout(timer)
     },[input])
 
+
+    const closeSearch = () => {
+        setInput('')
+        setResults([])
+        setShow(false)
+    }
 
 
     return (
         <Backdrop open={show}>
-            <Modal open={show} onClose={e => setShow(false)}>
+            <Modal open={show} onClose={closeSearch}>
                 <Slide direction='down' in={show} unmountOnExit>
                     <Paper className={classes.modal}>
                         <IconButton className={classes.close} 
@@ -44,7 +57,7 @@ const SearchBar = ({ show, setShow }) => {
                                 top: '5px', 
                                 right: '5px',
                             }}
-                            onClick={() => setShow(false)}
+                            onClick={closeSearch}
                         ><CloseIcon/></IconButton>
                         <TextField value={input}
                             autoFocus={true}
@@ -59,6 +72,23 @@ const SearchBar = ({ show, setShow }) => {
                                 sx: { fontSize: '1.5em' },
                             }}
                         />
+                        <ul className={classes.resultsContainer}>
+                            { isLoading && <CircularProgress color='secondary' size={100} thickness={2} sx={{ alignSelf: 'center', marginTop: '20vh'}} /> }
+                            { 
+                                results.map(r => {
+                                    switch(r.resource_type){
+                                        case 'POST':
+                                            return <PostResult key={r._id} data={r}/>
+                                        case 'AUTHOR':
+                                            return <AuthorResult key={r._id} data={r}/>
+                                        case 'CATEGORY':
+                                            return <CategoryResult key={r._id} data={r}/>
+                                        default:
+                                            break;
+                                    }
+                                })   
+                            }
+                        </ul>
                     </Paper>
                 </Slide>
             </Modal>
