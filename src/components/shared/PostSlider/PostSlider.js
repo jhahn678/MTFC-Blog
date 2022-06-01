@@ -69,7 +69,7 @@ const PostSlider = ({ posts }) => {
                         </div>
                         <motion.div className={`${classes.viewButtonContainer} ${hover && classes.viewButtonHover}`}>
                             <Button 
-                                variant='outlined' 
+                                variant='standard' 
                                 size='large' 
                                 className={classes.viewButton}
                                 onClick={() => router.push(`/post/${posts[index].slug}`)}
