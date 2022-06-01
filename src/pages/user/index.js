@@ -12,6 +12,7 @@ import FollowingTab from '../../components/shared/tabs/FollowingTab';
 import NotificationsTab from '../../components/shared/tabs/NotificationsTab'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import { useAuthContext } from '../../store/context/auth'
 
 
 export async function getServerSideProps({ req, query }){
@@ -75,6 +76,8 @@ export async function getServerSideProps({ req, query }){
 
 const User = ({ user, tab, bookmarks, notifications, comments, following }) => {
 
+    const { authStatus } = useAuthContext()
+
     const [currentTab, setCurrentTab] = useState(tab)
 
     const router = useRouter()
@@ -85,6 +88,12 @@ const User = ({ user, tab, bookmarks, notifications, comments, following }) => {
         if(router.query.tab === 'comments') return setCurrentTab(2)
         if(router.query.tab === 'following') return setCurrentTab(3)
     },[router.query.tab])
+
+    useEffect(() => {
+        if(!authStatus.isAuthenticated){
+            router.push('/')
+        }
+    },[authStatus.isAuthenticated])
 
     const onTabChange = (e, v) => {
         switch (e.target.firstChild.data){
