@@ -90,4 +90,18 @@
 
 .date{
     margin: 0;
+    font-weight: normal;
+}
+
+.title{
+    margin: 2vh 0 1vh;
+    font-weight: normal;
+    font-size: 2.5em;
+}
+
+@media screen and (max-width: 600px) {
+
+    .title{
+        font-size: 2em;
+    }
 }
