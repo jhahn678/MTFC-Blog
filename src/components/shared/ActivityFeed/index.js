@@ -29,7 +29,7 @@ const ActivityFeed = ({ comments }) => {
                         </header>
                         <p className={classes.comment}>
                             { c.parentComment && 
-                                <i style={{ marginRight: 10 }}>@{c.parentComment.user.displayName}</i> 
+                                <i style={{ marginRight: 10 }}>@{c.parentComment.user.displayName || '~deleted~'}</i> 
                             }
                             {c.body}
                         </p>
