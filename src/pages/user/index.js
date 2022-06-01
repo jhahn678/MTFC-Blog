@@ -18,6 +18,15 @@ export async function getServerSideProps({ req, query }){
 
     const { AUTH_TOKEN: token } = req.cookies;
 
+    if(!token){
+        return{
+            redirect: {
+                destination: '/user/login',
+                permanent: false
+            }
+        }
+    }
+
     const auth = { 
         withCredentials: true ,
         headers: {
