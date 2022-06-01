@@ -9,8 +9,6 @@ export default async function handler(req, res){
 
     const { value } = req.query;
 
-    console.log(value)
-
     let results = []
 
     const posts = await Post.aggregate()
@@ -31,8 +29,9 @@ export default async function handler(req, res){
                 _id: 1,
                 title: 1,
                 slug: 1,
-                thumbnail: 1,
+                preview: 1,
                 createdAt: 1,
+                commentCount: 1,
                 'author._id': 1,
                 'author.displayName': 1,
                 'author.avatar': 1,
@@ -61,6 +60,7 @@ export default async function handler(req, res){
             location: 1,
             bio: 1,
             totalPosts: 1,
+            createdAt: 1,
             score: {
                 '$meta': 'searchScore'
             }
@@ -87,7 +87,7 @@ export default async function handler(req, res){
             }
         })
 
-    results = [...posts, ...categories, ...authors].sort((x, y) => y.score - x.score)
+    results = [...posts, ...categories, ...authors].sort((x, y) => y.score - x.score).slice(0, 4)
 
     res.status(200).json(results)
 
