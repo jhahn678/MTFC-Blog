@@ -1,6 +1,5 @@
 import connectMongo from '../../../utils/connectMongo'
 import User from '../../../models/user'
-import AuthError from '../../../utils/AuthError'
 import bcrypt from 'bcryptjs'
 import { generateAuthToken } from '../../../utils/authToken'
 import { setAuthCookie } from '../../../utils/authCookie'
@@ -16,7 +15,7 @@ export default async function handler(req, res){
         try{
             const user = await User.findOne({ 'account.email': email.toLowerCase() })
             if(user && await bcrypt.compare(password, user.account.password)){
-                const token  = generateAuthToken(user._id, user.account.displayName, user.account.avatar)
+                const token  = await generateAuthToken(user._id, user.account.displayName, user.account.avatar)
                 setAuthCookie(res, token)
                 const userDoc = user._doc;
                 delete userDoc.account.password;
@@ -26,6 +25,7 @@ export default async function handler(req, res){
                 })
             }
         }catch(err){
+            console.log(err)
             res.status(err.status || 400).json({ message: err.message || 'Authentication error'})
         }
     }else{

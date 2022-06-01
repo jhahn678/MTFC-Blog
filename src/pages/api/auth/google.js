@@ -29,7 +29,7 @@ export default async function handler(req, res){
             const user = await User.findOne({ 'account.googleId': googleId }).select('-account.password')
 
             if(user){
-                const token = generateAuthToken(user._id, user.account.displayName, user.account.avatar)
+                const token = await generateAuthToken(user._id, user.account.displayName, user.account.avatar)
                 setAuthCookie(res, token)
                 return res.status(200).json({
                     message: 'Successfully signed in with Google',
@@ -45,7 +45,7 @@ export default async function handler(req, res){
                     }
                 })
                 const user = await userObject.save()
-                const token = generateAuthToken(user._id, user.account.displayName, user.account.avatar)
+                const token = await generateAuthToken(user._id, user.account.displayName, user.account.avatar)
                 setAuthCookie(res, token)
                 return res.status(200).json({
                     message: 'Successfully signed in with Google',
