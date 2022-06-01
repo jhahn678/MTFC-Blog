@@ -12,22 +12,30 @@ import PostResult from './results/Post'
 import AuthorResult from './results/Author'
 import CategoryResult from './results/Category'
 import CircularProgress from '@mui/material/CircularProgress'
+import { motion } from 'framer-motion'
 
 
 const SearchBar = ({ show, setShow }) => {  
 
     const [input, setInput] = useState('')
     const [results, setResults] = useState([])
+    const [noResults, setNoResults] = useState(false)
     const [ search, { isLoading } ] = useLazySearchAllQuery()
 
     const getSearchResults = async (value) => {
         const res = await search(value).unwrap()
-        setResults(res)
+        if(res.length === 0){
+            setNoResults(true)
+        }else{
+            setNoResults(false)
+            setResults(res)
+        }
     }
 
     useEffect(() => {
         if(input.length < 2){
             setResults([])
+            setNoResults(false)
         }
         else if(input.length > 2){
             const timer = setTimeout(() => {
@@ -74,6 +82,13 @@ const SearchBar = ({ show, setShow }) => {
                         />
                         <ul className={classes.resultsContainer}>
                             { isLoading && <CircularProgress color='secondary' size={100} thickness={2} sx={{ alignSelf: 'center', marginTop: '20vh'}} /> }
+                            { noResults && 
+                                <motion.h1 className={classes.noResults} 
+                                    initial={{ y: -300}} 
+                                    animate={{ y: 0, 
+                                    transition: { type: 'spring', duration: .5} 
+                                    }}
+                                >No results found</motion.h1>}
                             { 
                                 results.map(r => {
                                     switch(r.resource_type){

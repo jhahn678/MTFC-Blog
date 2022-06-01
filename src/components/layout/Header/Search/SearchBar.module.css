@@ -34,7 +34,15 @@
     padding-bottom: 1vh
 }
 
-
+.noResults{
+    color: var(--background);
+    width: fit-content;
+    border-bottom: 2px solid var(--secondary);
+    font-size: 3em;
+    font-weight: normal;
+    padding-bottom: 5px;
+    padding-right: 20px;
+}
 
 @media screen and (min-width: 600px) {
     .search{
