@@ -21,7 +21,13 @@ const authorSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Comment'
         }
-    ]
+    ],
+    socials: {
+        facebook: String,
+        instagram: String,
+        twitter: String,
+        website: String
+    }
 }, { timestamps: true })
 
 export default mongoose.models.Author || mongoose.model('Author', authorSchema)
