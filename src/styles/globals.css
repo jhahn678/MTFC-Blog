@@ -109,6 +109,18 @@ ul, li{
   align-items: center;
 }
 
+.asc{
+  align-self: center;
+}
+
+.asfe{
+  align-self: flex-end;
+}
+
+.asfs{
+  align-self: flex-start;
+}
+
 .frab{
   display: flex;
   flex-direction: row;
