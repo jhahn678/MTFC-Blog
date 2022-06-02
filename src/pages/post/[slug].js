@@ -12,8 +12,12 @@ import Divider from '@mui/material/Divider'
 import RelatedPosts from '../../components/shared/RelatedPosts/RelatedPosts'
 import FollowButton from '../../components/shared/buttons/FollowButton'
 import BookmarkButton from '../../components/shared/buttons/BookmarkButton'
+import BookmarkIconButton from '../../components/shared/buttons/BookmarkIconButton'
 import CommentSection from '../../components/shared/Comment/CommentSection'
 import Head from 'next/head';
+import AvatarChip from '../../components/shared/AvatarChip';
+import useMediaQuery from '@mui/material/useMediaQuery'
+
 
 const client = createClient({
     space: process.env.CONTENTFUL_SPACE_ID,
@@ -59,6 +63,8 @@ const opts = {
 
 const Post = ({ post }) => {
 
+    const breakpoint = useMediaQuery('(max-width: 1000px)')
+
     return(
         <>
         <Head>
@@ -68,14 +74,29 @@ const Post = ({ post }) => {
         <div className={classes.page}>
             <section className={classes.titleHeading}>
                 <div>
-                    <p className={classes.date}>{formatDate(post.createdAt)}</p>
+                    <div className='frsb'>
+                        <p className={classes.date}>{formatDate(post.createdAt)}</p>
+                        { breakpoint && <BookmarkIconButton post={post} styles={{ margin: 0, padding: 0 }}/> }
+                    </div>
                     <h1 className={classes.title}>{post.title}</h1>
-                    <CategoryChip title={post.category.title} slug={post.category.slug}/>
+                    <div className='frsb'>
+                        <CategoryChip title={post.category.title} slug={post.category.slug} styles={{ margin: 0, fontSize: breakpoint ? '.8em' : '1em'}}/>
+                        { breakpoint && 
+                            <div>
+                                <AvatarChip author={post.author} styles={{ margin: 0, fontSize: '.8em' }}/>
+                                <FollowButton author={post.author} buttonProps={{ size:'small'}}/>
+                            </div> 
+                        }
+                    </div>
                 </div>
                 <div className={classes.authorGroup}>
-                    <AuthorAvatar author={post.author}/>
-                    <FollowButton author={post.author}/>
-                    <BookmarkButton post={post}/>
+                    { !breakpoint && 
+                        <>
+                        <AuthorAvatar author={post.author}/>
+                        <FollowButton author={post.author}/>
+                        <BookmarkButton post={post}/>
+                        </>
+                    }
                 </div>
             </section>
             <main className={classes.main}>

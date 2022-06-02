@@ -100,3 +100,40 @@
     transform: scale(1.01);
     filter: brightness(105%)
 }
+
+@media screen and (max-width: 1000px) {
+    .main{
+        flex-direction: column;
+    }
+    .titleHeading{
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .title{
+        font-size: 2.3em;
+    }
+    .authorGroup{
+        align-self: flex-start;
+        flex-direction: row;
+        margin: .5em 0;
+    }
+    .post{
+        width: 100%;
+    }
+    .sideContent{
+        width: 100%;
+        margin: 0;
+    }
+    .relatedPost{
+        height: 40vh;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .title{
+        font-size: 2em;
+    }
+    .date{
+        margin-top: 0;;
+    }
+}
