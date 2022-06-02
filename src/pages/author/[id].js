@@ -13,6 +13,8 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import PublicIcon from '@mui/icons-material/Public';
+import Collapse from '@mui/material/Collapse'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 export async function getStaticPaths(){
     const { data } = await axios.get('/author')
@@ -31,6 +33,9 @@ export async function getStaticProps({ params }){
 }
 
 const Author = ({ author }) => {
+
+    const breakpoint = useMediaQuery('(min-width: 850px)')
+    const [showAside, setShowAside] = useState(true)
 
     const [posts, setPosts] = useState([])
     const [pagination, setPagination] = useState({ next: false, page: 1 })
@@ -70,7 +75,7 @@ const Author = ({ author }) => {
         <main className={classes.page}>
             <section className={classes.authorPostsSection}>
                 <h2 className={classes.latestPosts}>
-                    Latest posts from <i>{author.displayName}</i>
+                    Latest posts from <i style={{ whiteSpace: 'nowrap'}}>{author.displayName}</i>
                     <FollowButton author={author} styles={{ marginLeft: 3 }}/>
                 </h2>
                 <PostList posts={posts} author={author} containerClass={classes.postList} postClass={classes.post}/>
@@ -81,42 +86,46 @@ const Author = ({ author }) => {
                     >{ isLoading ? <CircularProgress size={30}/> : 'Load more'}</Button>
                 }
             </section>
-            <aside className={classes.authorAboutSection}>
-                <div className='frac'>
-                    <div className={classes.avatar}>
-                        <img src={author.avatar} alt={author.displayName}/>
+            {/* <Collapse in={breakpoint && showAside} orientation='horizontal'> */}
+                <aside className={classes.authorAboutSection}>
+                    <div className={classes.avatarAndSocials}>
+                        <div className='frac'>
+                            <div className={classes.avatar}>
+                                <img src={author.avatar} alt={author.displayName}/>
+                            </div>
+                            <div className='fc'>
+                                <h2 className={classes.name}>{author.displayName}</h2>
+                                <p className={classes.createdAt}>Author since <i>{formatDateAuthor(author.createdAt)}</i></p>
+                            </div>
+                        </div>
+                        <div className='frsb' style={{ width: '12vw' }}>
+                            { author.socials.facebook && 
+                                <a href={`https://${author.socials.facebook}`} target="_blank">
+                                    <FacebookIcon className={classes.icon}/>
+                                </a> 
+                            }
+                            { author.socials.instagram && 
+                                <a href={`https://${author.socials.instagram}`} target="_blank">
+                                    <InstagramIcon className={classes.icon}/>
+                                </a>
+                            }
+                            { author.socials.twitter && 
+                                <a href={`https://${author.socials.twitter}`} target="_blank">
+                                    <TwitterIcon className={classes.icon}/>
+                                </a>
+                            }
+                            { author.socials.website && 
+                                <a href={`https://${author.socials.website}`} target="_blank">
+                                    <PublicIcon className={classes.icon}/>
+                                </a>
+                            }
+                        </div>
                     </div>
-                    <div className='fc'>
-                        <h2 className={classes.name}>{author.displayName}</h2>
-                        <p className={classes.createdAt}>Author since <i>{formatDateAuthor(author.createdAt)}</i></p>
-                    </div>
-                </div>
-                <div className='frsb' style={{ width: '12vw' }}>
-                    { author.socials.facebook && 
-                        <a href={`https://${author.socials.facebook}`} target="_blank">
-                            <FacebookIcon className={classes.icon}/>
-                        </a> 
-                    }
-                    { author.socials.instagram && 
-                        <a href={`https://${author.socials.instagram}`} target="_blank">
-                            <InstagramIcon className={classes.icon}/>
-                        </a>
-                    }
-                    { author.socials.twitter && 
-                        <a href={`https://${author.socials.twitter}`} target="_blank">
-                            <TwitterIcon className={classes.icon}/>
-                        </a>
-                    }
-                    { author.socials.website && 
-                        <a href={`https://${author.socials.website}`} target="_blank">
-                            <PublicIcon className={classes.icon}/>
-                        </a>
-                    }
-                </div>
-                <p className={classes.text}><i>Posts</i>{author.totalPosts}</p>
-                <p className={classes.text}><i>Location</i>{author.location}</p>
-                <p className={classes.text}><i>About</i>{author.bio}</p>
-            </aside>
+                    <p className={classes.text}><i>Posts</i>{author.totalPosts}</p>
+                    <p className={classes.text}><i>Location</i>{author.location}</p>
+                    <p className={classes.text}><i>About</i>{author.bio}</p>
+                </aside>
+            {/* </Collapse> */}
         </main>
         </>
     )

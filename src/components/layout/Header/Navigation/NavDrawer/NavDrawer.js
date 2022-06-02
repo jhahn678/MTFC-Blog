@@ -53,7 +53,7 @@ const NavDrawer = ({ open, setOpen, setShowLogin, setShowRegister }) => {
                         <ListItemButton 
                             key={c._id}
                             sx={{ padding: '2vh 2vw', fontSize: '1.2em'}}
-                            onClick={() => router.push(`/category/${c.slug}`)}
+                            onClick={() => { setOpen(false); router.push(`/category/${c.slug}`)}}
                         >{c.title}</ListItemButton>
                     )
                 }
@@ -63,15 +63,15 @@ const NavDrawer = ({ open, setOpen, setShowLogin, setShowRegister }) => {
                 }
                 { authStatus.isAuthenticated ?
                     <>
-                        <ListItemButton onClick={() => router.push('/user')}>
+                        <ListItemButton onClick={() => { setOpen(false); router.push('/user')}}>
                             <ListItemIcon><AccountCircleIcon color='primary'/></ListItemIcon>
                             <ListItemText primary='Profile'/>
                         </ListItemButton>
-                        <ListItemButton onClick={() => router.push('/user?tab=notifications')}>
+                        <ListItemButton onClick={() => { setOpen(false); router.push('/user?tab=notifications') }}>
                             <ListItemIcon><NotificationsIcon color='primary'/></ListItemIcon>
                             <ListItemText primary='Notifications'/>
                         </ListItemButton>
-                        <ListItemButton onClick={() => router.push('/user?tab=bookmarks')}>
+                        <ListItemButton onClick={() => { setOpen(false); router.push('/user?tab=bookmarks') }}>
                             <ListItemIcon><BookmarksIcon color='primary'/></ListItemIcon>
                             <ListItemText primary='Bookmarks'/>
                         </ListItemButton>
