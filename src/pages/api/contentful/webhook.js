@@ -3,6 +3,7 @@ import connectMongo from '../../../utils/connectMongo'
 import Post from '../../../models/post'
 import Category from '../../../models/category'
 import Author from '../../../models/author'
+import { createPostNotification } from '../../../utils/createNotification'
 
 export default async function handler(req, res){
 
@@ -12,10 +13,10 @@ export default async function handler(req, res){
 
         const client = createClient({
             space: process.env.CONTENTFUL_SPACE_ID,
-            accessToken: process.env.CONTENTFUL_MANAGEMENT_TOKEN
+            accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
         })
 
-        const { sys, fields } = req.body;
+        const { sys, fields } = JSON.parse(req.body);
 
         
         if(sys.contentType.sys.id === 'author'){
@@ -38,10 +39,10 @@ export default async function handler(req, res){
                         avatar: avatar,
                         location: fields.location['en-US'],
                         socials: {
-                            facebook: fields.facebook['en-US'] || null,
-                            instagram: fields.instagram['en-US'] || null,
-                            twitter: fields.twitter['en-US'] || null,
-                            website: fields.website['en-US'] || null,
+                            facebook: fields.facebook?.['en-US'] || null,
+                            instagram: fields.instagram?.['en-US'] || null,
+                            twitter: fields.twitter?.['en-US'] || null,
+                            website: fields.website?.['en-US'] || null,
                         }
                     }
                 }, { upsert: true })
@@ -83,13 +84,27 @@ export default async function handler(req, res){
                         tags: []
                     }
                 }, { upsert: true })
+                
+                res.status(200).json({ message: 'Post upserted' })
+
+                //If this is a new post, add to authors posts and push notification
+                //to users that follow that author
                 if(!author.posts.includes(post._id)){
+                      
                     await Author.findByIdAndUpdate(author._id, {
                         $push: { posts: post._id },
                         $inc: { totalPosts: 1 }
                     })
+
+                    const notification = createPostNotification(post._id, author.displayName)
+
+                    await User.updateMany({ 'following.author': author._id }, {
+                        $push: { notifications: notification }
+                    })
+
                 }
-                res.status(200).json({ message: 'Post upserted' })
+
+                return;
             }
 
         }
@@ -108,6 +123,7 @@ export default async function handler(req, res){
                 const thumbnail = `https:${asset.fields.file.url}`;
                 const category = await Category.findOneAndUpdate({ entry_id: sys.id}, {
                     $set: {
+                        entry_id: sys.id,
                         title: fields.title['en-US'],
                         slug: fields.slug['en-US'],
                         thumbnail: thumbnail,
