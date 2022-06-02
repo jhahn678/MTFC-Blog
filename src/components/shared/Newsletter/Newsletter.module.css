@@ -15,3 +15,9 @@
     width: 95%;
     font-size: 1.2em;
 }
+
+@media screen and (max-width: 600px) {
+    .header h3{
+        font-size: 1.8em;
+    }
+}

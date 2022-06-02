@@ -23,7 +23,7 @@ const UserWidget = ({ containerClass }) => {
                         onClick={() => resetAuthStatus()}
                     >Sign out</Button>
                 </div>
-                <div className='frsb' style={{ width: '23vw' }}>
+                <div className={classes.userStats}>
                     <TextHover>
                         <Link href='/user?tab=following'>
                             <p className={classes.detail}>{authStatus.user.following.length} Following</p>
@@ -38,7 +38,7 @@ const UserWidget = ({ containerClass }) => {
                         </Link>
                     </TextHover>
                 </div>
-                <div className='frsb' style={{ width: '23vw'}}>
+                <div className={classes.userStats}>
                     <TextHover>
                         <Link href='/user?tab=comments'>
                             <p className={classes.detail}>

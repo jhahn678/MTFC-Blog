@@ -25,6 +25,11 @@
     font-variant: small-caps;
 }
 
+.userStats{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
 
 .divider{
     height: 25px;

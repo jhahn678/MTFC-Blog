@@ -99,9 +99,21 @@
     font-size: 2.5em;
 }
 
-@media screen and (max-width: 600px) {
+.postDetails{
+    display: flex;
+    align-items: center;
+    margin-top: .5em;
+}
 
+@media screen and (max-width: 600px) {
+    .postSlider{
+        height: 60vh;
+    }
     .title{
-        font-size: 2em;
+        font-size: 1.6em;
+        margin-top: .3em
+    }
+    .date{
+        font-size: .9em;
     }
 }

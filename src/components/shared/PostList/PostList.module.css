@@ -47,3 +47,25 @@
     margin-left: 2em;
 
 }
+
+@media screen and (max-width: 1000px) {
+    .preview{
+        max-width: 40vw;
+    }
+}
+
+
+@media screen and (max-width: 550px) {
+    .imageContainer{
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: .2;
+    }
+    .preview{
+        max-width: 75vw;
+    }
+}
+

@@ -57,7 +57,7 @@ const PostSlider = ({ posts }) => {
                     <main className={classes.sliderItemContent}>
                         <h4 className={classes.date}>{formatDate(posts[index].createdAt)}</h4>
                         <h1 className={classes.title}>{posts[index].title}</h1>
-                        <div style={{ display: 'flex', alignItems: 'center', marginTop: '.5em' }}>
+                        <div className={classes.postDetails}>
                             <AvatarChip author={posts[index].author} styles={{ padding: '1.2em .4em', border: '1px solid var(--primary)' }}/>
                             <Link href={`/category/${posts[index].category.slug}`}>
                                 <Chip 
