@@ -6,6 +6,7 @@
     height: 30vh;
     width: 90vw;
     margin: 0 auto 10vh;
+    padding-left: .5em;
     display: flex;
     align-items: center;
     justify-content: space-between;
