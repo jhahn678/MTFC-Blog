@@ -18,8 +18,6 @@ import { toast } from 'react-toastify';
 
 const Comment = ({ comment, refetch, removeComment }) => {
 
-    console.log(comment)
-
     const { authStatus, setAuthStatus } = useAuthContext()
 
     const [ deleteComment ] = useDeleteCommentMutation()
