@@ -22,4 +22,15 @@
 .post{
     width: 42vw;
     margin-bottom: 4vh;
+    position: relative;
+}
+
+@media screen and (max-width: 1000px) {
+    .postList{
+        flex-wrap: nowrap;
+        flex-direction: column;
+    }
+    .post{
+        width: 100%;
+    }
 }

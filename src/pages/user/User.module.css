@@ -3,6 +3,12 @@
     min-height: 80vh;
 }
 
+.user{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
 .name{
     font-weight: normal;
     font-size: 2em;
@@ -11,4 +17,14 @@
 
 .tabs{
     margin-top: 3vh;
+}
+
+
+@media screen and (max-width: 600px) {
+    .user{
+        flex-direction: column;
+    }
+    .tabs{
+        margin-top: 0;
+    }
 }

@@ -8,15 +8,16 @@ import CategoryChip from '../buttons/CategoryChip'
 import FollowButton from '../buttons/FollowButton'
 import Badge from '@mui/material/Badge'
 import Link from 'next/link'
-import Button from '@mui/material/Button'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const AuthorCard = ({ author }) => {
 
-    
+    const breakpoint = useMediaQuery('(min-width: 600px)')
+
     return (
         <Paper className={classes.container}>
             <Link href={`/author/${author._id}`}>
-                <div className='frac' style={{ cursor: 'pointer' }}>
+                <div className={classes.authorDetails}>
                     <div className={classes.avatar}>
                         <img src={author.avatar} alt={author.displayName}/>
                     </div>
@@ -41,7 +42,7 @@ const AuthorCard = ({ author }) => {
                         <Link href={`/post/${p.slug}`} key={p._id}>
                             <div className={classes.post}>
                                 <h2 className={classes.title}>{p.title}</h2>
-                                <div className='frse' style={{ width: '80%'}}>
+                                <div className={classes.postDetails}>
                                     <span style={{ marginLeft: '1em'}}>
                                         in
                                         <CategoryChip title={p.category.title} 
@@ -50,9 +51,11 @@ const AuthorCard = ({ author }) => {
                                         />
                                     </span>
                                     <p style={{ marginLeft: '1.5em', fontSize: '.8em'}}>posted at {formatDate(p.createdAt)}</p>
-                                    <Badge badgeContent={p.comments.length} color='secondary' showZero sx={{ marginLeft: 15 }}>
-                                        <CommentIcon/>
-                                    </Badge>
+                                    { breakpoint &&
+                                        <Badge badgeContent={p.comments.length} color='secondary' showZero sx={{ marginLeft: 15 }}>
+                                            <CommentIcon/>
+                                        </Badge>
+                                    }
                                 </div>
                             </div>
                         </Link>

@@ -44,3 +44,9 @@
     top: 2px;
     right: 1px;
 }
+
+@media screen and (max-width: 1000px) {
+    .notification{
+        width: 100%;
+    }
+}

@@ -28,3 +28,9 @@
 .clear p:last-of-type{
     margin-right: 1em
 }
+
+@media screen and (max-width: 1000px) {
+    .clear{
+        margin: 2vh 0 1vh;
+    }
+}

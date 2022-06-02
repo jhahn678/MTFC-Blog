@@ -12,10 +12,10 @@
 
 .header{
     display: flex;
-    justify-content: space-between;
     align-items: baseline;
     padding-bottom: .5em;
     border-bottom: .5px solid rgba(0,0,0,.3);
+    flex-wrap: wrap;
 }
 
 .header p{
@@ -45,4 +45,11 @@
     margin: 0;
     font-size: .8em;
     margin-left: .5em;
+}
+
+
+@media screen and (max-width: 800px) {
+    .feed{
+        width: 100%;
+    }
 }

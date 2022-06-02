@@ -122,7 +122,7 @@ const User = ({ user, tab, bookmarks, notifications, comments, following }) => {
             <title>My Profile | MTFC Blog</title>
         </Head>
         <div className={classes.page}>
-            <div className='frab'>
+            <div className={classes.user}>
                 <UserAvatar user={user} textClass={classes.name} avatarStyles={{ fontSize: '1.4em' }}/>
                 <p style={{ marginLeft: '4em'}}>Member since {formatDate(user.createdAt)}</p>
             </div>
