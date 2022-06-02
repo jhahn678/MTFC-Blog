@@ -11,7 +11,9 @@ export default async function handler(req, res){
 
     const category = await Category.findOne({ slug })
 
-    const posts = await Post.find({ category: category._id }).populate('author category')
+    const posts = await Post.find({ category: category._id })
+        .populate('author category')
+        .sort('-createdAt')
 
     return res.status(200).json(posts)
 

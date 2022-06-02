@@ -1,5 +1,6 @@
 import connectMongo from '../../../../utils/connectMongo'
 import Post from '../../../../models/post'
+import Comment from '../../../../models/comment'
 
 export default async function handler(req, res){
 
