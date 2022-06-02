@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import commentSchema from './comment'
 
 const postSchema = new mongoose.Schema({
     entry_id: String,

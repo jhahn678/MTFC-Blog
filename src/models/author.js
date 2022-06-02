@@ -15,7 +15,10 @@ const authorSchema = new mongoose.Schema({
             ref: 'Post'
         }
     ],
-    totalPosts: Number,
+    totalPosts: {
+        type: Number,
+        default: 0
+    },
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,
