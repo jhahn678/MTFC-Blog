@@ -28,7 +28,7 @@
     flex-direction: column;
     position: absolute;
     top: max(21vh, 110px);
-    width: 80vw;
+    width: 90vw;
     height: 75vh;
     overflow-y: scroll;
     padding-bottom: 1vh
@@ -45,6 +45,24 @@
 }
 
 @media screen and (min-width: 600px) {
+    .search{
+        width: 70vw;
+    }
+    .resultsContainer{
+        width: 80vw;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .search{
+        width: 60vw;
+    }
+    .resultsContainer{
+        width: 70vw;
+    }
+}
+
+@media screen and (min-width: 1000px) {
     .search{
         width: 50vw;
     }

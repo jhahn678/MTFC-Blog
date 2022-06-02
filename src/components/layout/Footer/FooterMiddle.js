@@ -17,8 +17,8 @@ const FooterMiddle = () => {
         </div>
         <h3>Connect with us</h3>
         <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={{ xs: 1, sm: 2, md: 4 }}
+            direction={{ xs: 'row', sm: 'row' }}
+            spacing={{ xs: 2, sm: 2, md: 4 }}
             style={{ marginLeft: '10px' }}
         >
             <InstagramIcon className={classes.icon}/>
