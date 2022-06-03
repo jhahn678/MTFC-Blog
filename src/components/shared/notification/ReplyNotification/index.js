@@ -29,7 +29,7 @@ const ReplyNotification = ({ data, setNotifications }) => {
   return (
     <Link key={data._id} href={`/post/${data.post.slug}`}>
       <Paper className={classes.notification}>
-        <IconButton onClick={handleDelete} className={classes.delete}>
+        <IconButton onClick={handleDelete} sx={{ position: 'absolute', top: '2px', right: '1px', padding: '1px' }}>
           <CloseIcon/>
         </IconButton>
         <div className={classes.header}>

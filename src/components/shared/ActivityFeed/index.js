@@ -22,8 +22,8 @@ const ActivityFeed = ({ comments }) => {
                                 sx={{ backgroundColor: 'var(--primary)', marginRight: .6 }}
                             >{c.user.displayName.slice(0,1)}</Avatar>
                             <p style={{ marginRight: 8, fontSize: '1.1em' }}>{c.user.displayName}</p>
-                            <p style={{ marginRight: 8, fontSize: '.9em'}}>commented on</p>
-                            <p style={{ fontSize: '1.1em', fontStyle: 'oblique' }}>{c.post.title}</p>
+                            <p style={{ fontSize: '.9em'}}>commented on</p>
+                            <p style={{ fontSize: '1.1em', fontStyle: 'oblique', marginLeft: 12 }}>{c.post.title}</p>
                         </header>
                         <p className={classes.comment}>
                             { c.parentComment && 
