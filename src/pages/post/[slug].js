@@ -28,7 +28,7 @@ export async function getStaticPaths(){
     const paths = items.map(p => ({
         params: { slug: p.fields.slug }
     }))
-    return { paths, fallback: false }
+    return { paths, fallback: 'blocking' }
 }
 
 export async function getStaticProps({ params }){
@@ -38,6 +38,9 @@ export async function getStaticProps({ params }){
         include: 10
     })
     const data = await getPostBySlug(params.slug)
+    if(!data){
+        return { notFound: true }
+    }
     const post = { ...data, body: items[0].fields.body}
     return { 
         props: { post },

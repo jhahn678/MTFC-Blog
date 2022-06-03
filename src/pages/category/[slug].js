@@ -14,12 +14,14 @@ export async function getStaticPaths(){
     const paths = data.map(c => ({
         params: { slug: c.slug }
     }))
-    return { paths, fallback: false }
+    return { paths, fallback: 'blocking' }
 }
 
 export async function getStaticProps({ params }){
 
     const category = await getCategoryBySlug(params.slug)
+    if(!category) return { notFound: true }
+
     const posts = await getPostsByCategory(params.slug)
     const allCategories = await getAllCategories()
     const categories = allCategories.filter(c => c.slug !== params.slug)  

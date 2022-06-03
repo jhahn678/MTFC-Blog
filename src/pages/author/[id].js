@@ -12,7 +12,6 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import PublicIcon from '@mui/icons-material/Public';
-import useMediaQuery from '@mui/material/useMediaQuery'
 import { getAllAuthorsIds, getAuthorById } from '../../utils/queries/author'
 
 export async function getStaticPaths(){
@@ -20,11 +19,16 @@ export async function getStaticPaths(){
     const paths = data.map(id => ({
         params: { id }
     }))
-    return { paths, fallback: false }
+    return { paths, fallback: 'blocking' }
 }
 
 export async function getStaticProps({ params }){
     const author = await getAuthorById(params.id)
+    if(!author){
+        return{
+            notFound: true
+        }
+    }
     return{
         props: { author },
         revalidate: ( 60 * 60 * 24 )
@@ -32,8 +36,6 @@ export async function getStaticProps({ params }){
 }
 
 const Author = ({ author }) => {
-
-    const breakpoint = useMediaQuery('(min-width: 850px)')
 
     const [posts, setPosts] = useState([])
     const [pagination, setPagination] = useState({ next: false, page: 1 })
