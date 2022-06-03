@@ -27,7 +27,7 @@ export async function getStaticProps({ params }){
     const author = await getAuthorById(params.id)
     return{
         props: { author },
-        revalidate: ( 60 * 60 )
+        revalidate: ( 60 * 60 * 24 )
     }
 }
 
