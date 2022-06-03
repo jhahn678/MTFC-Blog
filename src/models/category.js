@@ -8,4 +8,4 @@ const categorySchema = mongoose.Schema({
     description: String
 })
 
-export default mongoose.models.Category || mongoose.model('Category', categorySchema)
+export default mongoose.models?.Category || mongoose.model('Category', categorySchema)

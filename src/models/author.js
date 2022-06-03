@@ -33,4 +33,4 @@ const authorSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-export default mongoose.models.Author || mongoose.model('Author', authorSchema)
+export default mongoose.models?.Author || mongoose.model('Author', authorSchema)
