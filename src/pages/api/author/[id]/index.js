@@ -8,8 +8,6 @@ export default async function handler(req, res){
 
     await connectMongo()
 
-    mongoose.set('toJSON', { virtuals: true });
-
     const author = await Author.findById(id).populate({
         path: 'posts',
         select: '-comments -author',
