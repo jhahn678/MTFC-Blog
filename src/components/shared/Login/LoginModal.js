@@ -43,12 +43,12 @@ const LoginModal = ({ open, setOpen }) => {
                 <motion.div className={classes.modalTop}/>
                 <form className={classes.form}>
                     <Logo className={classes.logo}/>
-                    <TextField className={classes.input} 
+                    <TextField sx={{ marginBottom: '2vh', width: '100%' }}
                         label='Email'
                         inputRef={emailRef}
                     />
                     <TextField 
-                        className={classes.input} 
+                        sx={{ marginBottom: '2vh', width: '100%' }} 
                         label='Password'
                         inputRef={passwordRef}
                     />

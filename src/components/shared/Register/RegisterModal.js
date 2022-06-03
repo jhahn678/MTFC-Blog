@@ -49,19 +49,19 @@ const RegisterModal = ({ open, setOpen }) => {
                 <motion.div className={classes.modalTop}/>
                 <form className={classes.form}>
                     <Logo className={classes.logo}/>
-                    <TextField className={classes.input}
+                    <TextField sx={{ marginBottom: '2vh', width: '100%' }}
                         label='Name' value={form.name.value}
                         onInput={e => dispatch({ type: 'NAME', value: e.target.value})} 
                         error={form.name.touched && !form.name.valid} 
                         helperText={form.name.message}
                     />
-                    <TextField className={classes.input}
+                    <TextField sx={{ marginBottom: '2vh', width: '100%' }}
                         label='Email' value={form.email.value}
                         onInput={e => dispatch({ type: 'EMAIL', value: e.target.value})} 
                         error={form.email.touched && !form.email.valid} 
                         helperText={form.email.message}
                     />
-                    <TextField className={classes.input}
+                    <TextField sx={{ marginBottom: '2vh', width: '100%' }}
                         label='Password' value={form.password.value}
                         onInput={e => dispatch({ type: 'PASSWORD', value: e.target.value})}
                         error={form.password.touched && !form.password.valid} 
@@ -75,7 +75,7 @@ const RegisterModal = ({ open, setOpen }) => {
                         }}
                     
                     />
-                    <TextField className={classes.input}
+                    <TextField sx={{ marginBottom: '2vh', width: '100%' }}
                         label='Confirm Password' value={form.confirm.value} 
                         onInput={e => dispatch({ type: 'CONFIRM', value: e.target.value})} 
                         error={form.confirm.touched && !form.confirm.valid} 
