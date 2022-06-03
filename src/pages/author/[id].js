@@ -34,7 +34,6 @@ export async function getStaticProps({ params }){
 const Author = ({ author }) => {
 
     const breakpoint = useMediaQuery('(min-width: 850px)')
-    const [showAside, setShowAside] = useState(true)
 
     const [posts, setPosts] = useState([])
     const [pagination, setPagination] = useState({ next: false, page: 1 })
