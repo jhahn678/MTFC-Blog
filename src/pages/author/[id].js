@@ -1,4 +1,3 @@
-import { axios } from '../../utils/axios'
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import classes from './Author.module.css'
@@ -14,17 +13,18 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import PublicIcon from '@mui/icons-material/Public';
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { getAllAuthorsIds, getAuthorById } from '../../utils/queries/author'
 
 export async function getStaticPaths(){
-    const { data } = await axios.get('/author')
-    const paths = data.map(a => ({
-        params: { id: a._id }
+    const data = await getAllAuthorsIds()
+    const paths = data.map(id => ({
+        params: { id }
     }))
     return { paths, fallback: false }
 }
 
 export async function getStaticProps({ params }){
-    const { data: author } = await axios.get(`/author/${params.id}`)
+    const author = await getAuthorById(params.id)
     return{
         props: { author },
         revalidate: ( 60 * 60 )

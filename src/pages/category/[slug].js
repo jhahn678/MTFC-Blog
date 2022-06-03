@@ -1,5 +1,4 @@
 import classes from './Category.module.css'
-import { axios } from '../../utils/axios'
 import PostList from '../../components/shared/PostList'
 import Paper from '@mui/material/Paper'
 import Image from 'next/image'
@@ -7,9 +6,11 @@ import Divider from '@mui/material/Divider'
 import CategoryCard from '../../components/shared/CategoryCard'
 import TextHover from '../../components/shared/TextHover'
 import Head from 'next/head'
+import { getCategoryBySlug, getAllCategories } from '../../utils/queries/categories'
+import { getPostsByCategory } from '../../utils/queries/posts'
 
 export async function getStaticPaths(){
-    const { data } = await axios.get('/category')
+    const data = await getAllCategories()
     const paths = data.map(c => ({
         params: { slug: c.slug }
     }))
@@ -17,11 +18,11 @@ export async function getStaticPaths(){
 }
 
 export async function getStaticProps({ params }){
-    const { data: posts } = await axios.get(`/post/category/${params.slug}`)
-    const { data: category } = await axios.get(`/category/${params.slug}`)
-    const { data: allCategories } = await axios.get('/category')
 
-    const categories = allCategories.filter(c => c.slug !== params.slug)
+    const category = await getCategoryBySlug(params.slug)
+    const posts = await getPostsByCategory(params.slug)
+    const allCategories = await getAllCategories()
+    const categories = allCategories.filter(c => c.slug !== params.slug)  
 
     return{
         props: { category, categories, posts },
@@ -29,7 +30,7 @@ export async function getStaticProps({ params }){
     }
 }
 
-const Category = ({ category, categories, posts }) => {
+const CategoryPage = ({ category, categories, posts }) => {
     
     return (
         <>
@@ -66,4 +67,4 @@ const Category = ({ category, categories, posts }) => {
     )
 }
 
-export default Category
+export default CategoryPage;

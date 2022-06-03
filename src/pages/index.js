@@ -1,5 +1,4 @@
 import classes from '../styles/home.module.css'
-import { axios } from '../utils/axios'
 import PostSlider from '../components/shared/PostSlider/PostSlider'
 import CategoryCard from '../components/shared/CategoryCard'
 import PostList from '../components/shared/PostList'
@@ -8,10 +7,23 @@ import TextHover from '../components/shared/TextHover'
 import Newsletter from '../components/shared/Newsletter'
 import UserWidget from '../components/shared/UserWidget'
 import Head from 'next/head'
+import connectMongo from '../utils/connectMongo'
+import Post from '../models/post'
+import Category from '../models/category'
+import Author from '../models/author'
+
 
 export async function getStaticProps(){
-  const { data: posts } = await axios.get('/post')
-  const { data: categories } = await axios.get('/category')
+
+  await connectMongo();
+
+  let posts = await Post.find().populate('author')
+  posts = JSON.parse(JSON.stringify(posts))
+  
+  let categories = await Category.find()
+  categories = JSON.parse(JSON.stringify(categories))
+
+ 
   return{
     props: { posts, categories }
   }

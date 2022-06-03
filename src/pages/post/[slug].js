@@ -2,7 +2,6 @@ import { createClient } from 'contentful'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types'
 import classes from './Post.module.css'
-import { axios } from '../../utils/axios'
 import CategoryChip from '../../components/shared/buttons/CategoryChip'
 import Image from 'next/image'
 import { formatDate, formatDateAuthor } from '../../utils/formatDate';
@@ -17,6 +16,7 @@ import CommentSection from '../../components/shared/Comment/CommentSection'
 import Head from 'next/head';
 import AvatarChip from '../../components/shared/AvatarChip';
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { getPostBySlug } from '../../utils/queries/posts'
 
 
 const client = createClient({
@@ -38,7 +38,7 @@ export async function getStaticProps({ params }){
         'fields.slug': params.slug,
         include: 10
     })
-    const { data } = await axios.get(`/post/${params.slug}`)
+    const data = await getPostBySlug(params.slug)
     const post = { ...data, body: items[0].fields.body}
     return { 
         props: { post },
@@ -56,7 +56,7 @@ const opts = {
                 </div>
             )
         }
-}
+    }
 }
 
 
