@@ -13,7 +13,6 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import PublicIcon from '@mui/icons-material/Public';
-import Collapse from '@mui/material/Collapse'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 export async function getStaticPaths(){
@@ -86,46 +85,44 @@ const Author = ({ author }) => {
                     >{ isLoading ? <CircularProgress size={30}/> : 'Load more'}</Button>
                 }
             </section>
-            {/* <Collapse in={breakpoint && showAside} orientation='horizontal'> */}
-                <aside className={classes.authorAboutSection}>
-                    <div className={classes.avatarAndSocials}>
-                        <div className='frac'>
-                            <div className={classes.avatar}>
-                                <img src={author.avatar} alt={author.displayName}/>
-                            </div>
-                            <div className='fc'>
-                                <h2 className={classes.name}>{author.displayName}</h2>
-                                <p className={classes.createdAt}>Author since <i>{formatDateAuthor(author.createdAt)}</i></p>
-                            </div>
+            <aside className={classes.authorAboutSection}>
+                <div className={classes.avatarAndSocials}>
+                    <div className='frac'>
+                        <div className={classes.avatar}>
+                            <img src={author.avatar} alt={author.displayName}/>
                         </div>
-                        <div className='frsb' style={{ width: '12vw' }}>
-                            { author.socials.facebook && 
-                                <a href={`https://${author.socials.facebook}`} target="_blank">
-                                    <FacebookIcon className={classes.icon}/>
-                                </a> 
-                            }
-                            { author.socials.instagram && 
-                                <a href={`https://${author.socials.instagram}`} target="_blank">
-                                    <InstagramIcon className={classes.icon}/>
-                                </a>
-                            }
-                            { author.socials.twitter && 
-                                <a href={`https://${author.socials.twitter}`} target="_blank">
-                                    <TwitterIcon className={classes.icon}/>
-                                </a>
-                            }
-                            { author.socials.website && 
-                                <a href={`https://${author.socials.website}`} target="_blank">
-                                    <PublicIcon className={classes.icon}/>
-                                </a>
-                            }
+                        <div className='fc'>
+                            <h2 className={classes.name}>{author.displayName}</h2>
+                            <p className={classes.createdAt}>Author since <i>{formatDateAuthor(author.createdAt)}</i></p>
                         </div>
                     </div>
-                    <p className={classes.text}><i>Posts</i>{author.totalPosts}</p>
-                    <p className={classes.text}><i>Location</i>{author.location}</p>
-                    <p className={classes.text}><i>About</i>{author.bio}</p>
-                </aside>
-            {/* </Collapse> */}
+                    <div className='frsb' style={{ width: '12vw' }}>
+                        { author.socials.facebook && 
+                            <a href={`https://${author.socials.facebook}`} target="_blank" rel="noreferrer" >
+                                <FacebookIcon className={classes.icon}/>
+                            </a> 
+                        }
+                        { author.socials.instagram && 
+                            <a href={`https://${author.socials.instagram}`} target="_blank" rel="noreferrer" >
+                                <InstagramIcon className={classes.icon}/>
+                            </a>
+                        }
+                        { author.socials.twitter && 
+                            <a href={`https://${author.socials.twitter}`} target="_blank" rel="noreferrer" >
+                                <TwitterIcon className={classes.icon}/>
+                            </a>
+                        }
+                        { author.socials.website && 
+                            <a href={`https://${author.socials.website}`} target="_blank" rel="noreferrer" >
+                                <PublicIcon className={classes.icon}/>
+                            </a>
+                        }
+                    </div>
+                </div>
+                <p className={classes.text}><i>Posts</i>{author.totalPosts}</p>
+                <p className={classes.text}><i>Location</i>{author.location}</p>
+                <p className={classes.text}><i>About</i>{author.bio}</p>
+            </aside>
         </main>
         </>
     )

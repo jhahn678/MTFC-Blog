@@ -67,7 +67,7 @@ const NotificationsTab = ({ data }) => {
             <div className={classes.clear}>
                 <p>{notifications.length}</p>
                 <p><i>{notifications.length === 1 ? 'Notification' : 'Notifications'}</i></p>
-                <Button variant='contained' onClick={handleTest} sx={{ marginLeft: '2vw'}} sx={{ padding: '0px 4px', marginRight: 1 }}>Test</Button>
+                <Button variant='contained' onClick={handleTest} sx={{ padding: '0px 4px', marginRight: 1, marginLeft: '2vw' }}>Test</Button>
                 <Button variant='outlined' onClick={handleDeleteAll} endIcon={<DeleteSweepIcon/>} sx={{ padding: '0px 10px' }}>Clear</Button>
             </div>
             <div className={classes.notificationsContainer}>
