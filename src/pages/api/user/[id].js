@@ -9,5 +9,7 @@ export default async function handler(req, res){
 
     const user = await User.findById(id)
 
-    res.status(200).json(user)
+    let displayName = user.account.displayName
+
+    res.status(200).json({ displayName })
 }

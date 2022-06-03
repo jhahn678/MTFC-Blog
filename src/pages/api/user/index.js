@@ -5,7 +5,9 @@ export default async function handler(req, res){
 
     await connectMongo()
 
-    const users = await User.find()
+    const allUsers = await User.find()
+
+    const users = allUsers.map(u => ({ displayName: u.account.displayName}))
 
     res.status(200).json(users)
 }
