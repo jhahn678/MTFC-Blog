@@ -112,7 +112,7 @@ const Comment = ({ comment, refetch, removeComment }) => {
 
     return (
         <div className={classes.container}>
-            <IconButton className={classes.commentMenu} onClick={handleMenu}>
+            <IconButton className={classes.commentMenu} onClick={handleMenu} sx={{ position: 'absolute', top: '5px', right: '5px'}}>
                 <MoreHorizIcon/>
             </IconButton>
             <Menu anchorEl={menuAnchor} onClose={handleMenu} open={!!menuAnchor}>
