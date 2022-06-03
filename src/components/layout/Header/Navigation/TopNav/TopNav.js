@@ -21,13 +21,7 @@ const TopNav = ({ setDrawerOpen, setShowSearch, setShowLogin, setShowRegister}) 
 
     useEffect(() => {
         const userId = localStorage.getItem('USER_ID')
-        if(userId){
-            setAuthStatus(state => ({
-                ...state,
-                isAuthenticated: true
-            }))
-            getMeQuery()
-        }
+        if(userId) getMeQuery()
     },[])
 
     useEffect(() => {

@@ -15,7 +15,7 @@ const AuthorResult = ({ data }) => {
                 <img src={data.avatar} alt={data.displayName}/>
                 <h2 className={classes.name}>{data.displayName}</h2>
             </div>
-            <div className='fc'>
+            <div className='fcsb'>
                 <div className={classes.preview}>
                     <p>{data.bio}</p>
                 </div>

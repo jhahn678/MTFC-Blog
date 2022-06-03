@@ -1,5 +1,5 @@
 .modal{
-    height: 20vh;
+    height: 15vh;
     min-height: 100px;
     padding-bottom: 3vh;
     width: 100vw;
@@ -45,6 +45,9 @@
 }
 
 @media screen and (min-width: 600px) {
+    .modal{
+        height: 20vh;
+    }
     .search{
         width: 70vw;
     }
