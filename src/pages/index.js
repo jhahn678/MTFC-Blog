@@ -7,25 +7,18 @@ import TextHover from '../components/shared/TextHover'
 import Newsletter from '../components/shared/Newsletter'
 import UserWidget from '../components/shared/UserWidget'
 import Head from 'next/head'
-import connectMongo from '../utils/connectMongo'
-import Post from '../models/post'
-import Category from '../models/category'
-import Author from '../models/author'
+import { getAllPosts } from '../utils/queries/posts'
+import { getAllCategories } from '../utils/queries/categories'
 
 
 export async function getStaticProps(){
 
-  await connectMongo();
+  const posts = await getAllPosts()
+  const categories = await getAllCategories()
 
-  let posts = await Post.find().populate('author')
-  posts = JSON.parse(JSON.stringify(posts))
-  
-  let categories = await Category.find()
-  categories = JSON.parse(JSON.stringify(categories))
-
- 
   return{
-    props: { posts, categories }
+    props: { posts, categories },
+    revalidate: 60 * 60 * 8
   }
 }
 
