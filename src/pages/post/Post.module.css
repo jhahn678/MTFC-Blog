@@ -48,6 +48,12 @@
     margin-bottom: 10vh;
 }
 
+.body a{
+    text-decoration: underline;
+    font-style: italic;
+    color: var(--primary)
+}
+
 .title{
     margin: 1vh 0 2vh;
     font-size: 2.5em;
@@ -60,8 +66,9 @@
     position: relative;
 }
 
-
-
+.image{
+    border-radius: 10px;
+}
 
 .sideContent{
     width: 32vw;
@@ -126,6 +133,10 @@
     }
     .relatedPost{
         height: 40vh;
+    }
+    .commentSection{
+        box-sizing: border-box;
+        padding: 1em;
     }
 }
 

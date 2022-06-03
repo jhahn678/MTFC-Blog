@@ -18,7 +18,6 @@ import AvatarChip from '../../components/shared/AvatarChip';
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { getPostBySlug } from '../../utils/queries/posts'
 
-
 const client = createClient({
     space: process.env.CONTENTFUL_SPACE_ID,
     accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
@@ -52,7 +51,11 @@ const opts = {
             const { file, title } = node.data.target.fields;
             return(
                 <div className={classes.imageContainer}>
-                    <Image src={`https:${file.url}`} alt={title} layout='fill' objectFit='cover'/>
+                    <Image src={`https:${file.url}`} 
+                        alt={title} 
+                        layout='fill' 
+                        objectFit='contain'
+                    />
                 </div>
             )
         }
@@ -82,9 +85,9 @@ const Post = ({ post }) => {
                     <div className='frsb'>
                         <CategoryChip title={post.category.title} slug={post.category.slug} styles={{ margin: 0, fontSize: breakpoint ? '.8em' : '1em'}}/>
                         { breakpoint && 
-                            <div>
+                            <div style={{ display: 'flex', flexWrap: 'wrap',justifyContent: 'flex-end'}}>
                                 <AvatarChip author={post.author} styles={{ margin: 0, fontSize: '.8em' }}/>
-                                <FollowButton author={post.author} buttonProps={{ size:'small'}}/>
+                                <FollowButton author={post.author} buttonProps={{ size:'small' }}/>
                             </div> 
                         }
                     </div>
